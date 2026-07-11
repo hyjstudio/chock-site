@@ -520,6 +520,8 @@ ScrollTrigger.create({
 
 const mm = gsap.matchMedia();
 
+const FORCE_STATIC = new URLSearchParams(location.search).has("static");
+
 mm.add({
   desktop: "(min-width: 821px)",
   mobile: "(max-width: 820px)",
@@ -527,8 +529,8 @@ mm.add({
 }, (ctx)=>{
   const { desktop, reduce } = ctx.conditions;
 
-  /* ============ REDUCE MOTION:全静态终态 ============ */
-  if (reduce){
+  /* ============ REDUCE MOTION / 截图静态模式:全静态终态 ============ */
+  if (reduce || FORCE_STATIC){
     gsap.set("#keycap", {autoAlpha:0});
     gsap.set(["#step2","#step3"], {autoAlpha:0});
     document.getElementById("pmType").textContent = "wx";
