@@ -86,8 +86,9 @@
     background:linear-gradient(90deg,transparent,rgba(133,131,232,.55))}
   .seam.r{left:50%;transform-origin:left center;margin-left:40px;
     background:linear-gradient(90deg,rgba(133,131,232,.55),transparent)}
-  h1{font-size:clamp(52px,10vw,124px);font-weight:700;letter-spacing:.02em;line-height:1.12;
-    perspective:600px}
+  h1{font-size:clamp(54px,10.5vw,128px);font-weight:700;letter-spacing:.04em;line-height:1.08;
+    perspective:600px;display:flex;flex-direction:column;align-items:center}
+  h1 .hl{display:block}
   h1 .ch{display:inline-block;will-change:transform}
   .sub{margin-top:26px;font-size:clamp(16px,2.2vw,21px);color:var(--text-2);
     font-weight:400;max-width:640px}
@@ -283,8 +284,8 @@
       <div class="seam l" id="seamL"></div>
       <div class="seam r" id="seamR"></div>
     </div>
-    <h1 id="headline">装了就全了</h1>
-    <p class="sub" id="heroSub">键盘优先的 macOS <strong>启动器 + 截图 + 翻译 + 剪贴板</strong>工具。<br>一次按键,直达一切。</p>
+    <h1 id="headline"><span class="hl">一次按键</span><span class="hl">直达一切</span></h1>
+    <p class="sub" id="heroSub">键盘优先的 macOS 启动器、截图、离线翻译、剪贴板——<strong>装了就全了。</strong></p>
     <div class="pills" id="heroPills">
       <span class="pill"><b>3MB</b>安装包</span>
       <span class="pill"><b>零网络</b>可验证</span>
@@ -541,7 +542,7 @@ mm.add({
   }
 
   /* ============ HERO 入场 ============ */
-  const chars = splitChars(document.getElementById("headline"));
+  const chars = [...document.querySelectorAll("#headline .hl")].flatMap(line => splitChars(line));
   const heroTl = gsap.timeline({defaults:{ease:"power3.out"}});
 
   heroTl
