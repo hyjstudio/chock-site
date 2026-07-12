@@ -76,17 +76,17 @@
   /* Two-cluster nav (Apple/Linear/Raycast/Vercel pattern): brand + secondary
      links group on the left, funnel CTA alone on the right, slack in the
      middle — never a lone link floating dead-center. */
-  .nav-left{display:flex;align-items:baseline;gap:26px}
+  .nav-actions{display:flex;align-items:center;flex:1;margin-left:26px}
   .nav-link{font-size:13px;color:var(--text-2);text-decoration:none;transition:color .25s}
   .nav-link:hover{color:var(--text)}
   .nav-douyin{font-size:13px;color:var(--text-2);display:flex;align-items:center;gap:6px;
-    padding:8px 14px;border:1px solid var(--line);border-radius:999px;transition:all .25s}
+    margin-left:auto;padding:8px 14px;border:1px solid var(--line);border-radius:999px;transition:all .25s}
   .nav-douyin:hover{color:var(--text);border-color:rgba(133,131,232,.5)}
   @media(max-width:560px){
-    nav{padding:10px 12px;gap:8px}
-    .nav-left{align-items:center;gap:12px;min-width:0}
-    .nav-left .nav-link{display:flex;align-items:center;min-height:44px;padding:0 2px;white-space:nowrap}
-    .nav-douyin{min-height:44px;padding:0 12px;white-space:nowrap;flex:0 0 auto}
+    nav{align-items:flex-start;padding:10px 12px;gap:8px}
+    .nav-actions{flex:0 0 auto;margin-left:0;flex-direction:column;align-items:flex-end;gap:4px}
+    .nav-link{order:2;display:flex;align-items:center;justify-content:flex-end;min-height:44px;padding:0 2px;white-space:nowrap}
+    .nav-douyin{order:1;min-height:44px;margin-left:0;padding:0 12px;white-space:nowrap;flex:0 0 auto}
     .nav-douyin-detail{display:none}
   }
 
@@ -279,11 +279,11 @@
 <div class="glow a"></div><div class="glow b"></div>
 
 <nav id="nav">
-  <div class="nav-left">
-    <div class="brand"><span class="zh">楔子</span><span class="en">CHOCK</span></div>
+  <div class="brand"><span class="zh">楔子</span><span class="en">CHOCK</span></div>
+  <div class="nav-actions">
     <a class="nav-link" href="/changelog">更新历史</a>
+    <a class="nav-douyin" href="https://www.douyin.com/user/MS4wLjABAAAAJCqLLIjBGtG4FDbKQ-4yE7gkGf0RUgeZnkdjqpejuA2qaFvZr37omFYlmDWoXTVr" target="_blank" rel="noopener">抖音<span class="nav-douyin-detail"> · 舟方明</span></a>
   </div>
-  <a class="nav-douyin" href="https://www.douyin.com/user/MS4wLjABAAAAJCqLLIjBGtG4FDbKQ-4yE7gkGf0RUgeZnkdjqpejuA2qaFvZr37omFYlmDWoXTVr" target="_blank" rel="noopener">抖音<span class="nav-douyin-detail"> · 舟方明</span></a>
 </nav>
 
 <main>
