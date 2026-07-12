@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>楔子 Chock — 装了就全了 · macOS 启动器 + 截图 + 剪贴板</title>
-<meta name="description" content="键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。3MB、零网络、一次按键直达一切。已签名并通过 Apple 公证。">
+<meta name="description" content="键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。3MB、数据零上传、一次按键直达一切。已签名并通过 Apple 公证。">
 <link rel="canonical" href="https://getchock.com/">
 <meta name="baidu-site-verification" content="codeva-U5Dyeuwe3g" />
 <meta name="baidu-site-verification" content="codeva-VwgjKKJnWf" />
 <meta property="og:type" content="website">
 <meta property="og:title" content="楔子 Chock — 装了就全了">
-<meta property="og:description" content="键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板。3MB、零网络、一次按键直达一切。">
+<meta property="og:description" content="键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板。3MB、数据零上传、一次按键直达一切。">
 <meta property="og:url" content="https://getchock.com/">
 <meta property="og:image" content="https://getchock.com/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -26,7 +26,7 @@
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
   "softwareVersion": "0.4.0",
   "fileSize": "2.8MB",
-  "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。零网络,已签名并通过 Apple 公证。",
+  "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。数据零上传,已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
   "downloadUrl": "https://getchock.com/dl/Chock-0.4.0.dmg"
 }
@@ -178,7 +178,7 @@
   .cmp-fill.them{background:rgba(255,255,255,.22);width:100%}
   .cmp-row .val{width:56px;flex:none;text-align:right;font-variant-numeric:tabular-nums}
 
-  /* 零网络章 */
+  /* 隐私章 */
   .wavebox{position:relative;max-width:720px;margin:60px auto 0;height:140px;
     border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
     background:rgba(255,255,255,.02)}
@@ -387,7 +387,7 @@
         <div class="cap">安装包大小</div>
         <div class="compare">
           <div class="cmp-row"><span class="name">楔子</span><div class="cmp-track"><div class="cmp-fill us grow"></div></div><span class="val">3 MB</span></div>
-          <div class="cmp-row"><span class="name">同类</span><div class="cmp-track"><div class="cmp-fill them grow"></div></div><span class="val">84 MB</span></div>
+          <div class="cmp-row"><span class="name">浮光</span><div class="cmp-track"><div class="cmp-fill them grow"></div></div><span class="val">30 MB</span></div>
         </div>
       </div>
       <div class="stat reveal">
@@ -405,7 +405,7 @@
     </div>
   </section>
 
-  <!-- 零网络章 -->
+  <!-- 隐私章 -->
   <section class="block" id="zeronet">
     <div class="kicker reveal">隐私不是设置项</div>
     <h2 class="reveal">你的数据,<br>永远不出这台电脑。</h2>
@@ -667,7 +667,7 @@ mm.add({
       scrollTrigger:{trigger:el, start:"top 92%", once:true}});
   });
 
-  /* ============ 零网络:波形归零 ============ */
+  /* ============ 隐私:波形归零 ============ */
   const flatLabel = document.getElementById("flatLabel");
   const flatTl = gsap.timeline({
     scrollTrigger:{trigger:".wavebox", start:"top 70%", once:true}
