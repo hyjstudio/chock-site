@@ -24,11 +24,11 @@
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
-  "softwareVersion": "0.3.5",
+  "softwareVersion": "0.4.0",
   "fileSize": "2.8MB",
   "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。零网络,已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.3.5.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.4.0.dmg"
 }
 </script>
 <style>
@@ -294,12 +294,12 @@
     <p class="sub" id="heroSub">键盘优先的 macOS 启动器、截图、翻译、剪贴板——<strong style="white-space:nowrap">装了就全了。</strong></p>
     <div class="pills" id="heroPills">
       <span class="pill"><b>3MB</b>安装包</span>
-      <span class="pill"><b>零网络</b>可验证</span>
+      <span class="pill"><b>零上传</b>可验证</span>
       <span class="pill"><b>离线翻译</b>盖在原文上</span>
       <span class="pill"><b>已签名</b>并公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.3.5 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.4.0 ↓</a>
     </div>
     <div class="scroll-hint">滚动</div>
   </section>
@@ -399,7 +399,7 @@
   <section class="block" id="zeronet">
     <div class="kicker reveal">隐私不是设置项</div>
     <h2 class="reveal">你的数据,<br>永远不出这台电脑。</h2>
-    <p class="lede reveal">剪贴板、截图、按键——全部只在本机处理。代码里没有一行联网逻辑,用防火墙就能验证。</p>
+    <p class="lede reveal">剪贴板、截图、按键——全部只在本机处理,永不上传。应用唯一的网络行为,是向官网询问最新版本号;在设置里一键关掉它,应用就不发任何请求。</p>
     <div class="wavebox reveal">
       <svg viewBox="0 0 720 140" preserveAspectRatio="none">
         <path id="waveLive" d="M0 70 Q30 30 60 70 T120 70 T180 70 T240 70 T300 70 T360 70 T420 70 T480 70 T540 70 T600 70 T660 70 T720 70"
@@ -408,7 +408,7 @@
       </svg>
       <div class="flatline-label" id="flatLabel">网络活动 · 监测中</div>
     </div>
-    <p class="zero-note reveal">从安装到卸载,0 次网络请求 —— Little Snitch 可复核</p>
+    <p class="zero-note reveal">数据零上传 · 更新检查内容公开且可关 —— Little Snitch 可复核</p>
   </section>
 
   <!-- 动作语言章 -->
@@ -451,7 +451,7 @@
     <h2 class="reveal">现在,把它装进你的 Mac。</h2>
     <p class="lede reveal">打开 DMG,拖进「应用程序」,轻点 ⌃ —— 就这样。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.3.5.dmg">下载 Chock 0.3.5</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.0.dmg">下载 Chock 0.4.0</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制 —— 在 Mac 的浏览器里粘贴打开即可下载</div>
     <p class="dl-meta reveal">
@@ -501,7 +501,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = "https://getchock.com/dl/Chock-0.3.5.dmg";
+const DMG_URL = "https://getchock.com/dl/Chock-0.4.0.dmg";
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){

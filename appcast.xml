@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>ActionLens</title>
+        <item>
+            <title>0.4.0</title>
+            <pubDate>Sun, 12 Jul 2026 09:57:05 +0800</pubDate>
+            <sparkle:version>222</sparkle:version>
+            <sparkle:shortVersionString>0.4.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://getchock.com/dl/Chock-0.4.0.zip" length="3574907" type="application/octet-stream" sparkle:edSignature="fOURFGi89WAq6gMBl8ruC9/JQN5Q1k1fhJ7a6X1s/Cj0PNeEQmpIAY45nXekvAawdfyxEvUD4j4oNwR/7HxQDw=="/>
+        </item>
+    </channel>
+</rss>
