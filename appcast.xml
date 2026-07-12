@@ -10,6 +10,7 @@
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
             <enclosure url="https://getchock.com/dl/Chock-0.4.0.zip" length="3574907" type="application/octet-stream" sparkle:edSignature="fOURFGi89WAq6gMBl8ruC9/JQN5Q1k1fhJ7a6X1s/Cj0PNeEQmpIAY45nXekvAawdfyxEvUD4j4oNwR/7HxQDw=="/>
+            <sparkle:releaseNotesLink>https://getchock.com/notes/Chock-0.4.0.html</sparkle:releaseNotesLink>
         </item>
     </channel>
 </rss>
