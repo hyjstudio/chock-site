@@ -3,6 +3,16 @@
     <channel>
         <title>ActionLens</title>
         <item>
+            <title>0.4.2</title>
+            <pubDate>Mon, 13 Jul 2026 12:16:58 +0800</pubDate>
+            <sparkle:version>252</sparkle:version>
+            <sparkle:shortVersionString>0.4.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://getchock.com/dl/Chock-0.4.2.zip" length="3724218" type="application/octet-stream" sparkle:edSignature="FWzCbS2vcGfhE4WGqpOKgIHozC0cwdPR52CBpjyVePR9OKXnduz33EgEqHoHuMiYuFCC+tLvrjvipKyDtd8TDw=="/>
+            <sparkle:releaseNotesLink>https://getchock.com/notes/Chock-0.4.2.html</sparkle:releaseNotesLink>
+        </item>
+        <item>
             <title>0.4.1</title>
             <pubDate>Sun, 12 Jul 2026 16:55:39 +0800</pubDate>
             <sparkle:version>250</sparkle:version>
