@@ -61,6 +61,26 @@ test("current release metadata is consistent across published surfaces", async (
   }
 });
 
+test("base compatibility stays distinct from offline translation requirements", () => {
+  const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
+  assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
+  const jsonLd = JSON.parse(jsonLdMatch[1]);
+
+  assert.equal(jsonLd.operatingSystem, "macOS 14.0+");
+
+  for (const id of ["top", "translatechapter", "allinone"]) {
+    const surface = extractSection(id);
+    assert.match(surface, /离线翻译/, `${id} must identify the offline translation feature`);
+    assert.match(surface, /macOS 15\+/, `${id} must state the offline translation macOS requirement`);
+    assert.doesNotMatch(surface, /不支持 Intel Mac/, `${id} must not repeat the Intel limitation`);
+  }
+
+  const download = extractSection("download");
+  assert.match(download, /<b>macOS 14\.0\+<\/b> · Apple Silicon/);
+  assert.match(download, /不支持 Intel Mac/);
+  assert.match(download, /离线翻译需 macOS 15\+/);
+});
+
 test("legacy aliases redirect only to the current immutable assets", () => {
   const rules = new Map(
     redirects
@@ -123,6 +143,12 @@ test("0.4.5 remains an unpublished skeleton with no invented release facts", () 
 
 async function sha256(url) {
   return createHash("sha256").update(await readFile(url)).digest("hex");
+}
+
+function extractSection(id) {
+  const match = index.match(new RegExp(`<section\\b[^>]*\\bid="${id}"[^>]*>[\\s\\S]*?<\\/section>`));
+  assert.ok(match, `index.html must include the ${id} section`);
+  return match[0];
 }
 
 function escapeRegExp(value) {
