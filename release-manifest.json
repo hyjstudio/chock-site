@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "current": {
+    "version": "0.4.2",
+    "status": "published",
+    "displaySize": "4.1 MB",
+    "dmg": {
+      "path": "/dl/Chock-0.4.2.dmg",
+      "size": 4097558
+    },
+    "zip": {
+      "path": "/dl/Chock-0.4.2.zip",
+      "size": 3724218
+    },
+    "releaseNotesPath": "/notes/Chock-0.4.2.html"
+  },
+  "next": {
+    "version": "0.4.3",
+    "status": "draft",
+    "releaseDate": null,
+    "sparkleVersion": null,
+    "displaySize": null,
+    "dmg": {
+      "path": null,
+      "size": null,
+      "sha256": null
+    },
+    "zip": {
+      "path": null,
+      "size": null,
+      "sha256": null,
+      "sparkleEdSignature": null
+    },
+    "releaseNotesPath": null
+  }
+}

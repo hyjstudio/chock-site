@@ -1,0 +1,29 @@
+/dl/Chock-0.4.0.dmg
+  Content-Type: application/x-apple-diskimage
+  Content-Disposition: attachment; filename="Chock-0.4.0.dmg"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.1.dmg
+  Content-Type: application/x-apple-diskimage
+  Content-Disposition: attachment; filename="Chock-0.4.1.dmg"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.2.dmg
+  Content-Type: application/x-apple-diskimage
+  Content-Disposition: attachment; filename="Chock-0.4.2.dmg"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.0.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="Chock-0.4.0.zip"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.1.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="Chock-0.4.1.zip"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.2.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="Chock-0.4.2.zip"
+  X-Content-Type-Options: nosniff

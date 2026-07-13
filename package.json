@@ -1,0 +1,12 @@
+{
+  "name": "chock-site",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:pages": "node scripts/test-pages-downloads.mjs",
+    "verify": "npm test && npm run test:pages"
+  },
+  "devDependencies": {
+    "wrangler": "4.110.0"
+  }
+}
