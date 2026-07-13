@@ -18,6 +18,11 @@
   Content-Disposition: attachment; filename="Chock-0.4.3.dmg"
   X-Content-Type-Options: nosniff
 
+/dl/Chock-0.4.4.dmg
+  Content-Type: application/x-apple-diskimage
+  Content-Disposition: attachment; filename="Chock-0.4.4.dmg"
+  X-Content-Type-Options: nosniff
+
 /dl/Chock-0.4.0.zip
   Content-Type: application/zip
   Content-Disposition: attachment; filename="Chock-0.4.0.zip"
@@ -36,4 +41,9 @@
 /dl/Chock-0.4.3.zip
   Content-Type: application/zip
   Content-Disposition: attachment; filename="Chock-0.4.3.zip"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.4.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="Chock-0.4.4.zip"
   X-Content-Type-Options: nosniff

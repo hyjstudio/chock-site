@@ -21,9 +21,9 @@ const releaseNotes = await read(`notes/Chock-${current.version}.html`);
 
 test("current release metadata is consistent across published surfaces", async () => {
   assert.equal(current.status, "published");
-  assert.equal(current.version, "0.4.3");
+  assert.equal(current.version, "0.4.4");
   assert.equal(current.releaseDate, "2026-07-13");
-  assert.equal(current.sparkleVersion, 257);
+  assert.equal(current.sparkleVersion, 260);
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
@@ -54,11 +54,10 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
   for (const surface of [changelog, releaseNotes]) {
-    assert.match(surface, /0\.4\.3/);
-    assert.match(surface, /截图保留按键瞬间的画面/);
-    assert.match(surface, /截图反馈更干净/);
-    assert.match(surface, /一次 macOS 原生截图音效/);
-    assert.match(surface, /内存管理可以安全退出应用/);
+    assert.match(surface, /0\.4\.4/);
+    assert.match(surface, /右键菜单现在能完整截下来/);
+    assert.match(surface, /截图快捷键不再误唤出面板/);
+    assert.match(surface, /箭头标注比例更稳定/);
   }
 });
 
@@ -83,7 +82,7 @@ test("legacy aliases redirect only to the current immutable assets", () => {
 test("only known release assets receive binary response headers", async () => {
   assert.doesNotMatch(headers, /^\/dl\/\*/m, "wildcard download headers would mislabel 404 responses");
 
-  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3"].flatMap((version) => [
+  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4"].flatMap((version) => [
     stat(new URL(`../dl/Chock-${version}.dmg`, import.meta.url)).then(() => `/dl/Chock-${version}.dmg`),
     stat(new URL(`../dl/Chock-${version}.zip`, import.meta.url)).then(() => `/dl/Chock-${version}.zip`)
   ])));
@@ -97,8 +96,8 @@ test("only known release assets receive binary response headers", async () => {
   assert.match(notFound, /明确返回 404/);
 });
 
-test("0.4.4 remains an unpublished skeleton with no invented release facts", () => {
-  assert.equal(next.version, "0.4.4");
+test("0.4.5 remains an unpublished skeleton with no invented release facts", () => {
+  assert.equal(next.version, "0.4.5");
   assert.equal(next.status, "draft");
 
   for (const value of [
@@ -118,7 +117,7 @@ test("0.4.4 remains an unpublished skeleton with no invented release facts", () 
   }
 
   for (const surface of [index, appcast, redirects, headers, changelog]) {
-    assert.doesNotMatch(surface, /0\.4\.4/);
+    assert.doesNotMatch(surface, /0\.4\.5/);
   }
 });
 
