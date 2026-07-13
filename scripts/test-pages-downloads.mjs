@@ -25,6 +25,14 @@ try {
   assert.match(home.headers.get("content-type") ?? "", /^text\/html\b/);
   assert.match(await home.text(), new RegExp(`下载 Chock ${escapeRegExp(manifest.current.version)}`));
 
+  const changelog = await fetch(`${origin}/changelog`);
+  assert.equal(changelog.status, 200);
+  assert.match(await changelog.text(), new RegExp(`${escapeRegExp(manifest.current.version)} · 2026-07-13`));
+
+  const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
+  assert.equal(releaseNotes.status, 200);
+  assert.match(await releaseNotes.text(), /截图保留按键瞬间的画面/);
+
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
   await assertRedirect("/dl/Chock.dmg", manifest.current.dmg.path);
@@ -36,15 +44,17 @@ try {
   for (const path of [
     "/dl/Chock-0.4.0.dmg",
     "/dl/Chock-0.4.1.dmg",
+    "/dl/Chock-0.4.2.dmg",
     "/dl/Chock-0.4.0.zip",
-    "/dl/Chock-0.4.1.zip"
+    "/dl/Chock-0.4.1.zip",
+    "/dl/Chock-0.4.2.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
 
   for (const path of [
     "/dl/does-not-exist.dmg",
-    "/dl/Chock-0.4.3.dmg",
+    "/dl/Chock-0.4.4.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {

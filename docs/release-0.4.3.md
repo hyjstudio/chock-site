@@ -1,19 +1,34 @@
-# Chock 0.4.3 站点发行骨架
+# Chock 0.4.3 发行记录
 
-状态：`draft`。`release-manifest.json` 中 0.4.3 的日期、build number、文件路径、size、SHA-256 和 Sparkle signature 保持 `null`，直到真实产物生成并完成签名、公证和校验。
+状态：`published`。站点发布面统一指向真实签名、公证制品，下一版 `0.4.4` 保持 draft。
 
-## 生成产物后
+## 发行身份
 
-1. 保留已有 `dl/` 文件，把真实 `Chock-0.4.3.dmg` 与 `Chock-0.4.3.zip` 加入本地 `dl/`。
-2. 从真实文件读取 byte size 与 SHA-256；从 Sparkle 签名工具读取 ZIP 的 `sparkle:edSignature`，不要手填猜测值。
-3. 填完 manifest 的 0.4.3 draft 字段后，再同步更新：
-   - `index.html` 的 JSON-LD、下载按钮、下载元信息和 `DMG_URL`；
-   - `appcast.xml` 的首个 item；
-   - `changelog.html` 与 `notes/Chock-0.4.3.html`；
-   - `_redirects` 的 legacy aliases；
-   - `_headers` 中 0.4.3 DMG/ZIP 的精确规则。
-4. 把 0.4.3 的 manifest 状态改为 `published`，并把下一版 draft 另起一项；在此之前，首页和 appcast 不得引用 0.4.3。
-5. 运行 `npm run verify`。部署属于单独步骤，本骨架不会自动 push 或发布。
+- App 版本：`0.4.3 (257)`
+- 源码提交：`fc6d1ea9ab21ddb1a27d0275d8a2a7f14522f8de`
+- Apple 公证 submission：`0aef0604-47cf-4f85-ae29-ce92606f8da2`（`Accepted`）
+- Bundle ID：`com.actionlens.app`
+- Team ID：`ZLHF65NR6Q`
+
+## 不可变制品
+
+| 文件 | bytes | SHA-256 |
+|---|---:|---|
+| `Chock-0.4.3.dmg` | 4,179,279 | `74a6f55ad73abb100d536ee6d1bdddc107e7c9031a7b224d255fdf19ef22cd01` |
+| `Chock-0.4.3.zip` | 3,815,425 | `451e3e49ebf3700a99c47c3e89d7a9b931ca05f8e5b633120b3d4f2b72cae2f4` |
+
+Sparkle EdDSA signature：
+
+`DWxQ+1RKqV5D9mucXCzxpnKZVHXhGjRiGyJLT+CJX4+PrajoKfFGNpqa+7qHsT9m2X33dN4zek47s1bkLKI1Dg==`
+
+## 同步面
+
+- 首页 JSON-LD、下载按钮、文件大小和移动端复制链接
+- `appcast.xml` 首项及 Sparkle signature
+- 官网更新历史和应用内 release notes
+- `/dl`、`/dl/`、`/dl/Chock.dmg`、`/dl/Chock.zip` 版本别名
+- DMG/ZIP 精确响应头与 404 fail-closed 契约
+- `release-manifest.json`，并建立 0.4.4 draft
 
 ## CN 源站同步门
 

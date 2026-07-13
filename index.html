@@ -25,11 +25,11 @@
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
-  "softwareVersion": "0.4.2",
-  "fileSize": "4.1MB",
+  "softwareVersion": "0.4.3",
+  "fileSize": "4.2MB",
   "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。数据零上传,已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.4.2.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.4.3.dmg"
 }
 </script>
 <style>
@@ -316,7 +316,7 @@
       <span class="pill"><b>已签名</b>并公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.4.2 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.4.3 ↓</a>
     </div>
     <div class="scroll-hint">滚动</div>
   </section>
@@ -468,11 +468,11 @@
     <h2 class="reveal">现在,把它装进你的 Mac。</h2>
     <p class="lede reveal">打开安装包,拖进「应用程序」,轻点 ⌃ —— 就这样。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.2.dmg">下载 Chock 0.4.2</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.3.dmg">下载 Chock 0.4.3</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制 —— 在 Mac 的浏览器里粘贴打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14+</b> · Apple Silicon · 4.1 MB<br>
+      <b>macOS 14+</b> · Apple Silicon · 4.2 MB<br>
       Developer ID 签名 · 已通过 Apple 公证 · 无需任何权限即可开始<br>
       中国大陆访问较慢时,请用 <a href="https://cn.getchock.com" style="color:var(--accent)">cn.getchock.com</a>
     </p>
@@ -518,7 +518,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.4.2.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.4.3.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){
