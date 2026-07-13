@@ -56,6 +56,8 @@ test("current release metadata is consistent across published surfaces", async (
   for (const surface of [changelog, releaseNotes]) {
     assert.match(surface, /0\.4\.3/);
     assert.match(surface, /截图保留按键瞬间的画面/);
+    assert.match(surface, /截图反馈更干净/);
+    assert.match(surface, /一次 macOS 原生截图音效/);
     assert.match(surface, /内存管理可以安全退出应用/);
   }
 });

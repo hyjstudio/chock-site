@@ -27,11 +27,17 @@ try {
 
   const changelog = await fetch(`${origin}/changelog`);
   assert.equal(changelog.status, 200);
-  assert.match(await changelog.text(), new RegExp(`${escapeRegExp(manifest.current.version)} · 2026-07-13`));
+  assert.match(
+    await changelog.text(),
+    new RegExp(`${escapeRegExp(manifest.current.version)} · ${escapeRegExp(manifest.current.releaseDate)}`)
+  );
 
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
-  assert.match(await releaseNotes.text(), /截图保留按键瞬间的画面/);
+  const releaseNotesHTML = await releaseNotes.text();
+  assert.match(releaseNotesHTML, /截图保留按键瞬间的画面/);
+  assert.match(releaseNotesHTML, /截图反馈更干净/);
+  assert.match(releaseNotesHTML, /一次 macOS 原生截图音效/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
