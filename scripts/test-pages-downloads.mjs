@@ -35,9 +35,10 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /右键菜单现在能完整截下来/);
-  assert.match(releaseNotesHTML, /截图快捷键不再误唤出面板/);
-  assert.match(releaseNotesHTML, /箭头标注比例更稳定/);
+  assert.match(releaseNotesHTML, /首次截图会正常请求权限/);
+  assert.match(releaseNotesHTML, /面板不再被长提示撑大/);
+  assert.match(releaseNotesHTML, /截图提示音可关/);
+  assert.match(releaseNotesHTML, /应用与链接可以放进同一组/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -52,17 +53,19 @@ try {
     "/dl/Chock-0.4.1.dmg",
     "/dl/Chock-0.4.2.dmg",
     "/dl/Chock-0.4.3.dmg",
+    "/dl/Chock-0.4.4.dmg",
     "/dl/Chock-0.4.0.zip",
     "/dl/Chock-0.4.1.zip",
     "/dl/Chock-0.4.2.zip",
-    "/dl/Chock-0.4.3.zip"
+    "/dl/Chock-0.4.3.zip",
+    "/dl/Chock-0.4.4.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
 
   for (const path of [
     "/dl/does-not-exist.dmg",
-    "/dl/Chock-0.4.5.dmg",
+    "/dl/Chock-0.4.6.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {
