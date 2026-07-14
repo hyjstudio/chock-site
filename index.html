@@ -51,15 +51,13 @@
   ::selection{background:var(--accent-soft)}
   a{color:inherit;text-decoration:none}
 
-  /* ---------- 背景层 ---------- */
-  .bg-dots{position:fixed;inset:-12%;pointer-events:none;z-index:0;
-    background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);
-    background-size:30px 30px}
-  .bg-dots.far{background-size:72px 72px;opacity:.6}
-  .glow{position:fixed;width:70vmax;height:70vmax;border-radius:50%;
-    filter:blur(120px);opacity:.16;pointer-events:none;z-index:0}
-  .glow.a{background:#5B58C7;top:-30vmax;left:-18vmax}
-  .glow.b{background:#3B3A8C;bottom:-34vmax;right:-20vmax}
+  /* ---------- 背景层 ----------
+     Soft radial gradients, no filter: a 70vmax blur(120px) layer costs real GPU
+     time on every scroll frame (and black-frames weaker compositors). */
+  .glow{position:fixed;width:90vmax;height:90vmax;border-radius:50%;
+    pointer-events:none;z-index:0}
+  .glow.a{background:radial-gradient(circle,rgba(91,88,199,.20),transparent 62%);top:-40vmax;left:-28vmax}
+  .glow.b{background:radial-gradient(circle,rgba(59,58,140,.20),transparent 62%);bottom:-44vmax;right:-30vmax}
 
   main{position:relative;z-index:1}
 
@@ -164,8 +162,7 @@
 
   /* ---------- 通用章节 ---------- */
   section.block{padding:clamp(90px,14vh,160px) 24px;max-width:1080px;margin:0 auto}
-  .kicker{font-size:13px;letter-spacing:2.4px;color:var(--accent);font-weight:600;text-align:center}
-  h2{font-size:clamp(34px,5.4vw,60px);font-weight:700;text-align:center;margin-top:14px;line-height:1.22}
+  h2{font-size:clamp(34px,5.4vw,60px);font-weight:700;text-align:center;line-height:1.22}
   .lede{color:var(--text-2);text-align:center;max-width:600px;margin:18px auto 0;font-size:17px}
 
   /* 数字章 */
@@ -176,14 +173,6 @@
     font-variant-numeric:tabular-nums}
   .stat .num em{font-style:normal;font-size:.42em;color:var(--text-2);font-weight:500;margin-left:4px}
   .stat .cap{color:var(--text-2);font-size:14px;margin-top:8px}
-  .compare{margin-top:22px}
-  .cmp-row{display:flex;align-items:center;gap:12px;margin-top:10px;font-size:13px;color:var(--text-2)}
-  .cmp-row .name{width:44px;flex:none}
-  .cmp-track{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.05);overflow:hidden}
-  .cmp-fill{height:100%;border-radius:4px;transform-origin:left center}
-  .cmp-fill.us{background:var(--accent);width:3.6%}
-  .cmp-fill.them{background:rgba(255,255,255,.22);width:100%}
-  .cmp-row .val{width:56px;flex:none;text-align:right;font-variant-numeric:tabular-nums}
 
   /* 隐私章 */
   .wavebox{position:relative;max-width:720px;margin:60px auto 0;height:140px;
@@ -248,12 +237,12 @@
     border:1px solid transparent;transition:border-color .3s}
   .tblock.zh{border-color:rgba(133,131,232,.4);background:rgba(133,131,232,.10)}
   /* 全家桶墙 */
-  .tool-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  .tool-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
     gap:12px;margin-top:56px}
-  .tool-chip{display:flex;align-items:center;gap:9px;padding:13px 16px;
-    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);
-    font-size:14px;color:var(--text-2)}
-  .tool-chip i{font-style:normal;font-size:17px}
+  .tool-chip{display:flex;flex-direction:column;gap:4px;padding:16px 18px;
+    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
+  .tool-chip b{font-size:14px;font-weight:600;color:var(--text)}
+  .tool-chip span{font-size:12.5px;color:var(--text-3)}
 
   /* 截图模式:压掉视口高度依赖,长图一次成 */
   .shotmode .hero{min-height:auto;padding:160px 24px 110px}
@@ -274,8 +263,6 @@
 </style>
 </head>
 <body>
-<div class="bg-dots far" data-depth="10"></div>
-<div class="bg-dots" data-depth="22"></div>
 <div class="glow a"></div><div class="glow b"></div>
 
 <nav id="nav">
@@ -308,12 +295,11 @@
       <div class="seam r" id="seamR"></div>
     </div>
     <h1 id="headline"><span class="hl">一次按键</span><span class="hl">直达一切</span></h1>
-    <p class="sub" id="heroSub">键盘优先的 macOS 启动器、截图、翻译、剪贴板——<strong style="white-space:nowrap">装了就全了。</strong></p>
+    <p class="sub" id="heroSub">键盘优先的启动器、截图、翻译、剪贴板，<strong style="white-space:nowrap">装进一个 4 MB 的 App。</strong></p>
     <div class="pills" id="heroPills">
-      <span class="pill"><b>4MB</b>安装包</span>
-      <span class="pill"><b>零上传</b>可验证</span>
-      <span class="pill"><b>离线翻译</b>需 macOS 15+</span>
-      <span class="pill"><b>已签名</b>并公证</span>
+      <span class="pill">数据零上传</span>
+      <span class="pill">离线翻译 · macOS 15+</span>
+      <span class="pill">已通过 Apple 公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
       <a class="btn ghost" href="#download">下载 Chock 0.4.6 ↓</a>
@@ -328,17 +314,17 @@
         <div class="key-step" id="step1">
           <div class="k">第一步</div>
           <h3>轻点一下 ⌃</h3>
-          <p>面板应声而出。不用记快捷键组合,一根手指就够。</p>
+          <p>面板应声而出。一根手指就够,不用记组合键。</p>
         </div>
         <div class="key-step" id="step2">
           <div class="k">第二步</div>
           <h3>打两个字母</h3>
-          <p>应用、网页、剪贴板历史,全部就位。支持拼音。</p>
+          <p>应用、网页、剪贴板历史都在这里,拼音也认。</p>
         </div>
         <div class="key-step" id="step3">
           <div class="k">第三步</div>
           <h3>已经打开了</h3>
-          <p>回车的瞬间直达目标,焦点原路归还。全程不到一秒。</p>
+          <p>回车即达,焦点回到你手上。</p>
         </div>
       </div>
       <div class="key-visual">
@@ -371,52 +357,41 @@
 
   <!-- 翻译章 -->
   <section class="block" id="translatechapter">
-    <div class="kicker reveal">离线翻译</div>
     <h2 class="reveal">译文,出现在原文的位置。</h2>
-    <p class="lede reveal">框选屏幕上的外文,点「翻译」——译文逐块盖回原处,所见即所得。系统离线引擎,应用全程零联网。离线翻译需 macOS 15+。</p>
+    <p class="lede reveal">框选屏幕上的外文,点「翻译」,译文逐块盖回原处。离线翻译由系统引擎在本机完成,应用全程不联网,需 macOS 15+。</p>
     <div class="shot-mock reveal" id="shotMock">
       <div class="sm-bar"><s></s><s></s><s></s></div>
       <div class="tblock" data-en="Ship your ideas, not your tabs." data-zh="交付你的想法,而不是你的标签页。"></div>
       <div class="tblock" data-en="One keystroke away from everything." data-zh="一次按键,直达一切。"></div>
       <div class="tblock" data-en="Nothing ever leaves this Mac." data-zh="任何数据都不会离开这台电脑。"></div>
     </div>
-    <p class="zero-note reveal">也支持:剪贴板一键互译 · 双栏实时对照窗</p>
+    <p class="zero-note reveal">剪贴板一键互译、双栏对照窗,也都可以。</p>
   </section>
 
   <!-- 数字章 -->
   <section class="block" id="numbers">
-    <div class="kicker reveal">轻,是刻意的</div>
-    <h2 class="reveal">小,是一种能力。</h2>
-    <p class="lede reveal">没有 Electron,没有捆绑运行时。原生 Swift 写成,像系统自带的一部分。</p>
+    <h2 class="reveal">4 MB,装完即用。</h2>
+    <p class="lede reveal">原生 Swift 编写,没有多余的运行时。打开就像系统自带的一部分。</p>
     <div class="stats">
       <div class="stat reveal">
-        <div class="num"><span data-count="3">0</span><em>MB</em></div>
+        <div class="num"><span data-count="4">0</span><em>MB</em></div>
         <div class="cap">安装包大小</div>
-        <div class="compare">
-          <div class="cmp-row"><span class="name">楔子</span><div class="cmp-track"><div class="cmp-fill us grow"></div></div><span class="val">3 MB</span></div>
-          <div class="cmp-row"><span class="name">浮光</span><div class="cmp-track"><div class="cmp-fill them grow"></div></div><span class="val">30 MB</span></div>
-        </div>
       </div>
       <div class="stat reveal">
-        <div class="num"><span data-count="0">0</span><em>次联网</em></div>
-        <div class="cap">装完可以断网用,一直用</div>
-      </div>
-      <div class="stat reveal">
-        <div class="num"><span data-count="474">0</span><em>项测试</em></div>
-        <div class="cap">每次发布前全部通过</div>
+        <div class="num"><span data-count="0">0</span><em>次上传</em></div>
+        <div class="cap">你的数据只在本机</div>
       </div>
       <div class="stat reveal">
         <div class="num">&lt;0.1<em>秒</em></div>
-        <div class="cap">面板唤出耗时</div>
+        <div class="cap">面板唤出</div>
       </div>
     </div>
   </section>
 
   <!-- 隐私章 -->
   <section class="block" id="zeronet">
-    <div class="kicker reveal">隐私不是设置项</div>
-    <h2 class="reveal">你的数据,<br>永远不出这台电脑。</h2>
-    <p class="lede reveal">剪贴板、截图、按键——全部只在本机处理,永不上传。应用唯一的网络行为,是向官网询问最新版本号;在设置里一键关掉它,应用就不发任何请求。</p>
+    <h2 class="reveal">你的数据,<br>只在这台 Mac 上。</h2>
+    <p class="lede reveal">剪贴板、截图、按键都在本机处理。应用唯一的网络请求,是向官网询问最新版本号。这项检查可以在设置里关闭,关闭后应用不再发出任何请求。</p>
     <div class="wavebox reveal">
       <svg viewBox="0 0 720 140" preserveAspectRatio="none">
         <path id="waveLive" d="M0 70 Q30 30 60 70 T120 70 T180 70 T240 70 T300 70 T360 70 T420 70 T480 70 T540 70 T600 70 T660 70 T720 70"
@@ -425,56 +400,53 @@
       </svg>
       <div class="flatline-label" id="flatLabel">网络活动 · 监测中</div>
     </div>
-    <p class="zero-note reveal">数据零上传 · 更新检查内容公开且可关 —— Little Snitch 可复核</p>
+    <p class="zero-note reveal">用 Little Snitch 之类的工具,随时可以复核这一点。</p>
   </section>
 
   <!-- 动作语言章 -->
   <section class="block" id="actionlang">
-    <div class="kicker reveal">动作状态语言</div>
-    <h2 class="reveal">界面的主角,<br>是当前发生的动作。</h2>
-    <p class="lede reveal">每一次触发都有回应:处理中、完成、需要权限。原位切换,不打断,不抢焦点。</p>
+    <h2 class="reveal">每一步,<br>都有回应。</h2>
+    <p class="lede reveal">触发任何动作,面板都会原地告诉你进展:处理中、已完成、需要权限。进展原地更新,手上的事不受打扰。</p>
     <div class="capsule-stage" id="capStage">
       <div class="capsule" id="capWork"><span class="spin" id="capSpin"></span><span>正在识别图中文字…</span></div>
       <div class="capsule ok" id="capOk"><span class="mark">✓</span><span>已复制 28 个字</span></div>
       <div class="capsule warn" id="capWarn"><span class="mark">⚠</span><span>需要屏幕录制权限</span></div>
     </div>
-    <p class="cap-note reveal">和应用里一模一样的回应 —— 150 毫秒原位切换</p>
+    <p class="cap-note reveal">与应用内完全一致的回应。</p>
   </section>
 
   <!-- 全家桶章 -->
   <section class="block" id="allinone">
-    <div class="kicker reveal">装了就全了</div>
-    <h2 class="reveal">一个,顶一打。</h2>
-    <p class="lede reveal">这些原本要各装一个的小工具,现在一个 4MB 全包——还全部离线。</p>
+    <h2 class="reveal">装了就全了。</h2>
+    <p class="lede reveal">这些原本要分开安装的工具,现在是同一个 App 的一部分,离线也都能用。</p>
     <div class="tool-wall" id="toolWall">
-      <div class="tool-chip reveal"><i>🚀</i>启动器</div>
-      <div class="tool-chip reveal"><i>📸</i>截图标注</div>
-      <div class="tool-chip reveal"><i>🌐</i>离线翻译（macOS 15+）</div>
-      <div class="tool-chip reveal"><i>📋</i>剪贴板历史</div>
-      <div class="tool-chip reveal"><i>🪟</i>窗口排布</div>
-      <div class="tool-chip reveal"><i>☕</i>防休眠</div>
-      <div class="tool-chip reveal"><i>🔍</i>OCR 取字</div>
-      <div class="tool-chip reveal"><i>📅</i>农历日历</div>
-      <div class="tool-chip reveal"><i>📝</i>Markdown</div>
-      <div class="tool-chip reveal"><i>🎬</i>屏幕录制</div>
-      <div class="tool-chip reveal"><i>⌨️</i>双击键直达</div>
-      <div class="tool-chip reveal"><i>🧹</i>桌面清场</div>
+      <div class="tool-chip reveal"><b>启动器</b><span>两个字母直达</span></div>
+      <div class="tool-chip reveal"><b>截图标注</b><span>框选即拍,箭头文字</span></div>
+      <div class="tool-chip reveal"><b>离线翻译</b><span>译文盖回原位,macOS 15+</span></div>
+      <div class="tool-chip reveal"><b>剪贴板历史</b><span>复制过的都找得回</span></div>
+      <div class="tool-chip reveal"><b>OCR 取字</b><span>截图变可复制文字</span></div>
+      <div class="tool-chip reveal"><b>屏幕录制</b><span>全屏或区域</span></div>
+      <div class="tool-chip reveal"><b>窗口排布</b><span>左右半屏、居中</span></div>
+      <div class="tool-chip reveal"><b>双击键直达</b><span>⌘⌘ 唤起任意应用</span></div>
+      <div class="tool-chip reveal"><b>到期追踪</b><span>订阅续费提前提醒</span></div>
+      <div class="tool-chip reveal"><b>农历日历</b><span>节气与节日</span></div>
+      <div class="tool-chip reveal"><b>Markdown</b><span>即写即存即预览</span></div>
+      <div class="tool-chip reveal"><b>防休眠</b><span>屏幕保持常亮</span></div>
     </div>
   </section>
 
   <!-- 下载章 -->
   <section class="block dl" id="download">
-    <div class="kicker reveal">开始使用</div>
-    <h2 class="reveal">现在,把它装进你的 Mac。</h2>
-    <p class="lede reveal">打开安装包,拖进「应用程序」,轻点 ⌃ —— 就这样。</p>
+    <h2 class="reveal">把它装进你的 Mac。</h2>
+    <p class="lede reveal">打开安装包,拖进「应用程序」,轻点 ⌃ 就可以开始。</p>
     <div class="btn-wrap" id="magnet">
       <a class="btn" id="dlBtn" href="/dl/Chock-0.4.6.dmg">下载 Chock 0.4.6</a>
     </div>
-    <div class="copy-tip" id="copyTip">链接已复制 —— 在 Mac 的浏览器里粘贴打开即可下载</div>
+    <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.2 MB<br>
+      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.3 MB<br>
       离线翻译需 macOS 15+<br>
-      Developer ID 签名 · 已通过 Apple 公证 · 无需任何权限即可开始<br>
+      Developer ID 签名 · 已通过 Apple 公证 · 每次发布前通过 737 项自动化测试<br>
       中国大陆访问较慢时,请用 <a href="https://cn.getchock.com" style="color:var(--accent)">cn.getchock.com</a>
     </p>
   </section>
@@ -482,9 +454,8 @@
   <!-- 抖音章 -->
   <section class="block" id="douyin">
     <div class="douyin-card reveal">
-      <div class="kicker">开发日常</div>
       <h2>在抖音,看楔子怎么用。</h2>
-      <p class="lede">新功能演示、开发日志、真实用法,都在这里首发。</p>
+      <p class="lede">新功能演示和开发日志,都在这里首发。</p>
       <div class="douyin-handle">抖音 <b>@舟方明</b></div>
       <div style="margin-top:26px">
         <a class="btn" href="https://www.douyin.com/user/MS4wLjABAAAAJCqLLIjBGtG4FDbKQ-4yE7gkGf0RUgeZnkdjqpejuA2qaFvZr37omFYlmDWoXTVr" target="_blank" rel="noopener">去抖音关注 →</a>
@@ -594,18 +565,6 @@ mm.add({
   gsap.to(".glow.a", {x:80, y:60, duration:16, yoyo:true, repeat:-1, ease:"sine.inOut"});
   gsap.to(".glow.b", {x:-70, y:-50, duration:19, yoyo:true, repeat:-1, ease:"sine.inOut"});
 
-  if (desktop){
-    const layers = [...document.querySelectorAll(".bg-dots")].map(el=>({
-      x: gsap.quickTo(el, "x", {duration:.9, ease:"power2.out"}),
-      y: gsap.quickTo(el, "y", {duration:.9, ease:"power2.out"}),
-      d: +el.dataset.depth
-    }));
-    window.addEventListener("mousemove", (e)=>{
-      const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
-      layers.forEach(l=>{ l.x(-nx*l.d); l.y(-ny*l.d); });
-    }, {passive:true});
-  }
-
   /* ============ 按键章 ============ */
   const pmType = document.getElementById("pmType");
   const pmHit = document.getElementById("pmHit");
@@ -670,11 +629,6 @@ mm.add({
       scrollTrigger:{trigger:el, start:"top 88%", once:true}
     });
   });
-  gsap.utils.toArray(".cmp-fill.grow").forEach(el=>{
-    gsap.from(el, {scaleX:0, duration:1.3, ease:"expo.out",
-      scrollTrigger:{trigger:el, start:"top 92%", once:true}});
-  });
-
   /* ============ 隐私:波形归零 ============ */
   const flatLabel = document.getElementById("flatLabel");
   const flatTl = gsap.timeline({
