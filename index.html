@@ -247,6 +247,11 @@
     border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
   .tool-chip b{font-size:14px;font-weight:600;color:var(--text)}
   .tool-chip span{font-size:12.5px;color:var(--text-3)}
+  /* Full-row trailer: stays symmetric at any column count, and says the
+     product is alive. Dashed border keeps it visually "not yet a feature". */
+  .tool-more{grid-column:1/-1;flex-direction:row;justify-content:center;align-items:baseline;
+    gap:8px;border-style:dashed;background:transparent}
+  .tool-more b{color:var(--text-2)}
 
   /* 截图模式:压掉视口高度依赖,长图一次成 */
   .shotmode .hero{min-height:auto;padding:160px 24px 110px}
@@ -444,6 +449,7 @@
       <div class="tool-chip reveal"><b>防休眠</b><span>屏幕保持常亮</span></div>
       <div class="tool-chip reveal"><b>单位换算</b><span>斤两亩、GB、°F 互转</span></div>
       <div class="tool-chip reveal"><b>桌面清场</b><span>一键隐藏桌面杂物</span></div>
+      <div class="tool-chip tool-more reveal"><b>更多功能</b><span>陆续增加中</span></div>
     </div>
   </section>
 
