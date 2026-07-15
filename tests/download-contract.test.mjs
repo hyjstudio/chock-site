@@ -55,7 +55,7 @@ test("current release metadata is consistent across published surfaces", async (
 
   for (const surface of [changelog, releaseNotes]) {
     assert.match(surface, /0\.4\.8/);
-    assert.match(surface, /选区上直接标注/);
+    assert.match(surface, /直接标注/);
     assert.match(surface, /马赛克打码位置上下颠倒/);
     assert.match(surface, /最近选区/);
     assert.match(surface, /钉到屏幕/);

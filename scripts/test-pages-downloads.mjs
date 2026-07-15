@@ -35,7 +35,7 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /选区上直接标注/);
+  assert.match(releaseNotesHTML, /直接标注/);
   assert.match(releaseNotesHTML, /马赛克打码位置上下颠倒/);
   assert.match(releaseNotesHTML, /最近选区/);
   assert.match(releaseNotesHTML, /钉到屏幕/);

@@ -3,14 +3,18 @@
 body{background:#0E0E12;color:#F5F5F7;font-family:-apple-system,"PingFang SC",sans-serif;font-size:13px;line-height:1.65;padding:18px 20px;margin:0}
 h2{font-size:15px;margin:0 0 10px;font-weight:600}
 h2 span{color:#8583E8;font-size:11px;font-weight:600;margin-left:8px}
+p.feat{color:rgba(235,235,245,.8);margin:0 0 12px;line-height:1.7}
+p.feat strong{color:#F5F5F7}
+h3{font-size:10px;font-weight:600;letter-spacing:1.4px;color:rgba(235,235,245,.4);margin:12px 0 4px;text-transform:uppercase}
+h3.fix{color:#E8A05C}
 ul{margin:0;padding-left:18px;color:rgba(235,235,245,.75)}
 li{margin:5px 0}
 strong{color:#F5F5F7}
 </style></head><body>
 <h2>楔子 0.4.4<span>2026-07-13</span></h2>
-<ul>
-<li><strong>右键菜单现在能完整截下来</strong>——Chrome、Finder 等应用的临时菜单会在按下 Control 时先冻结；快速按 Ctrl+A 或按住 Control 后再按 A 都不会提前消失</li>
-<li><strong>截图快捷键不再误唤出面板</strong>——确认是 Ctrl+A 后会取消单按 Control 的唤出动作，不再抢走其他应用焦点</li>
-<li><strong>箭头标注比例更稳定</strong>——短箭头不再反向越过起点，长箭头头部更紧凑，预览与导出保持一致</li>
+<h3 class="fix">修复</h3><ul>
+<li>Chrome、Finder 等应用的右键菜单可以完整截下来了:按下 Control 的瞬间画面先冻结,菜单不会提前消失</li>
+<li>截图快捷键不再误唤出面板、抢走其他应用焦点</li>
+<li>箭头标注比例更稳:短箭头不反向,长箭头头部紧凑,预览与导出一致</li>
 </ul>
 </body></html>

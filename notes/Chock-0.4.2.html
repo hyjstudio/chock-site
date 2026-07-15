@@ -3,16 +3,20 @@
 body{background:#0E0E12;color:#F5F5F7;font-family:-apple-system,"PingFang SC",sans-serif;font-size:13px;line-height:1.65;padding:18px 20px;margin:0}
 h2{font-size:15px;margin:0 0 10px;font-weight:600}
 h2 span{color:#8583E8;font-size:11px;font-weight:600;margin-left:8px}
+p.feat{color:rgba(235,235,245,.8);margin:0 0 12px;line-height:1.7}
+p.feat strong{color:#F5F5F7}
+h3{font-size:10px;font-weight:600;letter-spacing:1.4px;color:rgba(235,235,245,.4);margin:12px 0 4px;text-transform:uppercase}
+h3.fix{color:#E8A05C}
 ul{margin:0;padding-left:18px;color:rgba(235,235,245,.75)}
 li{margin:5px 0}
 strong{color:#F5F5F7}
 </style></head><body>
 <h2>楔子 0.4.2<span>2026-07-13</span></h2>
-<ul>
-<li><strong>快捷键不再干扰当前操作</strong>——Ctrl+A 截图前自动收起面板，Ctrl+X 打开剪贴板历史时不再向输入法漏出 x</li>
-<li><strong>到期追踪支持编辑</strong>——日期按中文年月日显示，循环订阅会继续安排下一周期提醒</li>
-<li><strong>Codex 暂时只显示周额度</strong>——数据源消失时同步清除旧值，不留下过时贴片</li>
-<li><strong>交互与退出更稳</strong>——剪贴板、系统状态、提醒和录屏路径补强性能与竞态保护</li>
-<li>双击修饰键明确标为 Shift；到期追踪继续保留面板沙漏入口</li>
+<h3>改进</h3><ul>
+<li>到期项目支持编辑;中文日期按「年—月—日」显示;循环订阅自动补排提醒</li>
+<li>剪贴板图片处理移出关键路径,粘贴更跟手</li>
+</ul>
+<h3 class="fix">修复</h3><ul>
+<li>Ctrl+A 截图先退出面板不遮选区;Ctrl+X 不再向输入法漏字母</li>
 </ul>
 </body></html>

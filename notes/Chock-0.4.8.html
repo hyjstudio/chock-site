@@ -3,25 +3,31 @@
 body{background:#0E0E12;color:#F5F5F7;font-family:-apple-system,"PingFang SC",sans-serif;font-size:13px;line-height:1.65;padding:18px 20px;margin:0}
 h2{font-size:15px;margin:0 0 10px;font-weight:600}
 h2 span{color:#8583E8;font-size:11px;font-weight:600;margin-left:8px}
+p.feat{color:rgba(235,235,245,.8);margin:0 0 12px;line-height:1.7}
+p.feat strong{color:#F5F5F7}
+h3{font-size:10px;font-weight:600;letter-spacing:1.4px;color:rgba(235,235,245,.4);margin:12px 0 4px;text-transform:uppercase}
+h3.fix{color:#E8A05C}
 ul{margin:0;padding-left:18px;color:rgba(235,235,245,.75)}
 li{margin:5px 0}
 strong{color:#F5F5F7}
 </style></head><body>
 <h2>楔子 0.4.8<span>2026-07-15</span></h2>
-<ul>
-<li><strong>截图选区上直接标注</strong>——选好区域后工具条就在选区上：矩形、椭圆、箭头、直线、画笔、文字、序号、高亮、马赛克、颜色、虚线、撤销一应俱全，画完确认即得成品，不再跳第二个窗口；马赛克遮住的内容对取字/翻译同样生效</li>
-<li><strong>修复：马赛克打码位置上下颠倒</strong>——此前像素化会落在所画区域的垂直镜像处（导出同样错位），现已修正并加测试锁定；用马赛克遮过敏感信息的旧图建议复查</li>
-<li><strong>马赛克即画即码</strong>——落笔立即显示真实像素化效果，所见即所得</li>
-<li><strong>最近选区可以翻了</strong>——截图时按 ⌘←/⌘→ 在最近 5 个选区之间召回（跨重启保留），尺寸条显示当前档位；L 键照旧等于第 1 档</li>
-<li><strong>计算器有了自己的窗口</strong>——内置动作「计算器」可绑键位，状态栏与面板底部都有入口；大结果 + 算式回显 + 可点击复制的历史，ans 连算、单位换算、大写金额全都在</li>
-<li><strong>剪贴板内容可以钉到屏幕上</strong>——剪贴板历史右键「钉到屏幕」：文字变成置顶浮动卡片（可选中复制），图片钉成钉图；「显隐钉图」一键清场/召回两类</li>
-<li><strong>粘贴面板可以钉住连续粘贴</strong>——右上角图钉点亮后，去目标应用点位定光标面板不再收起，粘贴、点位、再粘贴一气呵成；Esc 收起</li>
-<li><strong>标注新工具</strong>——椭圆、直线上架；矩形/椭圆/直线/箭头可切虚线描边，虚线箭头头部保持实心</li>
-<li><strong>Markdown 离线公式</strong>——编辑器支持 KaTeX：行内 $E=mc^2$、独立块 $$…$$，预览与 HTML/PDF 导出全保留；本机渲染，预览窗口保持零联网</li>
-<li><strong>Shell 脚本动作</strong>——键位可绑定你自己的 .sh/.command：右键键位 →「绑定 Shell 脚本」，可选后台静默或终端执行；失败弹回执带退出码，绝不静默</li>
-<li><strong>到期卡片有分类图标了</strong>——服务器、域名、流媒体、网盘、证件、保修、会员各有专属符号，一眼可扫</li>
-<li><strong>键位动作名称可选显示</strong>——设置 → 唤出新增开关，开启后键位格子下方显示动作短名；默认保持安静网格</li>
-<li><strong>刘海机型适配</strong>——截图/录屏选区界面顶部的提示条和尺寸条自动避开刘海</li>
-<li><strong>更省内存</strong>——菜单栏图标不再每秒重新解析符号；剪贴板历史不收录超 1MB 的巨型文本；截图管线消除峰值叠加，大位图中间产物即用即还；Markdown 编辑器关闭即整体释放</li>
+<p class="feat"><strong>截图,现在选完区就能直接标注。</strong>框选之后,工具条就在选区上——矩形、椭圆、箭头、直线、画笔、文字、序号、高亮、马赛克随手用,画完按确认,拿到的就是成品。马赛克遮住的内容,取字和翻译也同样看不到。</p>
+<h3>新功能</h3><ul>
+<li><strong>计算器窗口</strong>——可绑键位,状态栏和面板底部都有入口;ans 连算、单位换算、人民币大写金额都在</li>
+<li><strong>剪贴板钉到屏幕</strong>——历史里右键任意条目:文字变置顶浮动卡片,图片变钉图;「显隐钉图」一键清场/召回</li>
+<li><strong>粘贴面板可以钉住</strong>——点亮图钉后,去目标应用点位定光标面板也不收起,连续粘贴一气呵成</li>
+<li><strong>标注新工具</strong>——椭圆、直线上架;矩形/椭圆/直线/箭头可切虚线描边</li>
+<li><strong>Markdown 公式</strong>——行内 $E=mc^2$ 与块级 $$…$$,预览和导出全保留,本机渲染不联网</li>
+<li><strong>Shell 脚本键位</strong>——绑定你自己的 .sh/.command,静默或终端执行,失败会提示</li>
+<li><strong>最近选区召回</strong>——截图时 ⌘←/⌘→ 在最近 5 个选区之间切换,跨重启保留</li>
+</ul>
+<h3>改进</h3><ul>
+<li>到期卡片按分类显示图标;键位动作名称可选显示(设置 → 唤出)</li>
+<li>马赛克落笔即显示真实效果;刘海机型顶部提示条自动避让</li>
+<li>长时间运行更省内存</li>
+</ul>
+<h3 class="fix">修复</h3><ul>
+<li><strong>马赛克打码位置上下颠倒</strong>——此前打码落在所画区域的垂直镜像处,导出同样错位;用马赛克遮过敏感信息的旧图建议复查</li>
 </ul>
 </body></html>
