@@ -112,6 +112,10 @@
     font-size:14px;color:var(--text-2);background:rgba(255,255,255,.02)}
   .pill b{color:var(--accent);font-weight:600;margin-right:4px}
   .hero-cta{margin-top:48px}
+  /* The real product, offscreen-rendered from the actual AppKit panel (no CSS
+     mock): benchmark rule — Apple heroes show the product itself. */
+  .hero-shot{width:min(760px,88vw);height:auto;margin-top:64px;border-radius:18px;
+    border:1px solid rgba(255,255,255,.1);box-shadow:0 50px 130px rgba(0,0,0,.55)}
   .scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
     color:var(--text-3);font-size:12px;letter-spacing:2px}
   .scroll-hint::after{content:"";display:block;width:1px;height:34px;margin:10px auto 0;
@@ -304,6 +308,8 @@
     <div class="hero-cta" id="heroCta">
       <a class="btn ghost" href="#download">下载 Chock 0.4.6 ↓</a>
     </div>
+    <img class="hero-shot" id="heroShot" src="/panel@2x.png" width="1280" height="896"
+         alt="楔子唤出面板:键盘网格上九个推荐键位——截图、粘贴板、剪贴板历史、取字、钉图、标注">
     <div class="scroll-hint">滚动</div>
   </section>
 
@@ -559,7 +565,8 @@ mm.add({
     }, "-=.72")
     .from("#heroSub", {y:26, autoAlpha:0, duration:.6}, "-=.35")
     .from("#heroPills .pill", {y:18, autoAlpha:0, scale:.92, stagger:.07, duration:.45}, "-=.3")
-    .from(["#heroCta",".scroll-hint"], {autoAlpha:0, y:12, duration:.5}, "-=.15");
+    .from(["#heroCta",".scroll-hint"], {autoAlpha:0, y:12, duration:.5}, "-=.15")
+    .from("#heroShot", {autoAlpha:0, y:40, scale:.97, duration:.9, ease:"power3.out"}, "-=.4");
 
   /* ============ 背景:glow 漂移 + 点阵鼠标视差 ============ */
   gsap.to(".glow.a", {x:80, y:60, duration:16, yoyo:true, repeat:-1, ease:"sine.inOut"});
