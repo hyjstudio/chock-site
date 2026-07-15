@@ -35,10 +35,10 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /新装机全局快捷键开箱即用/);
-  assert.match(releaseNotesHTML, /到期提醒点了有去处/);
-  assert.match(releaseNotesHTML, /Markdown 编辑器补全文件闭环/);
-  assert.match(releaseNotesHTML, /粘贴面板首开引导/);
+  assert.match(releaseNotesHTML, /面板即计算器/);
+  assert.match(releaseNotesHTML, /单位换算/);
+  assert.match(releaseNotesHTML, /人民币大写金额/);
+  assert.match(releaseNotesHTML, /行为变更/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -67,7 +67,7 @@ try {
 
   for (const path of [
     "/dl/does-not-exist.dmg",
-    "/dl/Chock-0.4.7.dmg",
+    "/dl/Chock-0.4.8.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {

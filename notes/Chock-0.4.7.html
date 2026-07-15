@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+body{background:#0E0E12;color:#F5F5F7;font-family:-apple-system,"PingFang SC",sans-serif;font-size:13px;line-height:1.65;padding:18px 20px;margin:0}
+h2{font-size:15px;margin:0 0 10px;font-weight:600}
+h2 span{color:#8583E8;font-size:11px;font-weight:600;margin-left:8px}
+ul{margin:0;padding-left:18px;color:rgba(235,235,245,.75)}
+li{margin:5px 0}
+strong{color:#F5F5F7}
+</style></head><body>
+<h2>楔子 0.4.7<span>2026-07-15</span></h2>
+<ul>
+<li><strong>面板即计算器</strong>——搜索框直接输入算式（23*4.5+8、200+10%、200的10%），结果内联出现，回车即复制；纯数字和应用名不受影响，搜索照旧</li>
+<li><strong>计算器与剪贴板联动</strong>——刚复制过数字，以运算符开头（如 *1.13）自动以它为首操作数；复制的结果自动进剪贴板历史；ans 引用上一次结果连续计算</li>
+<li><strong>单位换算</strong>——10ft in m、5斤=克、100°F转°C、128GB=MB，支持斤、两、亩、里等本土单位</li>
+<li><strong>人民币大写金额</strong>——「12345.67 大写」→ 壹万贰仟叁佰肆拾伍元陆角柒分，发票合同随手查</li>
+<li><strong>键位网格直接起算</strong>——键位模式下按未绑定的数字或运算符键，自动进搜索框接着写算式</li>
+<li><strong>行为变更</strong>——搜索框为空时按数字键现在开始输入，不再直接运行第 N 项（有文字后按数字仍是快捷运行）；方向键选中某行后回车永远执行该行</li>
+<li><strong>到期表单搬进真正的表单窗</strong>——添加/编辑不再挤在系统警告框里，回车保存、Esc 取消；日期只保留一组大号上下箭头（上 +1 天、下 -1 天）</li>
+<li><strong>空状态会教你了</strong>——粘贴面板、剪贴板历史、到期追踪的空白页升级为图标+说明+下一步提示（如「⌘1–9 秒贴前九条」）</li>
+</ul>
+</body></html>
