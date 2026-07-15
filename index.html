@@ -25,11 +25,11 @@
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
-  "softwareVersion": "0.4.7",
-  "fileSize": "4.3MB",
+  "softwareVersion": "0.4.8",
+  "fileSize": "4.5MB",
   "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。数据零上传,已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.4.7.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.4.8.dmg"
 }
 </script>
 <style>
@@ -311,7 +311,7 @@
       <span class="pill">已通过 Apple 公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.4.7 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.4.8 ↓</a>
     </div>
     <img class="hero-shot" id="heroShot" src="/panel-2x.png" width="1280" height="896"
          alt="楔子唤出面板:键盘网格上九个推荐键位——截图、粘贴板、剪贴板历史、取字、钉图、标注">
@@ -432,23 +432,25 @@
     <p class="lede reveal">这些原本要分开安装的工具,现在是同一个 App 的一部分,离线也都能用。</p>
     <div class="tool-wall" id="toolWall">
       <div class="tool-chip reveal"><b>启动器</b><span>两个字母直达</span></div>
-      <div class="tool-chip reveal"><b>截图标注</b><span>框选即拍,箭头文字</span></div>
-      <div class="tool-chip reveal"><b>钉图</b><span>截图钉在最上层</span></div>
+      <div class="tool-chip reveal"><b>截图标注</b><span>选区上直接画,九种工具</span></div>
+      <div class="tool-chip reveal"><b>钉图钉文字</b><span>截图和文字钉在最上层</span></div>
       <div class="tool-chip reveal"><b>OCR 取字</b><span>截图变可复制文字</span></div>
       <div class="tool-chip reveal"><b>离线翻译</b><span>译文盖回原位,macOS 15+</span></div>
       <div class="tool-chip reveal"><b>屏幕录制</b><span>全屏或区域</span></div>
       <div class="tool-chip reveal"><b>取色</b><span>屏幕任意像素拾色</span></div>
-      <div class="tool-chip reveal"><b>计算器</b><span>搜索框直接算,大写金额</span></div>
+      <div class="tool-chip reveal"><b>计算器</b><span>独立窗口+搜索框直达</span></div>
       <div class="tool-chip reveal"><b>剪贴板历史</b><span>复制过的都找得回</span></div>
+      <div class="tool-chip reveal"><b>连续粘贴</b><span>面板钉住,连贴不断</span></div>
       <div class="tool-chip reveal"><b>窗口排布</b><span>左右半屏、居中</span></div>
       <div class="tool-chip reveal"><b>双击键直达</b><span>⌘⌘ 唤起任意应用</span></div>
       <div class="tool-chip reveal"><b>到期追踪</b><span>订阅续费提前提醒</span></div>
       <div class="tool-chip reveal"><b>资源管理</b><span>内存与 CPU 排行,安全退出</span></div>
       <div class="tool-chip reveal"><b>农历日历</b><span>节气与节日</span></div>
-      <div class="tool-chip reveal"><b>Markdown</b><span>即写即存即预览</span></div>
+      <div class="tool-chip reveal"><b>Markdown</b><span>预览导出,支持公式</span></div>
       <div class="tool-chip reveal"><b>防休眠</b><span>屏幕保持常亮</span></div>
       <div class="tool-chip reveal"><b>单位换算</b><span>斤两亩、GB、°F 互转</span></div>
       <div class="tool-chip reveal"><b>桌面清场</b><span>一键隐藏桌面杂物</span></div>
+      <div class="tool-chip reveal"><b>Shell 脚本</b><span>自己的脚本绑上键位</span></div>
       <div class="tool-chip tool-more reveal"><b>更多功能</b><span>陆续增加中</span></div>
     </div>
   </section>
@@ -458,11 +460,11 @@
     <h2 class="reveal">把它装进你的 Mac。</h2>
     <p class="lede reveal">打开安装包,拖进「应用程序」,轻点 ⌃ 就可以开始。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.7.dmg">下载 Chock 0.4.7</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.8.dmg">下载 Chock 0.4.8</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.3 MB · 离线翻译需 macOS 15+<br>
+      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.5 MB · 离线翻译需 macOS 15+<br>
       中国大陆访问较慢时,请用 <a href="https://cn.getchock.com" style="color:var(--accent)">cn.getchock.com</a>
     </p>
   </section>
@@ -506,7 +508,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.4.7.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.4.8.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){

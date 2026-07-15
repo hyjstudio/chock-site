@@ -68,6 +68,16 @@
   Content-Disposition: attachment; filename="Chock-0.4.6.zip"
   X-Content-Type-Options: nosniff
 
+/dl/Chock-0.4.8.dmg
+  Content-Type: application/x-apple-diskimage
+  Content-Disposition: attachment; filename="Chock-0.4.8.dmg"
+  X-Content-Type-Options: nosniff
+
+/dl/Chock-0.4.8.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="Chock-0.4.8.zip"
+  X-Content-Type-Options: nosniff
+
 /dl/Chock-0.4.7.dmg
   Content-Type: application/x-apple-diskimage
   Content-Disposition: attachment; filename="Chock-0.4.7.dmg"

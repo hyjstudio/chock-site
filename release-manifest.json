@@ -1,26 +1,26 @@
 {
   "schemaVersion": 1,
   "current": {
-    "version": "0.4.7",
+    "version": "0.4.8",
     "status": "published",
     "releaseDate": "2026-07-15",
-    "sparkleVersion": 299,
-    "displaySize": "4.3 MB",
+    "sparkleVersion": 318,
+    "displaySize": "4.5 MB",
     "dmg": {
-      "path": "/dl/Chock-0.4.7.dmg",
-      "size": 4288375,
-      "sha256": "d0d6cdb29bf76bb455d09f6b5d110da491fadfc8d853f31914da385b53032a2e"
+      "path": "/dl/Chock-0.4.8.dmg",
+      "size": 4704501,
+      "sha256": "c57f6de9ac1c617c0a80aa6b2d627313a35cd7f7fbf25d89d500fd2d91ebce47"
     },
     "zip": {
-      "path": "/dl/Chock-0.4.7.zip",
-      "size": 3912910,
-      "sha256": "d2c67a7effaa94465a2b81f6c64126ae6743fb0b4fe4a0d2b1032833c32be5ac",
-      "sparkleEdSignature": "GbFcbJweXQc1tf6KqkUf6qTULGs3M3TVTQbVCXXtxQSXbr2hWCBc0meSPdQk5A8DJsevsuGmb7zi4zLOpaYtCA=="
+      "path": "/dl/Chock-0.4.8.zip",
+      "size": 4314438,
+      "sha256": "e1efd2d0b205cefb37b76c55751a2ca8143aa0ee0c9dd80c886c8ce0882e8766",
+      "sparkleEdSignature": "fRhF5ycjM+OxJFA4zb5VdZBd4CmEKHwL8HhyOiK1DcLPmquwF0pO7jMizb0EXWlvf8FB+7zJKai4yujvqMPWAQ=="
     },
-    "releaseNotesPath": "/notes/Chock-0.4.7.html"
+    "releaseNotesPath": "/notes/Chock-0.4.8.html"
   },
   "next": {
-    "version": "0.4.8",
+    "version": "0.4.9",
     "status": "draft",
     "releaseDate": null,
     "sparkleVersion": null,
