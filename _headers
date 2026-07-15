@@ -87,3 +87,29 @@
   Content-Type: application/zip
   Content-Disposition: attachment; filename="Chock-0.4.7.zip"
   X-Content-Type-Options: nosniff
+
+# Same-path-changing surfaces must stay short-lived on any edge cache in
+# front of the origin (Aliyun ESA cn entrance follows origin headers) —
+# without these, the CN mirror served 0.4.5 while .com was on 0.4.8.
+# /dl/* stays untouched: versioned filenames are immutable by construction,
+# and a wildcard there would mislabel 404s (see contract test).
+/
+  Cache-Control: public, max-age=300, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=300, must-revalidate
+
+/appcast.xml
+  Cache-Control: public, max-age=300, must-revalidate
+
+/release-manifest.json
+  Cache-Control: public, max-age=300, must-revalidate
+
+/changelog
+  Cache-Control: public, max-age=300, must-revalidate
+
+/changelog.html
+  Cache-Control: public, max-age=300, must-revalidate
+
+/notes/*
+  Cache-Control: public, max-age=300, must-revalidate
