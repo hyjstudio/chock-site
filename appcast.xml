@@ -3,6 +3,16 @@
     <channel>
         <title>Chock</title>
         <item>
+            <title>0.4.9</title>
+            <pubDate>Thu, 16 Jul 2026 16:53:33 +0800</pubDate>
+            <sparkle:version>326</sparkle:version>
+            <sparkle:shortVersionString>0.4.9</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://getchock.com/dl/Chock-0.4.9.zip" length="4369588" type="application/octet-stream" sparkle:edSignature="K8a5tKCXFC+WN5JXyYvsKDIBEt5XxAbMf8r96kAVZ0JlFKBO6NyVt6Ea3bqhxNt/PZZ3+60JhLqGth9mvBMgAQ=="/>
+            <sparkle:releaseNotesLink>https://getchock.com/notes/Chock-0.4.9.html</sparkle:releaseNotesLink>
+        </item>
+        <item>
             <title>0.4.8</title>
             <pubDate>Wed, 15 Jul 2026 16:07:04 +0800</pubDate>
             <sparkle:version>318</sparkle:version>

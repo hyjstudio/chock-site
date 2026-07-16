@@ -8,7 +8,12 @@ const manifest = JSON.parse(await readFile(new URL("../release-manifest.json", i
 const port = await getOpenPort();
 const origin = `http://127.0.0.1:${port}`;
 const wrangler = new URL("../node_modules/.bin/wrangler", import.meta.url).pathname;
-const child = spawn(wrangler, ["pages", "dev", ".", "--ip", "127.0.0.1", "--port", String(port)], {
+const child = spawn(wrangler, [
+  "pages", "dev", ".",
+  "--compatibility-date", "2026-07-15",
+  "--ip", "127.0.0.1",
+  "--port", String(port)
+], {
   cwd: new URL("..", import.meta.url),
   stdio: ["ignore", "pipe", "pipe"]
 });
@@ -35,10 +40,9 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /直接标注/);
-  assert.match(releaseNotesHTML, /马赛克打码位置上下颠倒/);
-  assert.match(releaseNotesHTML, /最近选区/);
-  assert.match(releaseNotesHTML, /钉到屏幕/);
+  assert.match(releaseNotesHTML, /算式纸/);
+  assert.match(releaseNotesHTML, /Control/);
+  assert.match(releaseNotesHTML, /导入键位/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -61,15 +65,21 @@ try {
     "/dl/Chock-0.4.3.zip",
     "/dl/Chock-0.4.4.zip",
     "/dl/Chock-0.4.5.zip",
+    "/dl/Chock-0.4.6.dmg",
+    "/dl/Chock-0.4.6.zip",
+    "/dl/Chock-0.4.7.dmg",
+    "/dl/Chock-0.4.7.zip",
     "/dl/Chock-0.4.8.dmg",
-    "/dl/Chock-0.4.8.zip"
+    "/dl/Chock-0.4.8.zip",
+    "/dl/Chock-0.4.9.dmg",
+    "/dl/Chock-0.4.9.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
 
   for (const path of [
     "/dl/does-not-exist.dmg",
-    "/dl/Chock-0.4.9.dmg",
+    "/dl/Chock-0.5.0.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {

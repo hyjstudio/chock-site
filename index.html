@@ -25,11 +25,11 @@
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
-  "softwareVersion": "0.4.8",
+  "softwareVersion": "0.4.9",
   "fileSize": "4.5MB",
   "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。数据零上传,已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.4.8.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.4.9.dmg"
 }
 </script>
 <style>
@@ -311,7 +311,7 @@
       <span class="pill">已通过 Apple 公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.4.8 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.4.9 ↓</a>
     </div>
     <img class="hero-shot" id="heroShot" src="/panel-2x.png" width="1280" height="896"
          alt="楔子唤出面板:键盘网格上九个推荐键位——截图、粘贴板、剪贴板历史、取字、钉图、标注">
@@ -393,7 +393,7 @@
         <div class="cap">面板唤出</div>
       </div>
       <div class="stat reveal">
-        <div class="num"><span data-count="801">0</span><em>项</em></div>
+        <div class="num"><span data-count="850">0</span><em>项</em></div>
         <div class="cap">自动化测试,每次发布全绿</div>
       </div>
     </div>
@@ -438,11 +438,11 @@
       <div class="tool-chip reveal"><b>离线翻译</b><span>译文盖回原位,macOS 15+</span></div>
       <div class="tool-chip reveal"><b>屏幕录制</b><span>全屏或区域</span></div>
       <div class="tool-chip reveal"><b>取色</b><span>屏幕任意像素拾色</span></div>
-      <div class="tool-chip reveal"><b>计算器</b><span>独立窗口+搜索框直达</span></div>
+      <div class="tool-chip reveal"><b>算式纸</b><span>过程可选可复制,鼠标也能算</span></div>
       <div class="tool-chip reveal"><b>剪贴板历史</b><span>复制过的都找得回</span></div>
       <div class="tool-chip reveal"><b>连续粘贴</b><span>面板钉住,连贴不断</span></div>
       <div class="tool-chip reveal"><b>窗口排布</b><span>左右半屏、居中</span></div>
-      <div class="tool-chip reveal"><b>双击键直达</b><span>⌘⌘ 唤起任意应用</span></div>
+      <div class="tool-chip reveal"><b>双击键直达</b><span>⌘⌘ 或 ⌃⌃ 唤起任意应用</span></div>
       <div class="tool-chip reveal"><b>到期追踪</b><span>订阅续费提前提醒</span></div>
       <div class="tool-chip reveal"><b>资源管理</b><span>内存与 CPU 排行,安全退出</span></div>
       <div class="tool-chip reveal"><b>农历日历</b><span>节气与节日</span></div>
@@ -460,7 +460,7 @@
     <h2 class="reveal">把它装进你的 Mac。</h2>
     <p class="lede reveal">打开安装包,拖进「应用程序」,轻点 ⌃ 就可以开始。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.8.dmg">下载 Chock 0.4.8</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.4.9.dmg">下载 Chock 0.4.9</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
@@ -508,7 +508,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.4.8.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.4.9.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){
