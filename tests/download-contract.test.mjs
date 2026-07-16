@@ -23,7 +23,7 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(current.status, "published");
   assert.equal(current.version, "0.4.9");
   assert.equal(current.releaseDate, "2026-07-16");
-  assert.equal(current.sparkleVersion, 326);
+  assert.equal(current.sparkleVersion, 328);
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
