@@ -21,9 +21,9 @@ const releaseNotes = await read(`notes/Chock-${current.version}.html`);
 
 test("current release metadata is consistent across published surfaces", async () => {
   assert.equal(current.status, "published");
-  assert.equal(current.version, "0.4.9");
-  assert.equal(current.releaseDate, "2026-07-16");
-  assert.equal(current.sparkleVersion, 328);
+  assert.equal(current.version, "0.5.0");
+  assert.equal(current.releaseDate, "2026-07-20");
+  assert.equal(current.sparkleVersion, 376);
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
@@ -35,6 +35,8 @@ test("current release metadata is consistent across published surfaces", async (
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`下载 Chock ${escapeRegExp(current.version)}`));
+  assert.match(index, /data-count="1018"/);
+  assert.match(extractSection("download"), /Build 376/);
 
   const firstItem = appcast.match(/<item>([\s\S]*?)<\/item>/)?.[1];
   assert.ok(firstItem, "appcast.xml must contain a current item");
@@ -54,10 +56,11 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
   for (const surface of [changelog, releaseNotes]) {
+    assert.match(surface, /0\.5\.0/);
+    assert.match(surface, /麦克风/);
+    assert.match(surface, /暂停/);
+    assert.match(surface, /键盘/);
     assert.match(surface, /0\.4\.9/);
-    assert.match(surface, /算式纸/);
-    assert.match(surface, /Control/);
-    assert.match(surface, /导入键位/);
   }
 });
 
@@ -116,8 +119,8 @@ test("only known release assets receive binary response headers", async () => {
   assert.match(notFound, /明确返回 404/);
 });
 
-test("0.5.0 assets may be staged while release metadata remains unpublished", async () => {
-  assert.equal(next.version, "0.5.0");
+test("0.5.1 remains an empty unpublished draft", () => {
+  assert.equal(next.version, "0.5.1");
   assert.equal(next.status, "draft");
 
   for (const value of [
@@ -136,18 +139,9 @@ test("0.5.0 assets may be staged while release metadata remains unpublished", as
     assert.equal(value, null);
   }
 
-  for (const surface of [index, appcast, redirects, changelog]) {
-    assert.doesNotMatch(surface, /0\.5\.0/);
+  for (const surface of [index, appcast, redirects, headers, changelog]) {
+    assert.doesNotMatch(surface, /0\.5\.1/);
   }
-
-  const stagedDmgURL = new URL("../dl/Chock-0.5.0.dmg", import.meta.url);
-  const stagedZipURL = new URL("../dl/Chock-0.5.0.zip", import.meta.url);
-  assert.equal((await stat(stagedDmgURL)).size, 5009377);
-  assert.equal((await stat(stagedZipURL)).size, 4572586);
-  assert.equal(await sha256(stagedDmgURL), "c40fdf074169a1c7b81cb87a416306f84ba4ccbd6ec3d12181f5ec1232e5a04e");
-  assert.equal(await sha256(stagedZipURL), "d599c337c000e59eddbf64516a6f9f7ec2fe6600defa1850d1dc6539952cd557");
-  assert.match(headers, /^\/dl\/Chock-0\.5\.0\.dmg$/m);
-  assert.match(headers, /^\/dl\/Chock-0\.5\.0\.zip$/m);
 });
 
 async function sha256(url) {

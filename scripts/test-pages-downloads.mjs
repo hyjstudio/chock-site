@@ -40,9 +40,10 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /算式纸/);
-  assert.match(releaseNotesHTML, /Control/);
-  assert.match(releaseNotesHTML, /导入键位/);
+  assert.match(releaseNotesHTML, /麦克风/);
+  assert.match(releaseNotesHTML, /暂停/);
+  assert.match(releaseNotesHTML, /键盘/);
+  assert.match(releaseNotesHTML, /0\.4\.9/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);

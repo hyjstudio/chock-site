@@ -34,7 +34,23 @@
 <div class="wrap">
   <div class="brand"><a href="/">楔子</a><span>CHOCK</span></div>
   <h1>更新历史</h1>
-  <p class="sub">0.4.9 经 855 项自动化测试与 Apple 公证 · <a href="/" style="color:var(--accent);text-decoration:none">返回首页 ↗</a></p>
+  <p class="sub">0.5.0 经 1018 项自动化测试与 Apple 公证 · <a href="/" style="color:var(--accent);text-decoration:none">返回首页 ↗</a></p>
+  <section class="rel"><h2>0.5.0 · 2026-07-20</h2>
+    <p class="feat"><strong>录屏能暂停、恢复，也能选择录进你的声音。</strong>输出使用真正的 MP4 容器；系统音与麦克风混成一条音轨，发到微信、飞书等常见接收端也能直接听见旁白。</p>
+    <h3>新功能</h3><ul>
+    <li><strong>可选麦克风</strong>：录制前逐次决定，默认关闭；只有主动打开时才申请权限，拒绝后可直达系统设置或不用麦克风继续录制</li>
+    <li><strong>全链路键盘可达</strong>：剪贴板窗口、粘贴面板、截图标注、录屏和面板工具栏都补齐键盘操作</li>
+    <li><strong>和弦多选与连续粘贴</strong>：剪贴板历史支持 Command 和弦多选，图片等内容按顺序逐条自动粘贴</li>
+    </ul>
+    <h3>改进</h3><ul>
+    <li>蓝牙耳机或 USB 声卡热插拔时会重建麦克风采集；失败则降级为无麦克风继续录制，不中断当前文件</li>
+    <li>0.4.9 未曾公开发布；从 0.4.8 更新会同时获得算式纸、Control 双击直达与导入键位先审后用</li>
+    </ul>
+    <h3 class="fix">修复</h3><ul>
+    <li>修复停止录制时的竞态崩溃、菜单栏状态贴片可能令 CPU 满载、录制确认条遮住系统权限弹窗</li>
+    <li>轻点 fn 键不再误唤出面板</li>
+    </ul>
+  </section>
   <section class="rel"><h2>0.4.9 · 2026-07-16</h2>
     <p class="feat"><strong>计算器变成一张真正好用的算式纸。</strong>计算过程可以直接用鼠标拖选复制，也可以一键复制全部；常用的 ＋、−、×、÷、＝ 放在手边，不熟键位也能直接开始。</p>
     <h3>新功能</h3><ul>
