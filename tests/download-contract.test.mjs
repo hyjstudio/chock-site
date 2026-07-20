@@ -102,7 +102,7 @@ test("legacy aliases redirect only to the current immutable assets", () => {
 test("only known release assets receive binary response headers", async () => {
   assert.doesNotMatch(headers, /^\/dl\/\*/m, "wildcard download headers would mislabel 404 responses");
 
-  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9"].flatMap((version) => [
+  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0"].flatMap((version) => [
     stat(new URL(`../dl/Chock-${version}.dmg`, import.meta.url)).then(() => `/dl/Chock-${version}.dmg`),
     stat(new URL(`../dl/Chock-${version}.zip`, import.meta.url)).then(() => `/dl/Chock-${version}.zip`)
   ])));
@@ -116,7 +116,7 @@ test("only known release assets receive binary response headers", async () => {
   assert.match(notFound, /明确返回 404/);
 });
 
-test("0.5.0 remains an unpublished skeleton with no invented release facts", () => {
+test("0.5.0 assets may be staged while release metadata remains unpublished", async () => {
   assert.equal(next.version, "0.5.0");
   assert.equal(next.status, "draft");
 
@@ -136,9 +136,18 @@ test("0.5.0 remains an unpublished skeleton with no invented release facts", () 
     assert.equal(value, null);
   }
 
-  for (const surface of [index, appcast, redirects, headers, changelog]) {
+  for (const surface of [index, appcast, redirects, changelog]) {
     assert.doesNotMatch(surface, /0\.5\.0/);
   }
+
+  const stagedDmgURL = new URL("../dl/Chock-0.5.0.dmg", import.meta.url);
+  const stagedZipURL = new URL("../dl/Chock-0.5.0.zip", import.meta.url);
+  assert.equal((await stat(stagedDmgURL)).size, 5009377);
+  assert.equal((await stat(stagedZipURL)).size, 4572586);
+  assert.equal(await sha256(stagedDmgURL), "c40fdf074169a1c7b81cb87a416306f84ba4ccbd6ec3d12181f5ec1232e5a04e");
+  assert.equal(await sha256(stagedZipURL), "d599c337c000e59eddbf64516a6f9f7ec2fe6600defa1850d1dc6539952cd557");
+  assert.match(headers, /^\/dl\/Chock-0\.5\.0\.dmg$/m);
+  assert.match(headers, /^\/dl\/Chock-0\.5\.0\.zip$/m);
 });
 
 async function sha256(url) {

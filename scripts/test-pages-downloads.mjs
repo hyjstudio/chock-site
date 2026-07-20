@@ -72,14 +72,16 @@ try {
     "/dl/Chock-0.4.8.dmg",
     "/dl/Chock-0.4.8.zip",
     "/dl/Chock-0.4.9.dmg",
-    "/dl/Chock-0.4.9.zip"
+    "/dl/Chock-0.4.9.zip",
+    "/dl/Chock-0.5.0.dmg",
+    "/dl/Chock-0.5.0.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
 
   for (const path of [
     "/dl/does-not-exist.dmg",
-    "/dl/Chock-0.5.0.dmg",
+    "/dl/Chock-0.5.1.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {
