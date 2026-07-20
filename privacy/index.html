@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>隐私政策 · 楔子 Chock</title>
+  <meta name="description" content="楔子 Chock macOS 桌面 App 与 Chock for Safari 的隐私政策。">
+  <link rel="canonical" href="https://getchock.com/privacy/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0a0c;
+      --surface: #141419;
+      --text: #f5f5f7;
+      --muted: rgba(235, 235, 245, .64);
+      --faint: rgba(235, 235, 245, .42);
+      --line: rgba(255, 255, 255, .09);
+      --accent: #8583e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.75;
+    }
+    a { color: inherit; }
+    .wrap { width: min(760px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 32px 0 56px; }
+    .brand { text-decoration: none; font-size: 14px; font-weight: 650; }
+    .brand span { margin-left: 8px; color: var(--accent); font-size: 10px; letter-spacing: 2.2px; }
+    main { padding-bottom: 80px; }
+    .eyebrow { margin: 0 0 12px; color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 2.4px; }
+    h1 { margin: 0; font-size: clamp(40px, 8vw, 68px); letter-spacing: -.045em; line-height: 1.1; }
+    .lead { margin: 22px 0 0; max-width: 650px; color: var(--muted); font-size: 18px; }
+    .updated { margin: 12px 0 0; color: var(--faint); font-size: 13px; }
+    .summary {
+      margin: 42px 0 16px;
+      padding: 22px 24px;
+      border: 1px solid rgba(133, 131, 232, .35);
+      border-radius: 18px;
+      background: rgba(133, 131, 232, .08);
+      color: var(--muted);
+    }
+    .summary strong { display: block; margin-bottom: 4px; color: var(--text); }
+    section { padding: 38px 0; border-bottom: 1px solid var(--line); }
+    h2 { margin: 0 0 16px; font-size: 24px; letter-spacing: -.02em; }
+    p { margin: 12px 0; color: var(--muted); }
+    code { color: var(--text); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+    footer { padding: 24px 0 48px; color: var(--faint); font-size: 12px; }
+    footer a { color: var(--muted); }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 760px); }
+      header { padding-bottom: 42px; }
+      .lead { font-size: 16px; }
+      .summary { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="/">楔子 <span>CHOCK</span></a>
+  </header>
+
+  <main class="wrap">
+    <p class="eyebrow">PRIVACY POLICY</p>
+    <h1>隐私政策</h1>
+    <p class="lead">本政策分别说明 Chock macOS 桌面 App 与 Chock for Safari 的数据处理方式。两者功能不同，发生的网络请求也不同。</p>
+    <p class="updated">更新日期：<time datetime="2026-07-16">2026 年 7 月 16 日</time></p>
+
+    <div class="summary">
+      <strong>共同原则</strong>
+      Chock 不需要账号，不含广告，也不使用分析或追踪工具。我们不会出售个人信息。
+    </div>
+
+    <section id="mac-app">
+      <h2>Chock macOS 桌面 App</h2>
+      <p>剪贴板、截图、按键、OCR 等功能内容在本机处理，不会发送给 Chock 开发者。</p>
+      <p>App 可以自动检查更新，这会访问 Chock 的更新服务以获取版本信息，但不会上传上述功能内容。你可以在设置中关闭自动检查更新。</p>
+    </section>
+
+    <section id="safari-extension">
+      <h2>Chock for Safari</h2>
+      <p>扩展在自己的本地存储中维护一份本地收藏副本，供扩展界面展示和搜索。Chock 开发者不会接收这份副本。</p>
+      <p>扩展只会读取用户主动选择的导入文件，不会在后台扫描其他文件。</p>
+      <p>扩展不读取或修改 Safari 原始收藏，也不在 Chrome 与 Safari 之间同步收藏。两个浏览器中的数据彼此独立。</p>
+    </section>
+
+    <section id="favicon-requests">
+      <h2>收藏网站图标（favicon）</h2>
+      <p>为了显示收藏图标，扩展会先直接向收藏网站请求 favicon。</p>
+      <p>如果网站 favicon 缺失，扩展仅把该网站的 <code>origin</code> 发送给 Google favicon 服务。这里的 <code>origin</code> 仅包含协议、域名和可能存在的端口，不包含收藏标题、路径或查询参数。</p>
+      <p>与普通网络请求一样，收藏网站或 Google favicon 服务可能收到 IP 地址、User-Agent 等基础请求信息。Chock 不会在请求中附加账号、收藏标题或完整收藏地址。</p>
+    </section>
+
+    <section id="changes">
+      <h2>政策更新</h2>
+      <p>如果产品的数据处理方式发生变化，我们会更新本页面和顶部日期。新版本以本页面公开的内容为准。</p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    © 2026 楔子 Chock · <a href="/">返回官网</a>
+  </footer>
+</body>
+</html>

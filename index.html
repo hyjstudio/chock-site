@@ -154,6 +154,24 @@
     border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;
     font-size:12px;color:var(--text-3);font-weight:600;transition:all .2s}
   .pm-app.hit{background:var(--accent-soft);border-color:rgba(133,131,232,.55);color:var(--text)}
+  /* Live mode: the mock only takes the keyboard AFTER a click, so Space keeps
+     paging the site for everyone who never opts in (2026-07-20). */
+  .pm-invite{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);
+    font-size:11px;color:var(--text-2);background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 13px;
+    cursor:pointer;white-space:nowrap;transition:opacity .25s,background .2s}
+  .pm-invite:hover{background:rgba(133,131,232,.2)}
+  .panel-mock.live .pm-invite{opacity:0;pointer-events:none}
+  .panel-mock.live{border-color:rgba(133,131,232,.55);
+    box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 4px rgba(133,131,232,.16)}
+  .pm-live-hint{position:absolute;left:0;right:0;bottom:12px;text-align:center;
+    font-size:10.5px;color:var(--text-2);opacity:0;pointer-events:none;transition:opacity .25s;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace}
+  .panel-mock.live .pm-live-hint{opacity:.9}
+  .pm-app.live-hit{background:var(--accent);border-color:var(--accent);color:#fff;
+    transform:translateY(2px) scale(.95)}
+  .pm-app{transition:background .16s,border-color .16s,color .16s,transform .1s ease}
+  @media (hover:none){ .pm-invite{display:none} }
   .pm-foot{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line)}
   .pm-ring{width:22px;height:22px;border-radius:50%;flex:none;
     background:conic-gradient(var(--accent) 270deg,rgba(255,255,255,.1) 0)}
@@ -351,6 +369,8 @@
             <div class="pm-app">终端</div><div class="pm-app">相册</div>
             <div class="pm-app">浏览器</div><div class="pm-app">设置</div>
           </div>
+          <button class="pm-invite" id="pmInvite" type="button">点这里，用你的键盘试试</button>
+          <div class="pm-live-hint" id="pmLiveHint">按字母直达 · 空格搜索 · Esc 退出</div>
           <div class="pm-foot">
             <div class="pm-ring"><i></i></div>
             <div class="pm-dotrow">
@@ -393,7 +413,7 @@
         <div class="cap">面板唤出</div>
       </div>
       <div class="stat reveal">
-        <div class="num"><span data-count="850">0</span><em>项</em></div>
+        <div class="num"><span data-count="954">0</span><em>项</em></div>
         <div class="cap">自动化测试,每次发布全绿</div>
       </div>
     </div>
@@ -533,6 +553,95 @@ ScrollTrigger.create({
 
 const mm = gsap.matchMedia();
 
+/* Interaction must never live inside an animation branch: the static/reduced
+   path returns early, so anything defined in there simply never exists for
+   those visitors — the same class of mistake as gating content visibility on
+   a reveal. This block runs unconditionally. */
+  // A landing page must never steal Space (it pages the document) or letters
+  // (browser find). So the mock stays a scroll-driven animation until the
+  // visitor explicitly opts in, and any exit hands the keyboard straight back.
+  (function(){
+    const mock = document.getElementById("panelMock");
+    const invite = document.getElementById("pmInvite");
+    const search = document.querySelector(".pm-search");
+    const typeEl = document.getElementById("pmType");
+    const hint = document.getElementById("pmLiveHint");
+    if (!mock || !invite || !typeEl) return;
+
+    const APPS = [...document.querySelectorAll(".pm-app")].map(el => ({ el, name: el.textContent.trim() }));
+    const KEYMAP = { w:"微信", m:"网易云", f:"访达", n:"备忘录", t:"终端", p:"相册", b:"浏览器", s:"设置" };
+
+    let live = false, searching = false, buffer = "", resetTimer;
+
+    function setHint(text){ hint.textContent = text; }
+    function clearHits(){ APPS.forEach(a => a.el.classList.remove("live-hit")); }
+
+    function enter(){
+      if (live) return;
+      live = true;
+      mock.classList.add("live");
+      typeEl.textContent = "";
+      setHint("按字母直达 · 空格搜索 · Esc 退出");
+      mock.focus({ preventScroll:true });
+    }
+    function exit(){
+      if (!live) return;
+      live = false; searching = false; buffer = "";
+      mock.classList.remove("live");
+      clearHits();
+      typeEl.textContent = "wx";     // back to the scroll-animation end state
+    }
+
+    function hitApp(name, label){
+      clearHits();
+      const found = APPS.find(a => a.name === name);
+      if (found) found.el.classList.add("live-hit");
+      setHint(label);
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(()=>{
+        clearHits();
+        setHint(searching ? "回车执行 · Esc 退出" : "按字母直达 · 空格搜索 · Esc 退出");
+      }, 1600);
+    }
+
+    invite.addEventListener("click", (e)=>{ e.stopPropagation(); enter(); });
+    mock.addEventListener("click", ()=>{ if (live) mock.focus({preventScroll:true}); });
+    document.addEventListener("click", (e)=>{ if (live && !mock.contains(e.target)) exit(); });
+    mock.setAttribute("tabindex","-1");
+    mock.addEventListener("blur", ()=>{ if (live) setTimeout(()=>{ if (document.activeElement !== mock) exit(); }, 0); });
+
+    document.addEventListener("keydown", (e)=>{
+      if (!live) return;                       // never touch keys before opt-in
+      const k = (e.key || "").toLowerCase();
+
+      if (e.key === "Escape"){ e.preventDefault(); exit(); return; }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;   // leave browser shortcuts alone
+
+      if (e.key === " " || e.code === "Space"){
+        e.preventDefault();
+        if (!searching){ searching = true; buffer = ""; typeEl.textContent = ""; setHint("打字搜索 · 回车执行 · Esc 退出"); }
+        return;
+      }
+      if (searching){
+        if (e.key === "Enter"){
+          e.preventDefault();
+          const match = APPS.find(a => a.name.includes(buffer)) || APPS.find(a => KEYMAP[buffer[0]] === a.name);
+          searching = false;
+          if (match){ hitApp(match.name, "正在打开 " + match.name + "…"); typeEl.textContent = match.name; }
+          else setHint(buffer ? "没有匹配" : "什么都没输入");
+          return;
+        }
+        if (e.key === "Backspace"){ e.preventDefault(); buffer = buffer.slice(0,-1); typeEl.textContent = buffer; return; }
+        if (e.key.length === 1){ e.preventDefault(); buffer += e.key; typeEl.textContent = buffer; }
+        return;
+      }
+      const name = KEYMAP[k];
+      if (name){ e.preventDefault(); typeEl.textContent = k; hitApp(name, "正在打开 " + name + "…"); }
+      else if (/^[a-z]$/.test(k)){ e.preventDefault(); setHint(k.toUpperCase() + " 还没绑定"); }
+    });
+  })();
+
+
 const FORCE_STATIC = new URLSearchParams(location.search).has("static");
 if (FORCE_STATIC) document.documentElement.classList.add("shotmode");
 
@@ -543,8 +652,8 @@ mm.add({
 }, (ctx)=>{
   const { desktop, reduce } = ctx.conditions;
 
-  /* ============ REDUCE MOTION / 截图静态模式:全静态终态 ============ */
-  if (reduce || FORCE_STATIC){
+  /* ============ 全静态终态:reduce motion / 截图模式 / 后台开页 ============ */
+  function applyStaticEndState(){
     gsap.set("#keycap", {autoAlpha:0});
     gsap.set(["#step2","#step3"], {autoAlpha:0});
     document.getElementById("pmType").textContent = "wx";
@@ -555,6 +664,15 @@ mm.add({
     gsap.set(["#capOk","#capWarn"], {autoAlpha:0});
     document.querySelectorAll("[data-count]").forEach(el=> el.textContent = el.dataset.count);
     document.querySelectorAll(".tblock").forEach(el=>{ el.textContent = el.dataset.zh; el.classList.add("zh"); });
+    gsap.set(["#headline .ch", "#heroSub", "#heroPills .pill", "#heroCta", ".scroll-hint", "#heroShot", "#panelMock"],
+      {clearProps:"all"});
+  }
+
+  // 后台标签页(⌘点开链接、从收藏夹批量打开)里 rAF 被节流,GSAP 的 .from()
+  // 入场会一直卡在「不可见」起始态 —— 访客切过来看到的是一片黑。内容的可见性
+  // 绝不能由动画决定:开页即隐藏时直接落终态。(2026-07-19 实测复现)
+  if (reduce || FORCE_STATIC || document.visibilityState === "hidden"){
+    applyStaticEndState();
     return;
   }
 
@@ -579,6 +697,16 @@ mm.add({
     .from("#heroPills .pill", {y:18, autoAlpha:0, scale:.92, stagger:.07, duration:.45}, "-=.3")
     .from(["#heroCta",".scroll-hint"], {autoAlpha:0, y:12, duration:.5}, "-=.15")
     .from("#heroShot", {autoAlpha:0, y:40, scale:.97, duration:.9, ease:"power3.out"}, "-=.4");
+
+  // 保险丝:动画只该是增强。任何原因(节流、被打断、GSAP 异常)导致 4s 后标题
+  // 仍不可见,就强制落终态,绝不把空白首屏留给访客。
+  setTimeout(()=>{
+    const stuck = [...document.querySelectorAll("#headline .ch")].some(c=>{
+      const cs = getComputedStyle(c);
+      return cs.visibility === "hidden" || cs.opacity === "0";
+    });
+    if (stuck) applyStaticEndState();
+  }, 4000);
 
   /* ============ 背景:glow 漂移 + 点阵鼠标视差 ============ */
   gsap.to(".glow.a", {x:80, y:60, duration:16, yoyo:true, repeat:-1, ease:"sine.inOut"});
