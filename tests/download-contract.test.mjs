@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
@@ -18,6 +18,10 @@ const [manifest, index, appcast, redirects, headers, notFound, changelog] = awai
 const current = manifest.current;
 const next = manifest.next;
 const releaseNotes = await read(`notes/Chock-${current.version}.html`);
+const noteNames = (await readdir(new URL("../notes/", import.meta.url)))
+  .filter((name) => /^Chock-\d+\.\d+\.\d+\.html$/.test(name));
+const allReleaseNotes = await Promise.all(noteNames.map((name) => read(`notes/${name}`)));
+const releaseNotesPolicy = await read("docs/public-release-notes-policy.md");
 
 test("current release metadata is consistent across published surfaces", async () => {
   assert.equal(current.status, "published");
@@ -64,16 +68,15 @@ test("current release metadata is consistent across published surfaces", async (
 
   for (const surface of [changelog, releaseNotes]) {
     assert.match(surface, /0\.5\.2/);
-    assert.match(surface, /新手引导|五步小向导/);
+    assert.match(surface, /新手引导/);
     assert.match(surface, /Fn/);
     assert.match(surface, /计算器/);
-    assert.match(surface, /只复制结果/);
+    assert.match(surface, /只复制结果|只复制.*结果/);
     assert.match(surface, /截图译文/);
     assert.match(surface, /关闭按钮/);
-    assert.match(surface, /官网说明区/);
+    assert.match(surface, /官网帮助页/);
     assert.match(surface, /系统声音/);
-    assert.match(surface, /麦克风/);
-    assert.match(surface, /0\.5\.1/);
+    assert.doesNotMatch(surface, /0\.5\.1/);
   }
 });
 
@@ -99,6 +102,33 @@ test("homepage first-run proof uses the current seven-step onboarding capture", 
   assert.equal(capture.readUInt32BE(16), 1120);
   assert.equal(capture.readUInt32BE(20), 1104);
   assert.ok((await stat(new URL("../settings-invocation@2x.png", import.meta.url))).isFile());
+});
+
+test("public release notes stay user-facing without hiding material risk", () => {
+  const publicSurfaces = [changelog, ...allReleaseNotes];
+  const internalDetails = [
+    /自动化测试/,
+    /未单独发布|未曾公开发布|完整并入/,
+    /竞态崩溃/,
+    /CPU 满载/,
+    /重建麦克风采集/
+  ];
+
+  for (const surface of publicSurfaces) {
+    for (const pattern of internalDetails) {
+      assert.doesNotMatch(surface, pattern);
+    }
+  }
+
+  const historicalWarning = allReleaseNotes[noteNames.indexOf("Chock-0.4.8.html")];
+  for (const surface of [changelog, historicalWarning]) {
+    assert.match(surface, /隐私提醒/);
+    assert.match(surface, /旧截图/);
+    assert.match(surface, /敏感信息/);
+  }
+
+  assert.match(releaseNotesPolicy, /数据丢失、错误修改或隐私泄露风险/);
+  assert.match(releaseNotesPolicy, /主站与大陆站使用同一份静态文件/);
 });
 
 test("base compatibility stays distinct from offline translation requirements", () => {

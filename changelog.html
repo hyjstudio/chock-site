@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 <meta name="robots" content="index,follow">
 <style>
-  :root{--bg:#0A0A0C;--text:#F5F5F7;--text-2:rgba(235,235,245,.62);--text-3:rgba(235,235,245,.38);--accent:#8583E8;--line:rgba(255,255,255,.08)}
+  :root{--bg:#0A0A0C;--text:#F5F5F7;--text-2:rgba(235,235,245,.62);--text-3:rgba(235,235,245,.38);--accent:#8583E8;--line:rgba(255,255,255,.08);--warning:#E8A05C}
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
   .wrap{max-width:720px;margin:0 auto;padding:64px 24px 96px}
@@ -17,201 +17,134 @@
   h1{font-size:34px;font-weight:700;margin:18px 0 6px}
   .sub{color:var(--text-3);font-size:13px;margin-bottom:44px}
   .rel{border-top:1px solid var(--line);padding:26px 0 10px}
-  .rel h2{font-size:17px;font-weight:600;margin-bottom:12px}
+  .rel h2{font-size:17px;font-weight:600;margin-bottom:10px}
   .rel h2::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:10px;vertical-align:2px}
+  .rel .feat{color:var(--text-2);font-size:15px;margin:2px 0 12px;line-height:1.7}
+  .rel .feat strong{color:var(--text);font-weight:650}
   .rel ul{list-style:none}
   .rel li{color:var(--text-2);font-size:14.5px;padding:4px 0 4px 18px;position:relative}
   .rel li::before{content:"·";position:absolute;left:4px;color:var(--text-3)}
   .rel li strong{color:var(--text);font-weight:600}
+  .rel li.warning{color:var(--warning)}
   .back{display:inline-block;margin-top:40px;color:var(--accent);text-decoration:none;font-size:14px}
-  .rel .feat{color:var(--text-2);font-size:15px;margin:2px 0 14px;line-height:1.7}
-  .rel .feat strong{color:var(--text);font-weight:650}
-  .rel h3{font-size:11px;font-weight:600;letter-spacing:1.6px;color:var(--text-3);margin:14px 0 4px;text-transform:uppercase}
-  .rel h3.fix{color:#E8A05C}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="brand"><a href="/">楔子</a><span>CHOCK</span></div>
   <h1>更新历史</h1>
-  <p class="sub">0.5.2 经 1065 项自动化测试与 Apple 公证 · <a href="/" style="color:var(--accent);text-decoration:none">返回首页 ↗</a></p>
+  <p class="sub">持续变得更顺手 · <a href="/" style="color:var(--accent);text-decoration:none">返回首页 ↗</a></p>
+
   <section class="rel"><h2>0.5.2 · 2026-07-22</h2>
-    <p class="feat"><strong>第一次打开先把入口调顺，之后每项设置各归其位。</strong>全新安装会经过五步小向导，直接选择唤起修饰键、截图偏好与权限；设置窗口同步整理为七个清晰分类。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>五步新手引导</strong>：欢迎、唤起方式、截图、权限、完成；可跳过权限，也可稍后从「设置 → 通用」重新打开</li>
-    <li><strong>完整鼠标计算器</strong>：数字、运算、小数点、正负号、百分比、退格和清空都能点击；键盘输入、单位换算、大写金额与 <code>ans</code> 连算照旧</li>
+    <p class="feat"><strong>第一次打开先把入口调顺，日常使用也更清楚。</strong></p>
+    <ul>
+      <li>新手引导可设置唤起方式、截图声音和必要权限，之后也能随时重新打开</li>
+      <li>设置重新分类；菜单栏与侧栏的「反馈与帮助」统一先到官网帮助页</li>
+      <li>计算器支持完整鼠标操作，历史单行显示；回车或等号只复制结果</li>
+      <li>截图译文可以直接选择复制，浅色背景上的关闭按钮也清晰可见</li>
+      <li>修正 Fn 听写与输入法冲突，并继续打磨录屏和系统声音体验</li>
     </ul>
-    <h3>改进</h3><ul>
-    <li>设置重新分类为通用、唤起、面板、截图与录屏、键位、模块、权限；侧栏与菜单栏的「反馈与帮助」统一先打开官网说明区，不再唤起邮件或直接跳进抖音</li>
-    <li>计算历史按「算式 = 答案」单行显示；按回车或等号只复制结果，算式纸仍可鼠标选取，也可一次复制全部</li>
-    <li>截图译文可以直接拖选并按 ⌘C 复制；浅色或复杂背景上的关闭按钮补上高对比底色、描边和阴影</li>
-    <li>录屏说明与真实能力一致：可录系统声音，麦克风默认关闭且只在主动开启时申请；离线翻译准确说明为「翻译内容不上传」</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li>修复 Fn 听写及输入法切换偶发触发楔子快捷键的问题；Control-空格与 Control-Option-空格始终保留给 macOS</li>
-    </ul>
-    <p class="feat"><strong>0.5.1 未单独发布，已完整并入 0.5.2。</strong>其中包括剪贴板入口合一、新用户默认键位重排、截图译文可复制、Fn 听写隔离与计算器鼠标键盘补全。</p>
   </section>
+
   <section class="rel"><h2>0.5.0 · 2026-07-20</h2>
-    <p class="feat"><strong>录屏能暂停、恢复，也能选择录进你的声音。</strong>输出使用真正的 MP4 容器；系统音与麦克风混成一条音轨，发到微信、飞书等常见接收端也能直接听见旁白。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>可选麦克风</strong>：录制前逐次决定，默认关闭；只有主动打开时才申请权限，拒绝后可直达系统设置或不用麦克风继续录制</li>
-    <li><strong>全链路键盘可达</strong>：剪贴板窗口、粘贴面板、截图标注、录屏和面板工具栏都补齐键盘操作</li>
-    <li><strong>和弦多选与连续粘贴</strong>：剪贴板历史支持 Command 和弦多选，图片等内容按顺序逐条自动粘贴</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>蓝牙耳机或 USB 声卡热插拔时会重建麦克风采集；失败则降级为无麦克风继续录制，不中断当前文件</li>
-    <li>0.4.9 未曾公开发布；从 0.4.8 更新会同时获得算式纸、Control 双击直达与导入键位先审后用</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li>修复停止录制时的竞态崩溃、菜单栏状态贴片可能令 CPU 满载、录制确认条遮住系统权限弹窗</li>
-    <li>轻点 fn 键不再误唤出面板</li>
+    <p class="feat"><strong>录屏和剪贴板工作流更完整。</strong></p>
+    <ul>
+      <li>录屏支持暂停与恢复，可选麦克风，系统声音与旁白可以一起保存</li>
+      <li>剪贴板、截图标注、录屏和面板工具栏补齐键盘操作</li>
+      <li>剪贴板历史支持多选和连续粘贴，外接音频设备切换也更稳</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.9 · 2026-07-16</h2>
-    <p class="feat"><strong>计算器变成一张真正好用的算式纸。</strong>计算过程可以直接用鼠标拖选复制，也可以一键复制全部；常用的 ＋、−、×、÷、＝ 放在手边，不熟键位也能直接开始。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>Control 双击直达</strong>：左、右 Control 可以分别配置，和 Command、Option、Shift 一样双击唤起应用或动作</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>刘海屏的菜单栏状态贴片支持完整、紧凑、图标三档宽度；新安装会在刘海屏上默认使用更稳妥的紧凑模式</li>
-    <li>算式纸的长结果自动换行，人民币大写金额等内容不再被截断；历史支持复制全部与清空</li>
-    <li>导入键位配置会统一检查动作、触发键与风险项，Shell 脚本等能力必须确认后才会注册</li>
+    <p class="feat"><strong>计算器成为一张可以直接操作的算式纸。</strong></p>
+    <ul>
+      <li>计算过程可选择、复制或一次复制全部，长结果会自动换行</li>
+      <li>左右 Control 支持分别设置双击直达动作</li>
+      <li>导入键位配置前会先检查动作与风险项</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.8 · 2026-07-15</h2>
-    <p class="feat"><strong>截图,现在选完区就能直接标注。</strong>框选之后,工具条就在选区上——矩形、椭圆、箭头、直线、画笔、文字、序号、高亮、马赛克随手用,画完按确认,拿到的就是成品,不再需要打开第二个窗口。马赛克遮住的内容,取字和翻译也同样看不到。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>计算器窗口</strong>:可绑键位,状态栏和面板底部都有入口;大字结果、算式回显、可点击复制的历史,ans 连算、单位换算、人民币大写金额都在</li>
-    <li><strong>剪贴板钉到屏幕</strong>:历史里右键任意条目——文字变成置顶浮动卡片,图片变成钉图;「显隐钉图」一键清场或召回全部</li>
-    <li><strong>粘贴面板可以钉住</strong>:点亮右上角图钉后,去目标应用点击定位光标面板也不收起,粘贴、点位、再粘贴一气呵成;Esc 收起</li>
-    <li><strong>标注新工具</strong>:椭圆、直线上架;矩形、椭圆、直线、箭头都可切换虚线描边</li>
-    <li><strong>Markdown 公式</strong>:行内 $E=mc^2$ 与块级 $$…$$ 都能写,预览和 HTML/PDF 导出全保留;在本机渲染,不联网</li>
-    <li><strong>Shell 脚本键位</strong>:右键键位可绑定你自己的 .sh/.command,静默或在终端执行;失败会弹出提示,绝不静默</li>
-    <li><strong>最近选区召回</strong>:截图时按 ⌘←/⌘→ 在最近 5 个选区之间切换,跨重启保留</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>到期卡片按分类显示图标(服务器、域名、流媒体、证件…),一眼可扫</li>
-    <li>马赛克落笔即显示真实像素化效果,所见即所得</li>
-    <li>键位格子可选显示动作名称(设置 → 唤出),默认保持安静网格</li>
-    <li>刘海机型上,截图和录屏的顶部提示条自动避开刘海</li>
-    <li>长时间运行更省内存:菜单栏刷新、剪贴板与截图管线均已瘦身</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li><strong>马赛克打码位置上下颠倒</strong>:此前打码会落在所画区域的垂直镜像处,导出同样错位——用马赛克遮过敏感信息的旧图,建议复查一遍</li>
+    <p class="feat"><strong>截图选完区域，就能直接标注。</strong></p>
+    <ul>
+      <li>截图工具条加入常用标注、马赛克和最近选区召回</li>
+      <li>新增计算器、剪贴板钉图与本机 Markdown 公式预览</li>
+      <li>完善脚本动作、刘海屏适配与长时间运行表现</li>
+      <li class="warning"><strong>隐私提醒：</strong>本版修正了马赛克位置上下颠倒的问题。如果旧截图曾用马赛克遮挡敏感信息，请重新检查原图</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.7 · 2026-07-15</h2>
-    <p class="feat"><strong>在搜索框里直接算数。</strong>输入 23*4.5+8、200+10%、200的10%,结果立刻出现,回车即复制;单位换算(10ft in m、5斤=克、128GB=MB)和人民币大写金额(12345.67 大写 → 壹万贰仟…)同样一句直达。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>计算与剪贴板联动</strong>:刚复制过数字,以运算符开头(如 *1.13)自动接着它算;ans 引用上一次结果连续计算</li>
-    <li><strong>键位网格直接起算</strong>:按未绑定的数字或运算符键,自动进入搜索框接着写算式</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>到期项目的添加和编辑搬进真正的表单窗口:回车保存、Esc 取消,日期用一组大号上下箭头调整</li>
-    <li>粘贴面板、剪贴板历史、到期追踪的空白页会告诉你下一步怎么做(如「⌘1–9 秒贴前九条」)</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li>搜索框为空时按数字键改为开始输入,不再直接运行第 N 项;有文字后按数字仍是快捷运行</li>
-    <li>方向键选中某一行后,回车永远执行该行,不会被计算结果抢走</li>
+    <p class="feat"><strong>在搜索框里直接计算、换算和转换大写金额。</strong></p>
+    <ul>
+      <li>支持接着剪贴板数字或上一次结果继续计算</li>
+      <li>到期项目使用独立表单，空白页面也会提示下一步</li>
+      <li>数字输入、方向键选择与回车执行不再互相抢占</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.6 · 2026-07-15</h2>
-    <p class="feat"><strong>新装机,全局快捷键开箱即用。</strong>Ctrl+A 截图、Ctrl+X 剪贴板历史、Ctrl+B 粘贴面板、Ctrl+I 截图取字、Ctrl+J 钉图显隐、Ctrl+M 标注,装完即全局生效;已有配置不受更新影响。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>到期提醒更趁手</strong>:点通知直达对应条目并高亮;提前量按条目自定义(当天/1天/3天/1周/1个月);单条订阅可静音;新增「半年」周期</li>
-    <li><strong>截图提示音开关</strong>进状态栏菜单,与防休眠、隐藏桌面并排</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>到期项目按订阅习惯添加:先选周期和开始日,到期日自动算出;日期两侧大号 ±1 天按钮</li>
-    <li>内存管理升级为内存 | CPU 双页签,按应用占用一目了然(口径同活动监视器)</li>
-    <li>Markdown 编辑器补全文件闭环:直接打开编辑器,新增「打开…」「另存为…」「最近文件」,标题栏挂原生文件图标</li>
-    <li>剪贴板历史容量 50 → 200,搜索长尾不再被截断</li>
-    <li>粘贴面板第一次打开会说明「点击条目即粘贴」,未授权时提供「去开启」直达系统设置</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li>慢按 Ctrl+X 时,字母不再漏进剪贴板历史的搜索框</li>
+    <p class="feat"><strong>新安装即可使用常用快捷动作。</strong></p>
+    <ul>
+      <li>到期提醒支持自定义提前量、静音和更多周期</li>
+      <li>Markdown 编辑器补齐打开、另存与最近文件</li>
+      <li>剪贴板历史容量提升，并改善首次使用提示</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.5 · 2026-07-14</h2>
-    <h3 class="fix">修复</h3><ul>
-    <li>全新安装后第一次截图,正常弹出系统「屏幕录制」授权请求(此前会静默失败);授权后需重新打开一次</li>
-    <li>较长的状态提示自动截断,不再把唤出面板撑到接近全屏宽</li>
-    <li>键位角标只在该键真正开启全局直达时显示</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>未能自动粘贴时,明确提示「已复制 · 按 ⌘V 粘贴」并注明原因</li>
-    <li>截图提示音可以关掉(设置 → 唤出)</li>
-    <li>应用与链接可以混合保存为同一组</li>
+    <p class="feat"><strong>权限提示、状态反馈与键位标识更可靠。</strong></p>
+    <ul>
+      <li>首次截图会正确请求系统权限，并说明授权后的操作</li>
+      <li>较长提示不再撑宽面板，无法自动粘贴时会给出明确下一步</li>
+      <li>截图声音可以关闭，应用与链接也能放进同一组</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.4 · 2026-07-13</h2>
-    <h3 class="fix">修复</h3><ul>
-    <li>Chrome、Finder 等应用的右键菜单可以完整截下来了:按下 Control 的瞬间画面先冻结,菜单不会提前消失</li>
-    <li>截图快捷键不再误唤出面板、抢走其他应用的焦点</li>
-    <li>箭头标注比例更稳:短箭头不再反向越过起点,长箭头头部更紧凑,预览与导出一致</li>
+    <p class="feat"><strong>右键菜单与临时界面也能稳定截取。</strong></p>
+    <ul>
+      <li>截图快捷键不再抢走其他应用焦点</li>
+      <li>箭头标注在不同长度下保持一致</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.3 · 2026-07-13</h2>
-    <h3>改进</h3><ul>
-    <li>从面板打开设置、剪贴板历史等窗口时,面板先收起再呈现,不再互相遮挡</li>
-    <li>截图使用按键瞬间冻结的画面,其他应用的临时菜单不会因焦点变化而消失</li>
-    <li>截图成功统一为一次系统音效,不再弹右下角缩略图</li>
-    <li>取色改为单像素采样,更快更轻</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li>多屏配置变化后,复用上次选区不再抓错屏幕;屏幕离线时明确提示失败</li>
-    <li>内存管理只退出你看到的那个应用实例,并保护 Finder、Dock 等系统进程</li>
-    <li>以及极小窗口边角采样、系统状态采样资源泄漏等修复</li>
+    <p class="feat"><strong>截图、多屏与工具窗口的衔接更自然。</strong></p>
+    <ul>
+      <li>打开独立窗口时面板会先收起，不再互相遮挡</li>
+      <li>多屏选区、内存管理与取色的稳定性得到改善</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.2 · 2026-07-13</h2>
-    <h3>改进</h3><ul>
-    <li>到期项目支持编辑;中文日期按「年—月—日」显示;循环订阅自动补排下一周期提醒</li>
-    <li>剪贴板图片处理移出关键交互路径,粘贴更跟手</li>
-    </ul>
-    <h3 class="fix">修复</h3><ul>
-    <li>Ctrl+A 截图先退出唤出面板,不再遮挡选区;Ctrl+X 打开剪贴板历史不再向输入法漏字母</li>
+    <p class="feat"><strong>到期提醒与剪贴板操作更顺手。</strong></p>
+    <ul>
+      <li>到期项目支持编辑，循环项目会自动续排提醒</li>
+      <li>改善截图和剪贴板快捷键与输入法的配合</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.1 · 2026-07-12</h2>
-    <p class="feat"><strong>首次安装只推荐 9 个高频键位。</strong>A 截图、X 剪贴板历史、B 粘贴面板、I 截图取字、M 标注……不再用低频动作和示例应用填满面板,留白的键位由你自己决定。</p>
-    <h3>改进</h3><ul>
-    <li>内置动作按用途分组挑选;窗口、全屏、延迟等截图变体统一收进截图主入口,旧键位继续可用</li>
-    <li>到期追踪支持从通知或邮件文本自动识别名称、日期、金额和周期;订阅历史与累计支出一页可见</li>
+    <p class="feat"><strong>首次安装只推荐常用入口，其余键位留给自己。</strong></p>
+    <ul>
+      <li>内置动作按用途整理，截图变体收进统一入口</li>
+      <li>到期追踪支持从通知或文本中提取常用信息</li>
     </ul>
   </section>
+
   <section class="rel"><h2>0.4.0 · 2026-07-12</h2>
-    <p class="feat"><strong>应用内一键更新来了。</strong>检测到新版本会弹窗提示,一键下载安装,绝不静默替换;可以关闭自动检查——关闭后应用不发出任何网络请求。</p>
+    <p class="feat"><strong>加入应用内更新。</strong>发现新版本时由你确认下载安装；自动检查可以关闭。</p>
   </section>
-  <section class="rel"><h2>0.3.5 · 2026-07-11</h2>
-    <h3>改进</h3><ul>
-    <li>首次启动直接看到面板,并一次性说明 ⌃ 轻点与菜单栏入口</li>
-    <li>Finder 右键「打开方式」可以选择楔子打开 Markdown 文件</li>
-    <li>AI 用量显示不再依赖键位绑定,模块开启即显示</li>
+
+  <section class="rel"><h2>0.3.x · 2026-07-11</h2>
+    <p class="feat"><strong>楔子的第一批核心能力成形。</strong></p>
+    <ul>
+      <li>加入离线翻译、窗口排布、系统开关与 Markdown 文件打开</li>
+      <li>完善双击修饰键、菜单栏入口和多屏截图翻译</li>
     </ul>
   </section>
-  <section class="rel"><h2>0.3.4 · 2026-07-11</h2>
-    <h3 class="fix">修复</h3><ul>
-    <li>多屏下截图翻译覆盖层定位不再偏移</li>
-    </ul>
-  </section>
-  <section class="rel"><h2>0.3.3 · 2026-07-11</h2>
-    <h3>新功能</h3><ul>
-    <li><strong>双击键总控板</strong>:⌘/⌥/⇧ 一页配全,左右侧可分设不同目标,可当场多选应用组成应用组</li>
-    <li><strong>开机自启动</strong>(系统登录项,可在系统设置中审计)</li>
-    </ul>
-    <h3>改进</h3><ul>
-    <li>状态栏图标左键唤面板、右键开菜单;面板内嵌防休眠与隐藏桌面开关,多处入口状态实时同步</li>
-    </ul>
-  </section>
-  <section class="rel"><h2>0.3.2 · 2026-07-11</h2>
-    <p class="feat"><strong>离线翻译全家桶。</strong>剪贴板一键互译、截图工具条「翻译」把译文直接盖回原文位置、双栏实时对照窗——全部使用系统离线引擎,零联网。</p>
-    <h3>新功能</h3><ul>
-    <li><strong>窗口排布</strong>:左半屏、右半屏、最大化、居中</li>
-    <li><strong>开关中心</strong>:菜单栏一键防休眠(屏幕+系统双保险)、隐藏桌面文件</li>
-    </ul>
-  </section>
+
   <a class="back" href="/">← getchock.com</a>
 </div>
 </body>
