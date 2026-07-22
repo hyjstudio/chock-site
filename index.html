@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>楔子 Chock — 装了就全了 · macOS 启动器 + 截图 + 剪贴板</title>
+<title>楔子 Chock — 本地优先的 Mac 行动入口</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-<meta name="description" content="键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。数据零上传、一次按键直达一切。已签名并通过 Apple 公证。">
+<meta name="description" content="轻点一个修饰键，打开应用、截图处理、找回剪贴板、计算、翻译和录屏。用户数据不上传，已签名并通过 Apple 公证。">
 <link rel="canonical" href="https://getchock.com/">
 <meta name="baidu-site-verification" content="codeva-U5Dyeuwe3g" />
 <meta name="baidu-site-verification" content="codeva-VwgjKKJnWf" />
 <meta property="og:type" content="website">
 <meta property="og:title" content="楔子 Chock — 装了就全了">
-<meta property="og:description" content="键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板。数据零上传、一次按键直达一切。">
+<meta property="og:description" content="轻点一个修饰键，打开应用、截图处理、找回剪贴板、计算、翻译和录屏。用户数据不上传。">
 <meta property="og:url" content="https://getchock.com/">
 <meta property="og:image" content="https://getchock.com/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,11 +25,11 @@
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
-  "softwareVersion": "0.5.0",
+  "softwareVersion": "0.5.2",
   "fileSize": "4.8MB",
-  "description": "键盘优先的 macOS 启动器 + 截图 + 离线翻译 + 剪贴板工具。数据零上传,已签名并通过 Apple 公证。",
+  "description": "本地优先的 Mac 行动入口：打开应用、截图处理、找回剪贴板、计算、翻译和录屏。用户数据不上传，已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.5.0.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.5.2.dmg"
 }
 </script>
 <style>
@@ -90,7 +90,7 @@
 
   /* ---------- Hero ---------- */
   .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
-    align-items:center;text-align:center;padding:120px 24px 80px;position:relative}
+    align-items:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
   .stage{position:relative;width:120px;height:150px;margin-bottom:8px}
   .wedge{width:84px;height:110px;position:absolute;left:50%;top:0;margin-left:-42px}
   .ring{position:absolute;left:50%;bottom:6px;width:120px;height:36px;border-radius:50%;
@@ -258,6 +258,19 @@
     background:rgba(255,255,255,.04);color:var(--text);position:relative;
     border:1px solid transparent;transition:border-color .3s}
   .tblock.zh{border-color:rgba(133,131,232,.4);background:rgba(133,131,232,.10)}
+  /* 真实产品补充：沿用现有卡片与 reveal 语言，不另起一套视觉系统。 */
+  .product-proof{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;margin-top:56px}
+  .product-proof-card{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);
+    background:rgba(255,255,255,.025)}
+  .product-proof-copy{padding:26px 26px 24px}
+  .product-proof-copy .eyebrow{font-size:12px;font-weight:600;letter-spacing:1.6px;
+    color:var(--accent)}
+  .product-proof-copy h3{font-size:clamp(22px,2.8vw,30px);line-height:1.28;margin-top:10px}
+  .product-proof-copy p{font-size:14px;color:var(--text-2);margin-top:10px;line-height:1.7}
+  .product-proof-media{aspect-ratio:4/3;border-top:1px solid var(--line);background:#1f1f1f;
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .product-proof-media img{display:block;width:100%;height:100%;object-fit:contain}
   /* 全家桶墙 */
   .tool-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
     gap:12px;margin-top:56px}
@@ -283,6 +296,7 @@
     .keycap{position:static;width:96px;height:96px;font-size:32px}
     .panel-mock{position:static}
     .stage{transform:scale(.86)}
+    .product-proof{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
     .scroll-hint::after{display:none}
@@ -322,17 +336,17 @@
       <div class="seam r" id="seamR"></div>
     </div>
     <h1 id="headline"><span class="hl">一次按键</span><span class="hl">直达一切</span></h1>
-    <p class="sub" id="heroSub">键盘优先的启动器、截图、翻译、剪贴板，<strong style="white-space:nowrap">装进同一个 App。</strong></p>
+    <p class="sub" id="heroSub">打开应用、截取并处理、找回并粘贴、计算、翻译和录屏，<strong style="white-space:nowrap">装进同一个 App。</strong></p>
     <div class="pills" id="heroPills">
       <span class="pill">数据零上传</span>
       <span class="pill">离线翻译 · macOS 15+</span>
       <span class="pill">已通过 Apple 公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.5.0 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.5.2 ↓</a>
     </div>
     <img class="hero-shot" id="heroShot" src="/panel-2x.png" width="1280" height="896"
-         alt="楔子唤出面板:键盘网格上九个推荐键位——截图、粘贴板、剪贴板历史、取字、钉图、标注">
+         alt="楔子唤出面板：键盘网格上显示截图、剪贴板历史、取字、钉图和标注等常用动作">
     <div class="scroll-hint">滚动</div>
   </section>
 
@@ -342,13 +356,13 @@
       <div class="key-copy">
         <div class="key-step" id="step1">
           <div class="k">第一步</div>
-          <h3>轻点一下 ⌃</h3>
-          <p>面板应声而出。一根手指就够,不用记组合键。</p>
+          <h3>轻点一下你选的键</h3>
+          <p>Control、Option、Command 或 Shift，第一次打开时自己选。</p>
         </div>
         <div class="key-step" id="step2">
           <div class="k">第二步</div>
-          <h3>打两个字母</h3>
-          <p>应用、网页、剪贴板历史都在这里,拼音也认。</p>
+          <h3>按字母，或开始搜索</h3>
+          <p>一个字母执行常用动作；输入名称、拼音或首字母寻找应用、网页和文件。</p>
         </div>
         <div class="key-step" id="step3">
           <div class="k">第三步</div>
@@ -389,14 +403,44 @@
   <!-- 翻译章 -->
   <section class="block" id="translatechapter">
     <h2 class="reveal">译文,出现在原文的位置。</h2>
-    <p class="lede reveal">框选屏幕上的外文,点「翻译」,译文逐块盖回原处。离线翻译由系统引擎在本机完成,应用全程不联网,需 macOS 15+。</p>
+    <p class="lede reveal">框选屏幕上的外文，点「翻译」，译文逐块盖回原处。离线翻译由系统引擎在本机完成，翻译内容不上传；需 macOS 15+。</p>
     <div class="shot-mock reveal" id="shotMock">
       <div class="sm-bar"><s></s><s></s><s></s></div>
       <div class="tblock" data-en="Ship your ideas, not your tabs." data-zh="交付你的想法,而不是你的标签页。"></div>
       <div class="tblock" data-en="One keystroke away from everything." data-zh="一次按键,直达一切。"></div>
-      <div class="tblock" data-en="Nothing ever leaves this Mac." data-zh="任何数据都不会离开这台电脑。"></div>
+      <div class="tblock" data-en="Translation stays on this Mac." data-zh="翻译内容只留在这台 Mac。"></div>
     </div>
-    <p class="zero-note reveal">剪贴板一键互译、双栏对照窗,也都可以。</p>
+    <p class="zero-note reveal">剪贴板一键互译、双栏对照窗、鼠标选取并复制译文，也都可以。</p>
+  </section>
+
+  <!-- 真实产品补充章：保留原官网结构，只补当前产品已经具备的体验。 -->
+  <section class="block" id="productproof">
+    <h2 class="reveal">从第一次打开，<br>到每天使用。</h2>
+    <p class="lede reveal">五步引导先把入口与权限讲清楚；进入日常之后，计算器、设置和每个动作都能用鼠标继续完成。</p>
+    <div class="product-proof">
+      <article class="product-proof-card reveal">
+        <div class="product-proof-copy">
+          <div class="eyebrow">用鼠标也完整</div>
+          <h3>计算不再藏在搜索框里。</h3>
+          <p>19 个按键、可选取的算式纸、单行复制、单位换算与 ans 连算。要快就直接输入，要看过程就打开窗口。</p>
+        </div>
+        <div class="product-proof-media">
+          <img src="/calculator-window@2x.png" width="1180" height="1064" loading="lazy" decoding="async"
+               alt="楔子计算器窗口：左侧是可选择复制的计算记录，右侧是完整鼠标按键区">
+        </div>
+      </article>
+      <article class="product-proof-card reveal">
+        <div class="product-proof-copy">
+          <div class="eyebrow">入口各归其位</div>
+          <h3>第一次打开，就把 Chock 调顺。</h3>
+          <p>五步向导完成唤起键、截图偏好与权限说明；之后在七页设置里随时调整，同时把 Fn 听写留给 macOS。</p>
+        </div>
+        <div class="product-proof-media">
+          <img src="/settings-invocation@2x.png" width="2000" height="1344" loading="lazy" decoding="async"
+               alt="楔子设置的唤起页面：左侧为七页分类侧栏，右侧可选择入口修饰键和唤起方式">
+        </div>
+      </article>
+    </div>
   </section>
 
   <!-- 数字章 -->
@@ -413,7 +457,7 @@
         <div class="cap">面板唤出</div>
       </div>
       <div class="stat reveal">
-        <div class="num"><span data-count="1018">0</span><em>项</em></div>
+        <div class="num"><span data-count="1065">0</span><em>项</em></div>
         <div class="cap">自动化测试,每次发布全绿</div>
       </div>
     </div>
@@ -449,26 +493,26 @@
   <!-- 全家桶章 -->
   <section class="block" id="allinone">
     <h2 class="reveal">装了就全了。</h2>
-    <p class="lede reveal">这些原本要分开安装的工具,现在是同一个 App 的一部分,离线也都能用。</p>
+    <p class="lede reveal">启动、截取、粘贴、计算、翻译、录制和提醒，都是同一个 App 里的动作；不用在一堆小工具之间来回切换。</p>
     <div class="tool-wall" id="toolWall">
-      <div class="tool-chip reveal"><b>启动器</b><span>两个字母直达</span></div>
+      <div class="tool-chip reveal"><b>启动器</b><span>按字母直达,空格搜索</span></div>
       <div class="tool-chip reveal"><b>截图标注</b><span>选区上直接画,九种工具</span></div>
       <div class="tool-chip reveal"><b>钉图钉文字</b><span>截图和文字钉在最上层</span></div>
       <div class="tool-chip reveal"><b>OCR 取字</b><span>截图变可复制文字</span></div>
-      <div class="tool-chip reveal"><b>离线翻译</b><span>译文盖回原位,macOS 15+</span></div>
-      <div class="tool-chip reveal"><b>屏幕录制</b><span>全屏或区域</span></div>
+      <div class="tool-chip reveal"><b>离线翻译</b><span>原位、双栏与剪贴板,macOS 15+</span></div>
+      <div class="tool-chip reveal"><b>屏幕录制</b><span>全屏或区域,系统声与可选麦克风</span></div>
       <div class="tool-chip reveal"><b>取色</b><span>屏幕任意像素拾色</span></div>
-      <div class="tool-chip reveal"><b>算式纸</b><span>过程可选可复制,鼠标也能算</span></div>
-      <div class="tool-chip reveal"><b>剪贴板历史</b><span>复制过的都找得回</span></div>
-      <div class="tool-chip reveal"><b>连续粘贴</b><span>面板钉住,连贴不断</span></div>
+      <div class="tool-chip reveal"><b>计算器</b><span>算式纸、单位换算、大写金额</span></div>
+      <div class="tool-chip reveal"><b>剪贴板历史</b><span>搜索、预览、固定、连续粘贴</span></div>
+      <div class="tool-chip reveal"><b>二维码识别</b><span>从屏幕图片读取内容</span></div>
       <div class="tool-chip reveal"><b>窗口排布</b><span>左右半屏、居中</span></div>
-      <div class="tool-chip reveal"><b>双击键直达</b><span>⌘⌘ 或 ⌃⌃ 唤起任意应用</span></div>
-      <div class="tool-chip reveal"><b>到期追踪</b><span>订阅续费提前提醒</span></div>
-      <div class="tool-chip reveal"><b>资源管理</b><span>内存与 CPU 排行,安全退出</span></div>
+      <div class="tool-chip reveal"><b>双击修饰键</b><span>⌘⌘、⌃⌃ 等动作都能绑定</span></div>
+      <div class="tool-chip reveal"><b>到期追踪</b><span>周期续费、分级提醒、年支出</span></div>
+      <div class="tool-chip reveal"><b>资源与状态</b><span>CPU、内存、GPU、网络与安全退出</span></div>
       <div class="tool-chip reveal"><b>农历日历</b><span>节气与节日</span></div>
       <div class="tool-chip reveal"><b>Markdown</b><span>预览导出,支持公式</span></div>
       <div class="tool-chip reveal"><b>防休眠</b><span>屏幕保持常亮</span></div>
-      <div class="tool-chip reveal"><b>单位换算</b><span>斤两亩、GB、°F 互转</span></div>
+      <div class="tool-chip reveal"><b>文字处理</b><span>清理、脱敏、大小写与 JSON</span></div>
       <div class="tool-chip reveal"><b>桌面清场</b><span>一键隐藏桌面杂物</span></div>
       <div class="tool-chip reveal"><b>Shell 脚本</b><span>自己的脚本绑上键位</span></div>
       <div class="tool-chip tool-more reveal"><b>更多功能</b><span>陆续增加中</span></div>
@@ -478,13 +522,13 @@
   <!-- 下载章 -->
   <section class="block dl" id="download">
     <h2 class="reveal">把它装进你的 Mac。</h2>
-    <p class="lede reveal">打开安装包,拖进「应用程序」,轻点 ⌃ 就可以开始。</p>
+    <p class="lede reveal">打开安装包，拖进「应用程序」，跟着五步引导选好自己的入口键就可以开始。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.0.dmg">下载 Chock 0.5.0</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.2.dmg">下载 Chock 0.5.2</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.8 MB · Build 376 · 离线翻译需 macOS 15+<br>
+      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.8 MB · Build 397 · 离线翻译需 macOS 15+<br>
       中国大陆访问较慢时,请用 <a href="https://cn.getchock.com" style="color:var(--accent)">cn.getchock.com</a>
     </p>
   </section>
@@ -504,7 +548,7 @@
 
 <footer>
   <div class="foot-brand"><span class="zh">楔子</span><span class="en">CHOCK</span></div>
-  © 2026 楔子 Chock · 本站与应用均不收集任何数据 · <a href="/changelog" style="color:var(--text-2)">更新历史</a>
+  © 2026 楔子 Chock · 本站不使用统计工具，应用不上传用户数据 · <a href="/changelog" style="color:var(--text-2)">更新历史</a>
 </footer>
 
 <script src="vendor/gsap.min.js"></script>
@@ -528,7 +572,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.5.0.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.5.2.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){
@@ -849,7 +893,7 @@ mm.add({
 /* ---------- 截图自查钩子(?jump=N 跳到第 N 章) ---------- */
 const jump = new URLSearchParams(location.search).get("jump");
 if (jump !== null){
-  const targets = ["#top","#keychapter","#translatechapter","#numbers","#zeronet","#actionlang","#allinone","#download","#douyin"];
+  const targets = ["#top","#keychapter","#translatechapter","#productproof","#numbers","#zeronet","#actionlang","#allinone","#download","#douyin"];
   setTimeout(()=>{
     const el = document.querySelector(targets[+jump] || "#top");
     if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);

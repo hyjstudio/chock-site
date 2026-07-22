@@ -40,10 +40,16 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
+  assert.match(releaseNotesHTML, /新手引导/);
+  assert.match(releaseNotesHTML, /Fn/);
+  assert.match(releaseNotesHTML, /计算器/);
+  assert.match(releaseNotesHTML, /只复制结果/);
+  assert.match(releaseNotesHTML, /截图译文/);
+  assert.match(releaseNotesHTML, /关闭按钮/);
+  assert.match(releaseNotesHTML, /官网说明区/);
+  assert.match(releaseNotesHTML, /系统声音/);
   assert.match(releaseNotesHTML, /麦克风/);
-  assert.match(releaseNotesHTML, /暂停/);
-  assert.match(releaseNotesHTML, /键盘/);
-  assert.match(releaseNotesHTML, /0\.4\.9/);
+  assert.match(releaseNotesHTML, /0\.5\.1/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -83,6 +89,7 @@ try {
   for (const path of [
     "/dl/does-not-exist.dmg",
     "/dl/Chock-0.5.1.dmg",
+    "/dl/Chock-0.5.3.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {
