@@ -27,12 +27,12 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(current.status, "published");
   assert.equal(current.version, "0.5.3");
   assert.equal(current.releaseDate, "2026-07-23");
-  assert.equal(current.sparkleVersion, 413);
-  assert.equal(current.dmg.size, 4703094);
-  assert.equal(current.dmg.sha256, "30251b8e2e0dd218a7bc3a127d47ddc261ab5b2d41bcbf8799e49497ea32043e");
-  assert.equal(current.zip.size, 4289752);
-  assert.equal(current.zip.sha256, "15c8ddb7840285ec9a5cf1795bd58f383aa93839f7c94a45df55ca8764cbe13e");
-  assert.equal(current.zip.sparkleEdSignature, "M+Jx36I/OUVOtOLrdwXwb5uCzSa6+evTNgGjVJN5AXP/QlWrSVzK4gw6bPx0VhIa8UU362prBgxYPR+AM7TwAQ==");
+  assert.equal(current.sparkleVersion, 415);
+  assert.equal(current.dmg.size, 4704859);
+  assert.equal(current.dmg.sha256, "8283567cdec4cc0642fec86bce3aeffd6844b1cc3d284e7648f72a6fa7445150");
+  assert.equal(current.zip.size, 4293192);
+  assert.equal(current.zip.sha256, "92dc29ca694f1c97e4ce6cc5dbf641971ace72cd6c3d25a5d51958d091455875");
+  assert.equal(current.zip.sparkleEdSignature, "3pz1ERgb+OzulwTD6PkjY3ZcUjsMaO6rxHXuRh+XVRuw76UZyg68/WtQTRoWzgK7a67U3lkEtf5azh6gKJoZCg==");
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
@@ -44,7 +44,7 @@ test("current release metadata is consistent across published surfaces", async (
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`下载 Chock ${escapeRegExp(current.version)}`));
-  assert.match(extractSection("download"), /Build 413/);
+  assert.match(extractSection("download"), /Build 415/);
 
   const firstItem = appcast.match(/<item>([\s\S]*?)<\/item>/)?.[1];
   assert.ok(firstItem, "appcast.xml must contain a current item");
