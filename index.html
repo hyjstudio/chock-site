@@ -597,6 +597,27 @@ ScrollTrigger.create({
 
 const mm = gsap.matchMedia();
 
+/* ---------- reveal 可见性策略 ---------- */
+const douyinCard = document.querySelector("#douyin .douyin-card");
+
+function shouldAnimateReveal(el){
+  return el.dataset.revealImmediate !== "true";
+}
+
+function showDouyinCardImmediately(){
+  if (location.hash !== "#douyin" || !douyinCard) return;
+
+  douyinCard.dataset.revealImmediate = "true";
+  gsap.killTweensOf(douyinCard);
+  douyinCard.style.opacity = "1";
+  douyinCard.style.visibility = "visible";
+  douyinCard.style.transform = "none";
+}
+
+showDouyinCardImmediately();
+window.addEventListener("hashchange", showDouyinCardImmediately);
+/* ---------- reveal 可见性策略结束 ---------- */
+
 /* Interaction must never live inside an animation branch: the static/reduced
    path returns early, so anything defined in there simply never exists for
    those visitors — the same class of mistake as gating content visibility on
@@ -807,9 +828,14 @@ mm.add({
   /* ============ 通用 reveal ============ */
   ScrollTrigger.batch(".reveal", {
     start:"top 86%", once:true,
-    onEnter: (els)=> gsap.fromTo(els,
-      {autoAlpha:0, y:44},
-      {autoAlpha:1, y:0, duration:.9, ease:"power3.out", stagger:.1})
+    onEnter: (els)=>{
+      const animatedEls = els.filter(shouldAnimateReveal);
+      if (animatedEls.length){
+        gsap.fromTo(animatedEls,
+          {autoAlpha:0, y:44},
+          {autoAlpha:1, y:0, duration:.9, ease:"power3.out", stagger:.1});
+      }
+    }
   });
 
   /* ============ 数字 count-up + 对比条 ============ */
