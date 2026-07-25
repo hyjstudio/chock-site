@@ -40,7 +40,6 @@ test("current release metadata is consistent across published surfaces", async (
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`下载 Chock ${escapeRegExp(current.version)}`));
-  assert.match(index, /data-count="1065"/);
   assert.match(extractSection("download"), /Build 397/);
 
   const firstItem = appcast.match(/<item>([\s\S]*?)<\/item>/)?.[1];
@@ -76,6 +75,30 @@ test("current release metadata is consistent across published surfaces", async (
     assert.match(surface, /麦克风/);
     assert.match(surface, /0\.5\.1/);
   }
+});
+
+test("homepage stats keep two centered user-facing cards", () => {
+  const numbers = extractSection("numbers");
+
+  assert.equal((numbers.match(/class="stat reveal"/g) ?? []).length, 2);
+  assert.doesNotMatch(numbers, /data-count="1065"|自动化测试/);
+  assert.match(index, /\.stats\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);max-width:720px;/);
+  assert.match(index, /\.stats\{grid-template-columns:1fr;max-width:540px\}/);
+});
+
+test("homepage first-run proof uses the current seven-step onboarding capture", async () => {
+  const proof = extractSection("productproof");
+
+  assert.match(proof, /七步引导/);
+  assert.match(proof, /src="\/onboarding-invocation@2x\.png" width="1120" height="1104"/);
+  assert.match(proof, /alt="楔子七步新手引导的第 2 步：/);
+  assert.doesNotMatch(proof, /settings-invocation@2x\.png|五步/);
+  assert.doesNotMatch(index, /五步/);
+
+  const capture = await readFile(new URL("../onboarding-invocation@2x.png", import.meta.url));
+  assert.equal(capture.readUInt32BE(16), 1120);
+  assert.equal(capture.readUInt32BE(20), 1104);
+  assert.ok((await stat(new URL("../settings-invocation@2x.png", import.meta.url))).isFile());
 });
 
 test("base compatibility stays distinct from offline translation requirements", () => {

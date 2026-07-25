@@ -188,7 +188,8 @@
   .lede{color:var(--text-2);text-align:center;max-width:600px;margin:18px auto 0;font-size:17px}
 
   /* 数字章 */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:64px}
+  .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:720px;
+    gap:16px;margin:64px auto 0}
   .stat{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:var(--radius);
     padding:30px 26px}
   .stat .num{font-size:clamp(40px,5vw,56px);font-weight:700;letter-spacing:-.01em;
@@ -268,7 +269,7 @@
     color:var(--accent)}
   .product-proof-copy h3{font-size:clamp(22px,2.8vw,30px);line-height:1.28;margin-top:10px}
   .product-proof-copy p{font-size:14px;color:var(--text-2);margin-top:10px;line-height:1.7}
-  .product-proof-media{aspect-ratio:4/3;border-top:1px solid var(--line);background:#1f1f1f;
+  .product-proof-media{aspect-ratio:1120/1104;border-top:1px solid var(--line);background:#1f1f1f;
     display:flex;align-items:center;justify-content:center;overflow:hidden}
   .product-proof-media img{display:block;width:100%;height:100%;object-fit:contain}
   /* 全家桶墙 */
@@ -296,6 +297,7 @@
     .keycap{position:static;width:96px;height:96px;font-size:32px}
     .panel-mock{position:static}
     .stage{transform:scale(.86)}
+    .stats{grid-template-columns:1fr;max-width:540px}
     .product-proof{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
@@ -416,17 +418,17 @@
   <!-- 真实产品补充章：保留原官网结构，只补当前产品已经具备的体验。 -->
   <section class="block" id="productproof">
     <h2 class="reveal">从第一次打开，<br>到每天使用。</h2>
-    <p class="lede reveal">五步引导先把入口与权限讲清楚；进入日常之后，设置和每个动作都能用鼠标继续完成。</p>
+    <p class="lede reveal">七步引导先把入口、键位、截图、菜单栏状态与权限讲清楚；进入日常之后，设置和每个动作都能用鼠标继续完成。</p>
     <div class="product-proof">
       <article class="product-proof-card reveal">
         <div class="product-proof-copy">
           <div class="eyebrow">入口各归其位</div>
           <h3>第一次打开，就把 Chock 调顺。</h3>
-          <p>五步向导完成唤起键、截图偏好与权限说明；之后在七页设置里随时调整，同时把 Fn 听写留给 macOS。</p>
+          <p>七步向导完成唤起键、直达键位、截图偏好、菜单栏状态与权限说明；之后在七页设置里随时调整，同时把 Fn 听写留给 macOS。</p>
         </div>
         <div class="product-proof-media">
-          <img src="/settings-invocation@2x.png" width="2000" height="1344" loading="lazy" decoding="async"
-               alt="楔子设置的唤起页面：左侧为七页分类侧栏，右侧可选择入口修饰键和唤起方式">
+          <img src="/onboarding-invocation@2x.png" width="1120" height="1104" loading="lazy" decoding="async"
+               alt="楔子七步新手引导的第 2 步：选择 Control 等直达入口键、轻点唤起与 Command-Space 搜索">
         </div>
       </article>
     </div>
@@ -444,10 +446,6 @@
       <div class="stat reveal">
         <div class="num">&lt;0.1<em>秒</em></div>
         <div class="cap">面板唤出</div>
-      </div>
-      <div class="stat reveal">
-        <div class="num"><span data-count="1065">0</span><em>项</em></div>
-        <div class="cap">自动化测试,每次发布全绿</div>
       </div>
     </div>
   </section>
@@ -508,7 +506,7 @@
   <!-- 下载章 -->
   <section class="block dl" id="download">
     <h2 class="reveal">把它装进你的 Mac。</h2>
-    <p class="lede reveal">打开安装包，拖进「应用程序」，跟着五步引导选好自己的入口键就可以开始。</p>
+    <p class="lede reveal">打开安装包，拖进「应用程序」，跟着七步引导选好自己的入口键就可以开始。</p>
     <div class="btn-wrap" id="magnet">
       <a class="btn" id="dlBtn" href="/dl/Chock-0.5.2.dmg">下载 Chock 0.5.2</a>
     </div>
