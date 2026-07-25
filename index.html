@@ -259,8 +259,8 @@
     border:1px solid transparent;transition:border-color .3s}
   .tblock.zh{border-color:rgba(133,131,232,.4);background:rgba(133,131,232,.10)}
   /* 真实产品补充：沿用现有卡片与 reveal 语言，不另起一套视觉系统。 */
-  .product-proof{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:18px;margin-top:56px}
+  .product-proof{display:grid;grid-template-columns:minmax(0,720px);
+    justify-content:center;gap:18px;margin-top:56px}
   .product-proof-card{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);
     background:rgba(255,255,255,.025)}
   .product-proof-copy{padding:26px 26px 24px}
@@ -416,19 +416,8 @@
   <!-- 真实产品补充章：保留原官网结构，只补当前产品已经具备的体验。 -->
   <section class="block" id="productproof">
     <h2 class="reveal">从第一次打开，<br>到每天使用。</h2>
-    <p class="lede reveal">五步引导先把入口与权限讲清楚；进入日常之后，计算器、设置和每个动作都能用鼠标继续完成。</p>
+    <p class="lede reveal">五步引导先把入口与权限讲清楚；进入日常之后，设置和每个动作都能用鼠标继续完成。</p>
     <div class="product-proof">
-      <article class="product-proof-card reveal">
-        <div class="product-proof-copy">
-          <div class="eyebrow">用鼠标也完整</div>
-          <h3>计算不再藏在搜索框里。</h3>
-          <p>19 个按键、可选取的算式纸、单行复制、单位换算与 ans 连算。要快就直接输入，要看过程就打开窗口。</p>
-        </div>
-        <div class="product-proof-media">
-          <img src="/calculator-window@2x.png" width="1180" height="1064" loading="lazy" decoding="async"
-               alt="楔子计算器窗口：左侧是可选择复制的计算记录，右侧是完整鼠标按键区">
-        </div>
-      </article>
       <article class="product-proof-card reveal">
         <div class="product-proof-copy">
           <div class="eyebrow">入口各归其位</div>
@@ -504,15 +493,12 @@
       <div class="tool-chip reveal"><b>取色</b><span>屏幕任意像素拾色</span></div>
       <div class="tool-chip reveal"><b>计算器</b><span>算式纸、单位换算、大写金额</span></div>
       <div class="tool-chip reveal"><b>剪贴板历史</b><span>搜索、预览、固定、连续粘贴</span></div>
-      <div class="tool-chip reveal"><b>二维码识别</b><span>从屏幕图片读取内容</span></div>
-      <div class="tool-chip reveal"><b>窗口排布</b><span>左右半屏、居中</span></div>
       <div class="tool-chip reveal"><b>双击修饰键</b><span>⌘⌘、⌃⌃ 等动作都能绑定</span></div>
       <div class="tool-chip reveal"><b>到期追踪</b><span>周期续费、分级提醒、年支出</span></div>
       <div class="tool-chip reveal"><b>资源与状态</b><span>CPU、内存、GPU、网络与安全退出</span></div>
       <div class="tool-chip reveal"><b>农历日历</b><span>节气与节日</span></div>
       <div class="tool-chip reveal"><b>Markdown</b><span>预览导出,支持公式</span></div>
       <div class="tool-chip reveal"><b>防休眠</b><span>屏幕保持常亮</span></div>
-      <div class="tool-chip reveal"><b>文字处理</b><span>清理、脱敏、大小写与 JSON</span></div>
       <div class="tool-chip reveal"><b>桌面清场</b><span>一键隐藏桌面杂物</span></div>
       <div class="tool-chip reveal"><b>Shell 脚本</b><span>自己的脚本绑上键位</span></div>
       <div class="tool-chip tool-more reveal"><b>更多功能</b><span>陆续增加中</span></div>
