@@ -87,6 +87,11 @@ test("homepage stats keep two centered user-facing cards", () => {
   assert.match(index, /\.stats\{grid-template-columns:1fr;max-width:540px\}/);
 });
 
+test("homepage sends mainland visitors to the Shanghai site", () => {
+  assert.match(index, /href="https:\/\/getchock\.cn"[^>]*>getchock\.cn<\/a>/);
+  assert.doesNotMatch(index, /cn\.getchock\.com/);
+});
+
 test("homepage first-run proof uses the current seven-step onboarding capture", async () => {
   const proof = extractSection("productproof");
 
