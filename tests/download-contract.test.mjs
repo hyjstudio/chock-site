@@ -5,14 +5,15 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-const [manifest, index, appcast, redirects, headers, notFound, changelog] = await Promise.all([
+const [manifest, index, appcast, redirects, headers, notFound, changelog, sitemap] = await Promise.all([
   read("release-manifest.json").then(JSON.parse),
   read("index.html"),
   read("appcast.xml"),
   read("_redirects"),
   read("_headers"),
   read("404.html"),
-  read("changelog.html")
+  read("changelog.html"),
+  read("sitemap.xml")
 ]);
 
 const current = manifest.current;
@@ -25,14 +26,14 @@ const releaseNotesPolicy = await read("docs/public-release-notes-policy.md");
 
 test("current release metadata is consistent across published surfaces", async () => {
   assert.equal(current.status, "published");
-  assert.equal(current.version, "0.5.3");
-  assert.equal(current.releaseDate, "2026-07-23");
-  assert.equal(current.sparkleVersion, 415);
-  assert.equal(current.dmg.size, 4704859);
-  assert.equal(current.dmg.sha256, "8283567cdec4cc0642fec86bce3aeffd6844b1cc3d284e7648f72a6fa7445150");
-  assert.equal(current.zip.size, 4293192);
-  assert.equal(current.zip.sha256, "92dc29ca694f1c97e4ce6cc5dbf641971ace72cd6c3d25a5d51958d091455875");
-  assert.equal(current.zip.sparkleEdSignature, "3pz1ERgb+OzulwTD6PkjY3ZcUjsMaO6rxHXuRh+XVRuw76UZyg68/WtQTRoWzgK7a67U3lkEtf5azh6gKJoZCg==");
+  assert.equal(current.version, "0.5.4");
+  assert.equal(current.releaseDate, "2026-07-27");
+  assert.equal(current.sparkleVersion, 447);
+  assert.equal(current.dmg.size, 4844597);
+  assert.equal(current.dmg.sha256, "f45983b89bff8b3b5ba4bc043ae872cd66b5bd66df2915b5d17cc56f3cc02f81");
+  assert.equal(current.zip.size, 4420904);
+  assert.equal(current.zip.sha256, "c4bfabf921b5642ff96414102f535e9d04fffb4c51d67fcee0f7e6a61128d7c9");
+  assert.equal(current.zip.sparkleEdSignature, "3SEP7Qig+KZ/nxGAlcDVN7Pl8ZF7a3vEpCrCPRactmdkyBFOl/wGIA+88qDqVYqjWhuaHKaJ7sB9+O3cwq2vDQ==");
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
@@ -41,10 +42,11 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(jsonLd.softwareVersion, current.version);
   assert.equal(jsonLd.downloadUrl, `https://getchock.com${current.dmg.path}`);
   assert.equal(jsonLd.fileSize, current.displaySize.replace(" ", ""));
+  assert.equal("offers" in jsonLd, false, "paid activation must not be described as a free offer");
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`下载 Chock ${escapeRegExp(current.version)}`));
-  assert.match(extractSection("download"), /Build 415/);
+  assert.match(extractSection("download"), new RegExp(`Build ${current.sparkleVersion}`));
 
   const firstItem = appcast.match(/<item>([\s\S]*?)<\/item>/)?.[1];
   assert.ok(firstItem, "appcast.xml must contain a current item");
@@ -58,6 +60,7 @@ test("current release metadata is consistent across published surfaces", async (
   assert.match(firstItem, /<sparkle:hardwareRequirements>arm64<\/sparkle:hardwareRequirements>/);
   assert.match(firstItem, new RegExp(`<sparkle:releaseNotesLink>https://getchock.com${escapeRegExp(current.releaseNotesPath)}</sparkle:releaseNotesLink>`));
   assert.match(appcast, /<channel>\s*<title>Chock<\/title>/);
+  assert.match(sitemap, new RegExp(`<lastmod>${escapeRegExp(current.releaseDate)}</lastmod>`));
 
   const dmgURL = new URL(`../.${current.dmg.path}`, import.meta.url);
   const zipURL = new URL(`../.${current.zip.path}`, import.meta.url);
@@ -67,14 +70,17 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
   for (const surface of [changelog, releaseNotes]) {
-    assert.match(surface, /0\.5\.3/);
-    assert.match(surface, /不透明背景/);
-    assert.match(surface, /菜单栏快捷动作/);
-    assert.match(surface, /登录启动/);
-    assert.match(surface, /系统快捷键/);
-    assert.match(surface, /Markdown 公式/);
-    assert.match(surface, /本机渲染/);
-    assert.match(surface, /到期提醒/);
+    assert.match(surface, /0\.5\.4/);
+    assert.match(surface, /购买/);
+    assert.match(surface, /激活 Chock/);
+    assert.match(surface, /服务端的异步确认结果/);
+    assert.match(surface, /返回 Chock/);
+    assert.match(surface, /复制激活码/);
+    assert.match(surface, /本机验签/);
+    assert.match(surface, /连续双波形/);
+    assert.match(surface, /截图标注颜色/);
+    assert.match(surface, /支付返回/);
+    assert.match(surface, /外部页面唤起/);
   }
 });
 
@@ -175,7 +181,7 @@ test("legacy aliases redirect only to the current immutable assets", () => {
 test("only known release assets receive binary response headers", async () => {
   assert.doesNotMatch(headers, /^\/dl\/\*/m, "wildcard download headers would mislabel 404 responses");
 
-  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0", "0.5.2", "0.5.3"].flatMap((version) => [
+  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0", "0.5.2", "0.5.3", "0.5.4"].flatMap((version) => [
     stat(new URL(`../dl/Chock-${version}.dmg`, import.meta.url)).then(() => `/dl/Chock-${version}.dmg`),
     stat(new URL(`../dl/Chock-${version}.zip`, import.meta.url)).then(() => `/dl/Chock-${version}.zip`)
   ])));
@@ -189,8 +195,8 @@ test("only known release assets receive binary response headers", async () => {
   assert.match(notFound, /明确返回 404/);
 });
 
-test("0.5.4 remains an empty unpublished draft", () => {
-  assert.equal(next.version, "0.5.4");
+test("0.5.5 remains an empty unpublished draft", () => {
+  assert.equal(next.version, "0.5.5");
   assert.equal(next.status, "draft");
 
   for (const value of [
@@ -210,7 +216,7 @@ test("0.5.4 remains an empty unpublished draft", () => {
   }
 
   for (const surface of [index, appcast, redirects, headers, changelog]) {
-    assert.doesNotMatch(surface, /0\.5\.4/);
+    assert.doesNotMatch(surface, /0\.5\.5/);
   }
 });
 

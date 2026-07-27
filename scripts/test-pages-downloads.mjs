@@ -40,13 +40,16 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /不透明背景/);
-  assert.match(releaseNotesHTML, /菜单栏快捷动作/);
-  assert.match(releaseNotesHTML, /登录启动/);
-  assert.match(releaseNotesHTML, /系统快捷键/);
-  assert.match(releaseNotesHTML, /Markdown 公式/);
-  assert.match(releaseNotesHTML, /本机渲染/);
-  assert.match(releaseNotesHTML, /到期提醒/);
+  assert.match(releaseNotesHTML, /购买/);
+  assert.match(releaseNotesHTML, /激活 Chock/);
+  assert.match(releaseNotesHTML, /服务端的异步确认结果/);
+  assert.match(releaseNotesHTML, /返回 Chock/);
+  assert.match(releaseNotesHTML, /复制激活码/);
+  assert.match(releaseNotesHTML, /本机验签/);
+  assert.match(releaseNotesHTML, /连续双波形/);
+  assert.match(releaseNotesHTML, /截图标注颜色/);
+  assert.match(releaseNotesHTML, /支付返回/);
+  assert.match(releaseNotesHTML, /外部页面唤起/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -80,7 +83,9 @@ try {
     "/dl/Chock-0.5.0.dmg",
     "/dl/Chock-0.5.0.zip",
     "/dl/Chock-0.5.2.dmg",
-    "/dl/Chock-0.5.2.zip"
+    "/dl/Chock-0.5.2.zip",
+    "/dl/Chock-0.5.3.dmg",
+    "/dl/Chock-0.5.3.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
@@ -88,7 +93,7 @@ try {
   for (const path of [
     "/dl/does-not-exist.dmg",
     "/dl/Chock-0.5.1.dmg",
-    "/dl/Chock-0.5.4.dmg",
+    "/dl/Chock-0.5.5.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {

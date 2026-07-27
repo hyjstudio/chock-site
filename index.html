@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>楔子 Chock — 本地优先的 Mac 行动入口</title>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-<meta name="description" content="轻点一个修饰键，打开应用、截图处理、找回剪贴板、计算、翻译和录屏。用户数据不上传，已签名并通过 Apple 公证。">
+<meta name="description" content="轻点一个修饰键，打开应用、截图处理、找回剪贴板、计算、翻译和录屏。剪贴板、截图与按键内容不上传，已签名并通过 Apple 公证。">
 <link rel="canonical" href="https://getchock.com/">
 <meta name="baidu-site-verification" content="codeva-U5Dyeuwe3g" />
 <meta name="baidu-site-verification" content="codeva-VwgjKKJnWf" />
 <meta property="og:type" content="website">
 <meta property="og:title" content="楔子 Chock — 装了就全了">
-<meta property="og:description" content="轻点一个修饰键，打开应用、截图处理、找回剪贴板、计算、翻译和录屏。用户数据不上传。">
+<meta property="og:description" content="轻点一个修饰键，打开应用、截图处理、找回剪贴板、计算、翻译和录屏。剪贴板、截图与按键内容不上传。">
 <meta property="og:url" content="https://getchock.com/">
 <meta property="og:image" content="https://getchock.com/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -24,12 +24,11 @@
   "alternateName": "Chock",
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
-  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CNY"},
-  "softwareVersion": "0.5.3",
-  "fileSize": "4.5MB",
-  "description": "本地优先的 Mac 行动入口：打开应用、截图处理、找回剪贴板、计算、翻译和录屏。用户数据不上传，已签名并通过 Apple 公证。",
+  "softwareVersion": "0.5.4",
+  "fileSize": "4.6MB",
+  "description": "本地优先的 Mac 行动入口：打开应用、截图处理、找回剪贴板、计算、翻译和录屏。剪贴板、截图与按键内容不上传，已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.5.3.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.5.4.dmg"
 }
 </script>
 <style>
@@ -340,12 +339,12 @@
     <h1 id="headline"><span class="hl">一次按键</span><span class="hl">直达一切</span></h1>
     <p class="sub" id="heroSub">打开应用、截取并处理、找回并粘贴、计算、翻译和录屏，<strong style="white-space:nowrap">装进同一个 App。</strong></p>
     <div class="pills" id="heroPills">
-      <span class="pill">数据零上传</span>
+      <span class="pill">功能内容不上传</span>
       <span class="pill">离线翻译 · macOS 15+</span>
       <span class="pill">已通过 Apple 公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.5.3 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.5.4 ↓</a>
     </div>
     <img class="hero-shot" id="heroShot" src="/panel-2x.png" width="1280" height="896"
          alt="楔子唤出面板：键盘网格上显示截图、剪贴板历史、取字、钉图和标注等常用动作">
@@ -440,8 +439,8 @@
     <p class="lede reveal">原生 Swift 编写,没有多余的运行时。打开就像系统自带的一部分。</p>
     <div class="stats">
       <div class="stat reveal">
-        <div class="num"><span data-count="0">0</span><em>次上传</em></div>
-        <div class="cap">你的数据只在本机</div>
+        <div class="num"><span data-count="0">0</span><em>次内容上传</em></div>
+        <div class="cap">剪贴板、截图与按键留在本机</div>
       </div>
       <div class="stat reveal">
         <div class="num">&lt;0.1<em>秒</em></div>
@@ -453,7 +452,7 @@
   <!-- 隐私章 -->
   <section class="block" id="zeronet">
     <h2 class="reveal">你的数据,<br>只在这台 Mac 上。</h2>
-    <p class="lede reveal">剪贴板、截图、按键都在本机处理。应用唯一的网络请求,是向官网询问最新版本号。这项检查可以在设置里关闭,关闭后应用不再发出任何请求。</p>
+    <p class="lede reveal">剪贴板、截图、按键都在本机处理,不会发送给我们。应用会在检查更新时访问官网；购买与激活时才会打开结算页并等待服务端异步确认,激活码由 Chock 在本机验签。自动更新检查可以在设置里关闭。</p>
     <div class="wavebox reveal">
       <svg viewBox="0 0 720 140" preserveAspectRatio="none">
         <path id="waveLive" d="M0 70 Q30 30 60 70 T120 70 T180 70 T240 70 T300 70 T360 70 T420 70 T480 70 T540 70 T600 70 T660 70 T720 70"
@@ -508,11 +507,11 @@
     <h2 class="reveal">把它装进你的 Mac。</h2>
     <p class="lede reveal">打开安装包，拖进「应用程序」，跟着七步引导选好自己的入口键就可以开始。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.3.dmg">下载 Chock 0.5.3</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.4.dmg">下载 Chock 0.5.4</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.5 MB · Build 415 · 离线翻译需 macOS 15+<br>
+      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.6 MB · Build 447 · 离线翻译需 macOS 15+<br>
       中国大陆访问较慢时,请用 <a href="https://getchock.cn" style="color:var(--accent)">getchock.cn</a>
     </p>
   </section>
@@ -532,7 +531,7 @@
 
 <footer>
   <div class="foot-brand"><span class="zh">楔子</span><span class="en">CHOCK</span></div>
-  © 2026 楔子 Chock · 本站不使用统计工具，应用不上传用户数据 · <a href="/changelog" style="color:var(--text-2)">更新历史</a>
+  © 2026 楔子 Chock · 本站不使用统计工具，剪贴板、截图与按键内容不上传 · <a href="/changelog" style="color:var(--text-2)">更新历史</a>
 </footer>
 
 <script src="vendor/gsap.min.js"></script>
@@ -556,7 +555,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.5.3.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.5.4.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){
