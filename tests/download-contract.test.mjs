@@ -43,7 +43,13 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(jsonLd.softwareVersion, current.version);
   assert.equal(jsonLd.downloadUrl, `https://getchock.com${current.dmg.path}`);
   assert.equal(jsonLd.fileSize, current.displaySize.replace(" ", ""));
-  assert.equal("offers" in jsonLd, false, "paid activation must not be described as a free offer");
+  assert.deepEqual(jsonLd.offers, {
+    "@type": "Offer",
+    price: "9.90",
+    priceCurrency: "CNY",
+    url: "https://pay.getchock.cn/buy",
+    availability: "https://schema.org/InStock"
+  });
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`下载 Chock ${escapeRegExp(current.version)}`));
@@ -106,6 +112,24 @@ test("homepage stats keep two centered user-facing cards", () => {
 test("homepage sends mainland visitors to the Shanghai site", () => {
   assert.match(index, /href="https:\/\/getchock\.cn"[^>]*>getchock\.cn<\/a>/);
   assert.doesNotMatch(index, /cn\.getchock\.com/);
+});
+
+test("homepage explains the full trial and permanent license before purchase", () => {
+  const hero = extractSection("top");
+  const license = extractSection("license");
+  const download = extractSection("download");
+
+  assert.match(hero, /免费试用 7 天/);
+  assert.match(hero, /¥9\.9 永久授权/);
+  assert.match(license, /7 天完整试用/);
+  assert.match(license, /第一次真正使用楔子功能时/);
+  assert.match(license, /¥9\.9/);
+  assert.match(license, /没有订阅/);
+  assert.match(license, /不需要注册账号/);
+  assert.match(license, /异步确认通知/);
+  assert.match(download, /第一次真正使用功能时，自动开始 7 天完整试用/);
+  assert.equal((index.match(/href="https:\/\/pay\.getchock\.cn\/buy"/g) ?? []).length, 2);
+  assert.doesNotMatch(index, /pay\.getchock\.com/);
 });
 
 test("homepage first-run proof uses the current seven-step onboarding capture", async () => {

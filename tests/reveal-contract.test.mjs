@@ -49,6 +49,13 @@ test("normal scrolling keeps the Douyin card in the shared reveal batch", () => 
   assert.equal(page.policy.shouldAnimateReveal(page.card), true);
 });
 
+test("direct #license links reveal the pricing section immediately", () => {
+  assert.match(index, /function showLicenseImmediately\(\)/);
+  assert.match(index, /location\.hash !== "#license"/);
+  assert.match(index, /document\.querySelectorAll\("#license \.reveal"\)/);
+  assert.match(index, /window\.addEventListener\("hashchange", showLicenseImmediately\)/);
+});
+
 function runRevealPolicy(hash) {
   const card = { dataset: {}, style: {} };
   const location = { hash };
