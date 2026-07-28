@@ -40,11 +40,11 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /更新更可靠/);
-  assert.match(releaseNotesHTML, /官方更新源/);
-  assert.match(releaseNotesHTML, /另一官方入口/);
-  assert.match(releaseNotesHTML, /发行签名验证/);
-  assert.match(releaseNotesHTML, /菜单栏日期/);
+  assert.match(releaseNotesHTML, /7 天完整试用/);
+  assert.match(releaseNotesHTML, /第一次执行真实功能时才开始/);
+  assert.match(releaseNotesHTML, /设置 → 通用/);
+  assert.match(releaseNotesHTML, /¥9\.9/);
+  assert.match(releaseNotesHTML, /服务端异步确认通知/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -82,7 +82,9 @@ try {
     "/dl/Chock-0.5.3.dmg",
     "/dl/Chock-0.5.3.zip",
     "/dl/Chock-0.5.4.dmg",
-    "/dl/Chock-0.5.4.zip"
+    "/dl/Chock-0.5.4.zip",
+    "/dl/Chock-0.5.5.dmg",
+    "/dl/Chock-0.5.5.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
@@ -90,7 +92,7 @@ try {
   for (const path of [
     "/dl/does-not-exist.dmg",
     "/dl/Chock-0.5.1.dmg",
-    "/dl/Chock-0.5.6.dmg",
+    "/dl/Chock-0.5.7.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {
