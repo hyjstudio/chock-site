@@ -24,11 +24,11 @@
   "alternateName": "Chock",
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
-  "softwareVersion": "0.5.4",
+  "softwareVersion": "0.5.5",
   "fileSize": "4.6MB",
   "description": "本地优先的 Mac 行动入口：打开应用、截图处理、找回剪贴板、计算、翻译和录屏。剪贴板、截图与按键内容不上传，已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.5.4.dmg"
+  "downloadUrl": "https://getchock.com/dl/Chock-0.5.5.dmg"
 }
 </script>
 <style>
@@ -344,7 +344,7 @@
       <span class="pill">已通过 Apple 公证</span>
     </div>
     <div class="hero-cta" id="heroCta">
-      <a class="btn ghost" href="#download">下载 Chock 0.5.4 ↓</a>
+      <a class="btn ghost" href="#download">下载 Chock 0.5.5 ↓</a>
     </div>
     <img class="hero-shot" id="heroShot" src="/panel-2x.png" width="1280" height="896"
          alt="楔子唤出面板：键盘网格上显示截图、剪贴板历史、取字、钉图和标注等常用动作">
@@ -507,11 +507,11 @@
     <h2 class="reveal">把它装进你的 Mac。</h2>
     <p class="lede reveal">打开安装包，拖进「应用程序」，跟着七步引导选好自己的入口键就可以开始。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.4.dmg">下载 Chock 0.5.4</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.5.dmg">下载 Chock 0.5.5</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.6 MB · Build 447 · 离线翻译需 macOS 15+<br>
+      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.6 MB · Build 450 · 离线翻译需 macOS 15+<br>
       中国大陆访问较慢时,请用 <a href="https://getchock.cn" style="color:var(--accent)">getchock.cn</a>
     </p>
   </section>
@@ -555,7 +555,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.5.4.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.5.5.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){
