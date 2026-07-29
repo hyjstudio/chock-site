@@ -1,5 +1,6 @@
 dl/*.dmg
 dl/*.zip
 node_modules/
+.site-build/
 .wrangler/state/
 .wrangler/cache/cf.json

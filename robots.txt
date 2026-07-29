@@ -1,3 +1,5 @@
+# Canonical source. scripts/build-site.mjs rewrites the sitemap host for each
+# domain-specific publish directory.
 User-agent: *
 Allow: /
 Sitemap: https://getchock.com/sitemap.xml
