@@ -632,9 +632,22 @@ const mm = gsap.matchMedia();
 
 /* ---------- reveal 可见性策略 ---------- */
 const douyinCard = document.querySelector("#douyin .douyin-card");
+const downloadRevealEls = [...document.querySelectorAll("#download .reveal")];
 
 function shouldAnimateReveal(el){
   return el.dataset.revealImmediate !== "true";
+}
+
+function showDownloadImmediately(){
+  downloadRevealEls.forEach((el)=>{
+    el.dataset.revealImmediate = "true";
+    gsap.killTweensOf(el);
+    gsap.set(el, {opacity:1, visibility:"visible", clearProps:"transform"});
+  });
+}
+
+function showDownloadFromHash(){
+  if (location.hash === "#download") showDownloadImmediately();
 }
 
 function showDouyinCardImmediately(){
@@ -647,7 +660,12 @@ function showDouyinCardImmediately(){
   douyinCard.style.transform = "none";
 }
 
+showDownloadFromHash();
 showDouyinCardImmediately();
+document.querySelectorAll('a[href="#download"]').forEach((link)=>{
+  link.addEventListener("click", showDownloadImmediately);
+});
+window.addEventListener("hashchange", showDownloadFromHash);
 window.addEventListener("hashchange", showDouyinCardImmediately);
 /* ---------- reveal 可见性策略结束 ---------- */
 
