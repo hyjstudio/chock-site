@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import test from "node:test";
 import {
   normalizeBaseURL,
@@ -132,16 +132,24 @@ test("sitemap lists only real public pages with current lastmod values", async (
 });
 
 test("Baidu verification assets and metadata remain part of both builds", async () => {
-  const verificationFiles = [
-    "baidu_verify_codeva-U5Dyeuwe3g.html",
-    "baidu_verify_codeva-VwgjKKJnWf.html"
-  ];
+  const verificationFiles = (await readdir(new URL("..", import.meta.url)))
+    .filter((file) => /^baidu_verify_codeva-[A-Za-z0-9]+\.html$/.test(file))
+    .sort();
+
+  assert.ok(verificationFiles.length >= 3);
   for (const file of verificationFiles) {
     assert.ok((await stat(new URL(`../${file}`, import.meta.url))).isFile());
     assert.equal(shouldCopyRootEntry(file, "https://getchock.com"), true);
     assert.equal(shouldCopyRootEntry(file, "https://getchock.cn"), true);
   }
-  assert.equal((index.match(/name="baidu-site-verification"/g) ?? []).length, 2);
+
+  const metaCodes = [...index.matchAll(
+    /<meta name="baidu-site-verification" content="([^"]+)" \/>/g
+  )].map((match) => match[1]);
+  assert.ok(metaCodes.length > 0);
+  for (const code of metaCodes) {
+    assert.ok(verificationFiles.includes(`baidu_verify_${code}.html`));
+  }
 });
 
 test("CN build excludes Cloudflare-only controls without touching public assets", () => {
