@@ -40,11 +40,13 @@ try {
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
   const releaseNotesHTML = await releaseNotes.text();
-  assert.match(releaseNotesHTML, /Codex 额度刷新更稳/);
-  assert.match(releaseNotesHTML, /保留最近一次有效额度最多 5 分钟/);
-  assert.match(releaseNotesHTML, /明确标记为缓存值/);
-  assert.match(releaseNotesHTML, /关闭额度模块时仍会立即清空/);
-  assert.match(releaseNotesHTML, /从 8 秒放宽到 15 秒/);
+  const releaseNotesBody = releaseNotesHTML.match(/<body>([\s\S]*?)<\/body>/)?.[1];
+  assert.ok(releaseNotesBody, "release notes must have a body");
+  assert.equal(
+    releaseNotesBody.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+    "楔子 0.5.7 2026-08-04 做了些许优化。"
+  );
+  assert.doesNotMatch(releaseNotesHTML, /Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);

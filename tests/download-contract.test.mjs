@@ -76,14 +76,17 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(dmgURL), current.dmg.sha256);
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
-  for (const surface of [changelog, releaseNotes]) {
-    assert.match(surface, /0\.5\.7/);
-    assert.match(surface, /Codex 额度刷新更稳/);
-    assert.match(surface, /保留最近一次有效额度最多 5 分钟/);
-    assert.match(surface, /明确标记为缓存值/);
-    assert.match(surface, /关闭额度模块时仍会立即清空/);
-    assert.match(surface, /从 8 秒放宽到 15 秒/);
-  }
+  const currentChangelog = changelog.match(/<section class="rel"><h2>0\.5\.7[\s\S]*?<\/section>/)?.[0];
+  assert.ok(currentChangelog, "changelog must include the 0.5.7 section");
+  assert.match(currentChangelog, /<p class="feat"><strong>做了些许优化。<\/strong><\/p>/);
+  assert.doesNotMatch(currentChangelog, /<ul>|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
+
+  const releaseNotesBody = releaseNotes.match(/<body>([\s\S]*?)<\/body>/)?.[1];
+  assert.ok(releaseNotesBody, "release notes must have a body");
+  assert.equal(
+    releaseNotesBody.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+    "楔子 0.5.7 2026-08-04 做了些许优化。"
+  );
 });
 
 test("mainland appcast is a deterministic authority-only derivative", () => {
