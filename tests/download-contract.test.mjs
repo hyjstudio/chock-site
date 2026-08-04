@@ -27,14 +27,14 @@ const releaseNotesPolicy = await read("docs/public-release-notes-policy.md");
 
 test("current release metadata is consistent across published surfaces", async () => {
   assert.equal(current.status, "published");
-  assert.equal(current.version, "0.5.6");
-  assert.equal(current.releaseDate, "2026-07-28");
-  assert.equal(current.sparkleVersion, 451);
-  assert.equal(current.dmg.size, 4856761);
-  assert.equal(current.dmg.sha256, "510486487f93576413299dc623fc0800f43b50a51c8375351293df87df66731a");
-  assert.equal(current.zip.size, 4433027);
-  assert.equal(current.zip.sha256, "b884cf4b00899b7c13472920f9042280b1650ee74046fb0dd587c1bca6931ca5");
-  assert.equal(current.zip.sparkleEdSignature, "fFcnCHE0wHfdQCW1KRMAZBCjGzjlD+U9SFEOAvFugsO0hiWf0UfReqBqnUgNkg+H9rWNvbyki1eV2dSHgblHDA==");
+  assert.equal(current.version, "0.5.7");
+  assert.equal(current.releaseDate, "2026-08-04");
+  assert.equal(current.sparkleVersion, 457);
+  assert.equal(current.dmg.size, 4858432);
+  assert.equal(current.dmg.sha256, "e5b67b22c51c749f8db35e198a5057021d6a86724076a99886492e6b2c5964a7");
+  assert.equal(current.zip.size, 4435313);
+  assert.equal(current.zip.sha256, "396c5b7ae567e5e1d6d95d1dbdfdb147355241b2d1b9ad9b19d24cf2c4e27510");
+  assert.equal(current.zip.sparkleEdSignature, "CSt4IOSQTd3D0xQROQQ/iXRZ2jWODI7gP/HynY8yohaGcZVhzPzeB7fxOKZ/0tEx/6BH+hgmHSLfWhYAJs59AA==");
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
@@ -77,14 +77,12 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
   for (const surface of [changelog, releaseNotes]) {
-    assert.match(surface, /0\.5\.6/);
-    assert.match(surface, /7 天完整试用/);
-    assert.match(surface, /第一次执行真实功能时才开始/);
-    assert.match(surface, /设置 → 通用/);
-    assert.match(surface, /¥9\.9/);
-    assert.match(surface, /没有订阅、账号或设备数量限制/);
-    assert.match(surface, /上海生产服务/);
-    assert.match(surface, /服务端异步确认通知/);
+    assert.match(surface, /0\.5\.7/);
+    assert.match(surface, /Codex 额度刷新更稳/);
+    assert.match(surface, /保留最近一次有效额度最多 5 分钟/);
+    assert.match(surface, /明确标记为缓存值/);
+    assert.match(surface, /关闭额度模块时仍会立即清空/);
+    assert.match(surface, /从 8 秒放宽到 15 秒/);
   }
 });
 
@@ -215,7 +213,7 @@ test("legacy aliases redirect only to the current immutable assets", () => {
 test("only known release assets receive binary response headers", async () => {
   assert.doesNotMatch(headers, /^\/dl\/\*/m, "wildcard download headers would mislabel 404 responses");
 
-  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0", "0.5.2", "0.5.3", "0.5.4", "0.5.5", "0.5.6"].flatMap((version) => [
+  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0", "0.5.2", "0.5.3", "0.5.4", "0.5.5", "0.5.6", "0.5.7"].flatMap((version) => [
     stat(new URL(`../dl/Chock-${version}.dmg`, import.meta.url)).then(() => `/dl/Chock-${version}.dmg`),
     stat(new URL(`../dl/Chock-${version}.zip`, import.meta.url)).then(() => `/dl/Chock-${version}.zip`)
   ])));
@@ -229,8 +227,8 @@ test("only known release assets receive binary response headers", async () => {
   assert.match(notFound, /明确返回 404/);
 });
 
-test("0.5.7 remains an empty unpublished draft", () => {
-  assert.equal(next.version, "0.5.7");
+test("0.5.8 remains an empty unpublished draft", () => {
+  assert.equal(next.version, "0.5.8");
   assert.equal(next.status, "draft");
 
   for (const value of [
@@ -250,7 +248,7 @@ test("0.5.7 remains an empty unpublished draft", () => {
   }
 
   for (const surface of [index, appcast, redirects, headers, changelog]) {
-    assert.doesNotMatch(surface, /0\.5\.7/);
+    assert.doesNotMatch(surface, /0\.5\.8/);
   }
 });
 

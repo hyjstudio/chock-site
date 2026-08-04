@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><style>
+body{background:#0E0E12;color:#F5F5F7;font-family:-apple-system,"PingFang SC",sans-serif;font-size:13px;line-height:1.65;padding:18px 20px;margin:0}
+h2{font-size:15px;margin:0 0 10px;font-weight:600}
+h2 span{color:#8583E8;font-size:11px;font-weight:600;margin-left:8px}
+p.feat{color:rgba(235,235,245,.8);margin:0 0 10px;line-height:1.7}
+p.feat strong{color:#F5F5F7}
+ul{margin:0;padding-left:18px;color:rgba(235,235,245,.75)}
+li{margin:5px 0}
+strong{color:#F5F5F7}
+</style></head><body>
+<h2>楔子 0.5.7<span>2026-08-04</span></h2>
+<p class="feat"><strong>Codex 额度刷新更稳，不再因一次读取抖动整块消失。</strong></p>
+<ul>
+<li>官方额度读取短暂失败时，保留最近一次有效额度最多 5 分钟，并明确标记为缓存值</li>
+<li>超过 5 分钟仍未恢复时才清空；关闭额度模块时仍会立即清空</li>
+<li>官方 Codex 响应等待从 8 秒放宽到 15 秒，给模型目录预热留出余量</li>
+</ul>
+</body></html>

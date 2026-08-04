@@ -24,11 +24,11 @@
   "alternateName": "Chock",
   "operatingSystem": "macOS 14.0+",
   "applicationCategory": "UtilitiesApplication",
-  "softwareVersion": "0.5.6",
+  "softwareVersion": "0.5.7",
   "fileSize": "4.6MB",
   "description": "本地优先的 Mac 行动入口：打开应用、截图处理、找回剪贴板、计算、翻译和录屏。剪贴板、截图与按键内容不上传，已签名并通过 Apple 公证。",
   "url": "https://getchock.com/",
-  "downloadUrl": "https://getchock.com/dl/Chock-0.5.6.dmg",
+  "downloadUrl": "https://getchock.com/dl/Chock-0.5.7.dmg",
   "offers": {
     "@type": "Offer",
     "price": "9.90",
@@ -557,11 +557,11 @@
     <h2 class="reveal">把它装进你的 Mac。</h2>
     <p class="lede reveal">打开安装包，拖进「应用程序」，跟着七步引导选好自己的入口键就可以开始。第一次真正使用功能时，自动开始 7 天完整试用。</p>
     <div class="btn-wrap" id="magnet">
-      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.6.dmg">下载 Chock 0.5.6</a>
+      <a class="btn" id="dlBtn" href="/dl/Chock-0.5.7.dmg">下载 Chock 0.5.7</a>
     </div>
     <div class="copy-tip" id="copyTip">链接已复制,在 Mac 的浏览器里打开即可下载</div>
     <p class="dl-meta reveal">
-      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.6 MB · Build 451 · 离线翻译需 macOS 15+<br>
+      <b>macOS 14.0+</b> · Apple Silicon（不支持 Intel Mac） · 4.6 MB · Build 457 · 离线翻译需 macOS 15+<br>
       中国大陆访问较慢时,请用 <a href="https://getchock.cn" style="color:var(--accent)">getchock.cn</a>
     </p>
   </section>
@@ -605,7 +605,7 @@ function splitChars(el){
 }
 
 const isMacDesktop = /Mac/.test(navigator.platform) && !("ontouchend" in document);
-const DMG_URL = new URL("/dl/Chock-0.5.6.dmg", location.origin).href;
+const DMG_URL = new URL("/dl/Chock-0.5.7.dmg", location.origin).href;
 
 /* 非 Mac 设备(大概率手机从抖音进来):下载按钮改为复制链接 */
 if (!isMacDesktop){
@@ -632,9 +632,22 @@ const mm = gsap.matchMedia();
 
 /* ---------- reveal 可见性策略 ---------- */
 const douyinCard = document.querySelector("#douyin .douyin-card");
+const downloadRevealEls = [...document.querySelectorAll("#download .reveal")];
 
 function shouldAnimateReveal(el){
   return el.dataset.revealImmediate !== "true";
+}
+
+function showDownloadImmediately(){
+  downloadRevealEls.forEach((el)=>{
+    el.dataset.revealImmediate = "true";
+    gsap.killTweensOf(el);
+    gsap.set(el, {opacity:1, visibility:"visible", clearProps:"transform"});
+  });
+}
+
+function showDownloadFromHash(){
+  if (location.hash === "#download") showDownloadImmediately();
 }
 
 function showDouyinCardImmediately(){
@@ -647,7 +660,12 @@ function showDouyinCardImmediately(){
   douyinCard.style.transform = "none";
 }
 
+showDownloadFromHash();
 showDouyinCardImmediately();
+document.querySelectorAll('a[href="#download"]').forEach((link)=>{
+  link.addEventListener("click", showDownloadImmediately);
+});
+window.addEventListener("hashchange", showDownloadFromHash);
 window.addEventListener("hashchange", showDouyinCardImmediately);
 /* ---------- reveal 可见性策略结束 ---------- */
 
