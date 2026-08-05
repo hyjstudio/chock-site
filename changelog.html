@@ -17,14 +17,18 @@
   h1{font-size:34px;font-weight:700;margin:18px 0 6px}
   .sub{color:var(--text-3);font-size:13px;margin-bottom:44px}
   .sub a{color:var(--accent);text-decoration:none}
-  .rel{border-top:1px solid var(--line);padding:26px 0 22px}
+  .rel{border-top:1px solid var(--line);padding:24px 0 18px}
   .rel h2{font-size:17px;font-weight:600;margin-bottom:10px}
   .rel h2::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:10px;vertical-align:2px}
   .rel .feat{color:var(--text-2);font-size:15px;margin:2px 0 12px;line-height:1.7}
   .rel .feat strong{color:var(--text);font-weight:650}
-  .rel.archive-entry{padding:14px 0}
-  .rel.archive-entry h2{color:var(--text-2);font-size:14px;font-weight:550;margin:0}
-  .rel.archive-entry h2::before{width:5px;height:5px;margin-right:11px;vertical-align:2px;background:var(--text-3)}
+  .rel ul{list-style:none}
+  .rel li{color:var(--text-2);font-size:14px;padding:3px 0 3px 18px;position:relative}
+  .rel li::before{content:"·";position:absolute;left:4px;color:var(--text-3)}
+  .rel.archive-entry{padding:20px 0 16px}
+  .rel.archive-entry h2{font-size:15px;margin-bottom:7px}
+  .rel.archive-entry h2::before{width:6px;height:6px;margin-right:10px;vertical-align:2px;background:var(--text-3)}
+  .rel.archive-entry .feat{font-size:14.5px;margin-bottom:8px}
   .back{display:inline-block;margin-top:40px;color:var(--accent);text-decoration:none;font-size:14px}
 </style>
 </head>
@@ -34,43 +38,155 @@
   <h1>更新历史</h1>
   <p class="sub"><a href="/">返回首页 ↗</a></p>
 
-  <section class="rel"><h2>0.5.7 · 2026-08-04</h2>
+  <section class="rel is-current"><h2>0.5.7 · 2026-08-04</h2>
     <p class="feat"><strong>做了些许优化。</strong></p>
   </section>
 
-  <section class="rel archive-entry"><h2>0.5.6 · 2026-07-28</h2></section>
+  <section class="rel archive-entry"><h2>0.5.6 · 2026-07-28</h2>
+    <p class="feat"><strong>加入 7 天完整试用与永久授权。</strong></p>
+    <ul>
+      <li>第一次真正使用功能时开始 7 天试用；安装、设置和新手引导不会提前计时</li>
+      <li>设置中可查看试用与授权状态，并购买或粘贴激活码</li>
+      <li>¥9.9 一次购买，永久使用；没有订阅，也不需要注册账号</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.5.5 · 2026-07-28</h2></section>
+  <section class="rel archive-entry"><h2>0.5.5 · 2026-07-28</h2>
+    <p class="feat"><strong>改善应用更新与新安装默认设置。</strong></p>
+    <ul>
+      <li>检查更新时会自动选择可用的官方入口</li>
+      <li>新安装默认不显示菜单栏日期；已有选择保持不变</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.5.4 · 2026-07-27</h2></section>
+  <section class="rel archive-entry"><h2>0.5.4 · 2026-07-27</h2>
+    <p class="feat"><strong>加入购买与激活，并完善状态反馈。</strong></p>
+    <ul>
+      <li>可在应用中购买、粘贴激活码并查看激活结果</li>
+      <li>面板加入连续双波形，状态变化更清楚</li>
+      <li>截图标注颜色保持一致，外部页面返回更顺畅</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.5.3 · 2026-07-23</h2></section>
+  <section class="rel archive-entry"><h2>0.5.3 · 2026-07-23</h2>
+    <p class="feat"><strong>调整面板显示与菜单栏快捷动作。</strong></p>
+    <ul>
+      <li>面板改用不透明背景，在浅色窗口和不同桌面上更清楚</li>
+      <li>菜单栏快捷动作可按自己的习惯调整</li>
+      <li>改善登录启动、系统快捷键、Markdown 公式和到期提醒体验</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.5.2 · 2026-07-22</h2></section>
+  <section class="rel archive-entry"><h2>0.5.2 · 2026-07-22</h2>
+    <p class="feat"><strong>完善新手引导、设置与常用工具操作。</strong></p>
+    <ul>
+      <li>新手引导可设置唤起方式、截图声音和必要权限，并可随时重新打开</li>
+      <li>设置重新分类，反馈与帮助统一进入官网</li>
+      <li>计算器支持鼠标操作；截图译文可直接选择复制</li>
+      <li>改善 Fn 听写、录屏与系统声音的配合</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.5.0 · 2026-07-20</h2></section>
+  <section class="rel archive-entry"><h2>0.5.0 · 2026-07-20</h2>
+    <p class="feat"><strong>加入更完整的录屏与剪贴板操作。</strong></p>
+    <ul>
+      <li>录屏支持暂停、恢复、麦克风与系统声音</li>
+      <li>剪贴板、截图标注、录屏和面板工具栏支持键盘操作</li>
+      <li>剪贴板历史支持多选和连续粘贴</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.9 · 2026-07-16</h2></section>
+  <section class="rel archive-entry"><h2>0.4.9 · 2026-07-16</h2>
+    <p class="feat"><strong>增强计算器与直达键设置。</strong></p>
+    <ul>
+      <li>计算过程可选择、复制或一次复制全部，长结果会自动换行</li>
+      <li>左右 Control 可分别设置双击直达动作</li>
+      <li>导入键位配置前会先检查动作</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.8 · 2026-07-15</h2></section>
+  <section class="rel archive-entry"><h2>0.4.8 · 2026-07-15</h2>
+    <p class="feat"><strong>加入截图标注、计算器与钉图。</strong></p>
+    <ul>
+      <li>截图工具条加入常用标注、马赛克和最近选区召回</li>
+      <li>加入计算器、剪贴板钉图与本机 Markdown 公式预览</li>
+      <li>完善脚本动作与刘海屏显示</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.7 · 2026-07-15</h2></section>
+  <section class="rel archive-entry"><h2>0.4.7 · 2026-07-15</h2>
+    <p class="feat"><strong>在搜索框中加入计算、换算与大写金额转换。</strong></p>
+    <ul>
+      <li>可接着剪贴板数字或上一次结果继续计算</li>
+      <li>到期项目使用独立表单，空白页面也会提示下一步</li>
+      <li>数字输入、方向键选择与回车执行可连续使用</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.6 · 2026-07-15</h2></section>
+  <section class="rel archive-entry"><h2>0.4.6 · 2026-07-15</h2>
+    <p class="feat"><strong>加入常用快捷动作与更多提醒选项。</strong></p>
+    <ul>
+      <li>到期提醒支持自定义提前量、静音和更多周期</li>
+      <li>Markdown 编辑器支持打开、另存与最近文件</li>
+      <li>增加剪贴板历史容量，并完善首次使用提示</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.5 · 2026-07-14</h2></section>
+  <section class="rel archive-entry"><h2>0.4.5 · 2026-07-14</h2>
+    <p class="feat"><strong>完善首次权限提示与操作反馈。</strong></p>
+    <ul>
+      <li>首次截图时请求系统权限，并说明授权后的操作</li>
+      <li>无法自动粘贴时会给出下一步提示</li>
+      <li>截图声音可以关闭，应用与链接也能放进同一组</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.4 · 2026-07-13</h2></section>
+  <section class="rel archive-entry"><h2>0.4.4 · 2026-07-13</h2>
+    <p class="feat"><strong>改善右键菜单与临时界面的截图。</strong></p>
+    <ul>
+      <li>截图快捷键不会抢走其他应用焦点</li>
+      <li>箭头标注在不同长度下保持一致</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.3 · 2026-07-13</h2></section>
+  <section class="rel archive-entry"><h2>0.4.3 · 2026-07-13</h2>
+    <p class="feat"><strong>改善多屏截图与工具窗口配合。</strong></p>
+    <ul>
+      <li>打开独立窗口时面板会先收起，避免相互遮挡</li>
+      <li>改善多屏选区与取色操作</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.2 · 2026-07-13</h2></section>
+  <section class="rel archive-entry"><h2>0.4.2 · 2026-07-13</h2>
+    <p class="feat"><strong>加入到期项目编辑与循环提醒。</strong></p>
+    <ul>
+      <li>到期项目支持编辑，循环项目会自动续排提醒</li>
+      <li>改善截图、剪贴板快捷键与输入法的配合</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.1 · 2026-07-12</h2></section>
+  <section class="rel archive-entry"><h2>0.4.1 · 2026-07-12</h2>
+    <p class="feat"><strong>整理内置动作与首次安装入口。</strong></p>
+    <ul>
+      <li>内置动作按用途整理，截图变体收进统一入口</li>
+      <li>到期追踪可从通知或文本中提取常用信息</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.4.0 · 2026-07-12</h2></section>
+  <section class="rel archive-entry"><h2>0.4.0 · 2026-07-12</h2>
+    <p class="feat"><strong>加入应用内更新。</strong></p>
+    <ul>
+      <li>发现新版本时由你确认下载安装；自动检查可以关闭。</li>
+    </ul>
+  </section>
 
-  <section class="rel archive-entry"><h2>0.3.x · 2026-07-11</h2></section>
+  <section class="rel archive-entry"><h2>0.3.x · 2026-07-11</h2>
+    <p class="feat"><strong>加入第一批核心能力。</strong></p>
+    <ul>
+      <li>加入离线翻译、窗口排布、系统开关与 Markdown 文件打开</li>
+      <li>加入双击修饰键、菜单栏入口和多屏截图翻译</li>
+    </ul>
+  </section>
 
   <a class="back" href="/">← getchock.com</a>
 </div>

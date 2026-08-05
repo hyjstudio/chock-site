@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, readdir, stat } from "node:fs/promises";
 import test from "node:test";
+import { renderCanonicalPage } from "../scripts/build-site.mjs";
 import { renderRegionalAppcast } from "../scripts/render-regional-appcast.mjs";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
@@ -76,11 +77,10 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(dmgURL), current.dmg.sha256);
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
-  const currentChangelog = changelog.match(/<section class="rel"><h2>0\.5\.7[\s\S]*?<\/section>/)?.[0];
+  const currentChangelog = changelog.match(/<section class="rel is-current"><h2>0\.5\.7[\s\S]*?<\/section>/)?.[0];
   assert.ok(currentChangelog, "changelog must include the 0.5.7 section");
   assert.match(currentChangelog, /<p class="feat"><strong>做了些许优化。<\/strong><\/p>/);
   assert.doesNotMatch(currentChangelog, /<ul>|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
-  assert.equal((changelog.match(/class="rel archive-entry"/g) ?? []).length, 17);
 
   const releaseNotesBody = releaseNotes.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   assert.ok(releaseNotesBody, "release notes must have a body");
@@ -149,7 +149,52 @@ test("homepage first-run proof uses the current seven-step onboarding capture", 
   assert.ok((await stat(new URL("../settings-invocation@2x.png", import.meta.url))).isFile());
 });
 
-test("public release notes stay intentionally concise", () => {
+test("historical release notes preserve concise version-specific facts", () => {
+  const expectedHistoricalVersions = [
+    "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.0",
+    "0.4.9", "0.4.8", "0.4.7", "0.4.6", "0.4.5", "0.4.4",
+    "0.4.3", "0.4.2", "0.4.1", "0.4.0", "0.3.x"
+  ];
+  const sections = [...changelog.matchAll(
+    /<section class="rel archive-entry"><h2>([^<]+)<\/h2>([\s\S]*?)<\/section>/g
+  )];
+
+  assert.equal(sections.length, expectedHistoricalVersions.length);
+  assert.deepEqual(
+    sections.map((match) => match[1].split(" · ")[0]),
+    expectedHistoricalVersions
+  );
+
+  const summaries = [];
+  for (const [, heading, body] of sections) {
+    const summary = extractSummary(body);
+    const items = extractListItems(body);
+    assert.ok(summary, `${heading} must include a factual summary`);
+    assert.ok(items.length >= 1, `${heading} must include at least one user-facing change`);
+    assert.ok(stripMarkup(body).length >= 24, `${heading} must not be version-and-date only`);
+    summaries.push(summary);
+  }
+  assert.equal(new Set(summaries).size, expectedHistoricalVersions.length);
+
+  for (let index = 0; index < noteNames.length; index += 1) {
+    const version = noteNames[index].match(/^Chock-(\d+\.\d+\.\d+)\.html$/)?.[1];
+    if (!version || version === current.version) continue;
+    const section = sections.find((match) => match[1].startsWith(`${version} ·`));
+    assert.ok(section, `${version} must remain in the public changelog`);
+    assert.equal(extractSummary(section[2]), extractSummary(allReleaseNotes[index]));
+    assert.deepEqual(extractListItems(section[2]), extractListItems(allReleaseNotes[index]));
+  }
+
+  const globalChangelog = renderCanonicalPage(changelog, "https://getchock.com", "/changelog");
+  const mainlandChangelog = renderCanonicalPage(changelog, "https://getchock.cn", "/changelog");
+  assert.equal(
+    globalChangelog.replaceAll("https://getchock.com/", "https://getchock.cn/"),
+    mainlandChangelog,
+    "global and mainland changelog copy must stay synchronized"
+  );
+});
+
+test("public release notes stay factual without internal or sensitive detail", () => {
   const publicSurfaces = [changelog, ...allReleaseNotes];
   const internalDetails = [
     /自动化测试/,
@@ -157,10 +202,12 @@ test("public release notes stay intentionally concise", () => {
     /竞态崩溃/,
     /CPU 满载/,
     /重建麦克风采集/,
+    /服务端的异步确认|上海生产服务|本机验签|发行签名/,
+    /内存管理|长期运行/,
     /持续变得更顺手/,
     /隐私提醒/,
-    /马赛克位置上下颠倒/,
-    /旧截图曾用马赛克/,
+    /马赛克位置上下颠倒|旧截图曾用马赛克|敏感信息/,
+    /全面升级|更稳定更流畅/,
     /Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/
   ];
 
@@ -170,8 +217,9 @@ test("public release notes stay intentionally concise", () => {
     }
   }
 
-  assert.match(releaseNotesPolicy, /历史版本只保留版本号和发布日期/);
-  assert.match(releaseNotesPolicy, /公开更新历史不承担长期告警职责/);
+  assert.match(releaseNotesPolicy, /历史版本保留一句事实摘要和 1–4 条用户能感知的变化/);
+  assert.match(releaseNotesPolicy, /不能只剩版本号和日期/);
+  assert.match(releaseNotesPolicy, /不同版本保留各自的功能事实/);
   assert.match(releaseNotesPolicy, /主站与大陆站使用同一份静态文件/);
 });
 
@@ -267,4 +315,16 @@ function extractSection(id) {
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function extractSummary(html) {
+  return html.match(/<p class="feat"><strong>([^<]+)<\/strong><\/p>/)?.[1] ?? "";
+}
+
+function extractListItems(html) {
+  return [...html.matchAll(/<li>([^<]+)<\/li>/g)].map((match) => match[1]);
+}
+
+function stripMarkup(html) {
+  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }

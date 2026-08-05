@@ -7,6 +7,13 @@ import net from "node:net";
 const manifest = JSON.parse(await readFile(new URL("../release-manifest.json", import.meta.url), "utf8"));
 const port = await getOpenPort();
 const origin = `http://127.0.0.1:${port}`;
+const historicalVersions = [
+  "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.0",
+  "0.4.9", "0.4.8", "0.4.7", "0.4.6", "0.4.5", "0.4.4",
+  "0.4.3", "0.4.2", "0.4.1", "0.4.0", "0.3.x"
+];
+const forbiddenPublicDetails =
+  /持续变得更顺手|隐私提醒|马赛克位置上下颠倒|旧截图曾用马赛克|敏感信息|服务端的异步确认|上海生产服务|本机验签|发行签名|内存管理|长期运行|全面升级|更稳定更流畅|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/;
 const wrangler = new URL("../node_modules/.bin/wrangler", import.meta.url).pathname;
 const child = spawn(wrangler, [
   "pages", "dev", ".",
@@ -37,11 +44,19 @@ try {
     changelogHTML,
     new RegExp(`${escapeRegExp(manifest.current.version)} · ${escapeRegExp(manifest.current.releaseDate)}`)
   );
-  assert.equal((changelogHTML.match(/class="rel archive-entry"/g) ?? []).length, 17);
-  assert.doesNotMatch(
-    changelogHTML,
-    /持续变得更顺手|隐私提醒|马赛克位置上下颠倒|旧截图曾用马赛克|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/
+  const historySections = [...changelogHTML.matchAll(
+    /<section class="rel archive-entry"><h2>([^<]+)<\/h2>([\s\S]*?)<\/section>/g
+  )];
+  assert.deepEqual(
+    historySections.map((match) => match[1].split(" · ")[0]),
+    historicalVersions
   );
+  assert.equal(new Set(historySections.map((match) => extractSummary(match[2]))).size, historicalVersions.length);
+  for (const [, heading, body] of historySections) {
+    assert.ok(extractSummary(body), `${heading} must include a summary`);
+    assert.ok(extractListItems(body).length >= 1, `${heading} must include a visible change`);
+  }
+  assert.doesNotMatch(changelogHTML, forbiddenPublicDetails);
 
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);
   assert.equal(releaseNotes.status, 200);
@@ -53,6 +68,17 @@ try {
     "楔子 0.5.7 2026-08-04 做了些许优化。"
   );
   assert.doesNotMatch(releaseNotesHTML, /Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
+
+  for (const version of historicalVersions.filter((value) => value !== "0.3.x")) {
+    const response = await fetch(`${origin}/notes/Chock-${version}.html`);
+    assert.equal(response.status, 200, `${version} release notes must remain public`);
+    const html = await response.text();
+    const section = historySections.find((match) => match[1].startsWith(`${version} ·`));
+    assert.ok(section, `${version} changelog section must exist`);
+    assert.equal(extractSummary(html), extractSummary(section[2]));
+    assert.deepEqual(extractListItems(html), extractListItems(section[2]));
+    assert.doesNotMatch(html, forbiddenPublicDetails);
+  }
 
   await assertRedirect("/dl", manifest.current.dmg.path);
   await assertRedirect("/dl/", manifest.current.dmg.path);
@@ -172,4 +198,12 @@ async function getOpenPort() {
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function extractSummary(html) {
+  return html.match(/<p class="feat"><strong>([^<]+)<\/strong><\/p>/)?.[1] ?? "";
+}
+
+function extractListItems(html) {
+  return [...html.matchAll(/<li>([^<]+)<\/li>/g)].map((match) => match[1]);
 }
