@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 <meta name="robots" content="index,follow">
 <style>
-  :root{--bg:#0A0A0C;--text:#F5F5F7;--text-2:rgba(235,235,245,.62);--text-3:rgba(235,235,245,.38);--accent:#8583E8;--line:rgba(255,255,255,.08);--warning:#E8A05C}
+  :root{--bg:#0A0A0C;--text:#F5F5F7;--text-2:rgba(235,235,245,.62);--text-3:rgba(235,235,245,.38);--accent:#8583E8;--line:rgba(255,255,255,.08)}
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
   .wrap{max-width:720px;margin:0 auto;padding:64px 24px 96px}
@@ -16,16 +16,15 @@
   .brand span{font-size:10px;letter-spacing:2.6px;color:var(--accent);font-weight:600}
   h1{font-size:34px;font-weight:700;margin:18px 0 6px}
   .sub{color:var(--text-3);font-size:13px;margin-bottom:44px}
-  .rel{border-top:1px solid var(--line);padding:26px 0 10px}
+  .sub a{color:var(--accent);text-decoration:none}
+  .rel{border-top:1px solid var(--line);padding:26px 0 22px}
   .rel h2{font-size:17px;font-weight:600;margin-bottom:10px}
   .rel h2::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:10px;vertical-align:2px}
   .rel .feat{color:var(--text-2);font-size:15px;margin:2px 0 12px;line-height:1.7}
   .rel .feat strong{color:var(--text);font-weight:650}
-  .rel ul{list-style:none}
-  .rel li{color:var(--text-2);font-size:14.5px;padding:4px 0 4px 18px;position:relative}
-  .rel li::before{content:"·";position:absolute;left:4px;color:var(--text-3)}
-  .rel li strong{color:var(--text);font-weight:600}
-  .rel li.warning{color:var(--warning)}
+  .rel.archive-entry{padding:14px 0}
+  .rel.archive-entry h2{color:var(--text-2);font-size:14px;font-weight:550;margin:0}
+  .rel.archive-entry h2::before{width:5px;height:5px;margin-right:11px;vertical-align:2px;background:var(--text-3)}
   .back{display:inline-block;margin-top:40px;color:var(--accent);text-decoration:none;font-size:14px}
 </style>
 </head>
@@ -33,161 +32,45 @@
 <div class="wrap">
   <div class="brand"><a href="/">楔子</a><span>CHOCK</span></div>
   <h1>更新历史</h1>
-  <p class="sub">持续变得更顺手 · <a href="/" style="color:var(--accent);text-decoration:none">返回首页 ↗</a></p>
+  <p class="sub"><a href="/">返回首页 ↗</a></p>
 
   <section class="rel"><h2>0.5.7 · 2026-08-04</h2>
     <p class="feat"><strong>做了些许优化。</strong></p>
   </section>
 
-  <section class="rel"><h2>0.5.6 · 2026-07-28</h2>
-    <p class="feat"><strong>7 天完整试用和永久授权，现在真正进入应用。</strong></p>
-    <ul>
-      <li>第一次执行真实功能时才开始 7 天试用；只安装、打开设置或完成新手引导都不会提前计时</li>
-      <li>设置 → 通用会持续显示试用与授权状态，也可以随时购买或粘贴激活码</li>
-      <li>¥9.9 一次购买，永久使用；没有订阅、账号或设备数量限制</li>
-      <li>大陆购买入口统一使用上海生产服务，付款结果以服务端异步确认通知为准</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.5.6 · 2026-07-28</h2></section>
 
-  <section class="rel"><h2>0.5.5 · 2026-07-28</h2>
-    <p class="feat"><strong>更新更可靠，新安装也更清爽。</strong></p>
-    <ul>
-      <li>检查更新时会优先连接更适合当前网络的官方更新源；暂时无法连接时，会尝试另一官方入口</li>
-      <li>所有更新安装包继续使用同一发行签名验证</li>
-      <li>新安装默认不再额外显示菜单栏日期；已经调整过这一选项的用户会保留原有选择</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.5.5 · 2026-07-28</h2></section>
 
-  <section class="rel"><h2>0.5.4 · 2026-07-27</h2>
-    <p class="feat"><strong>购买、激活和日常反馈更完整了。</strong></p>
-    <ul>
-      <li>现在可以完成购买并激活 Chock</li>
-      <li>付款结果以服务端的异步确认结果为准；成功后可以返回 Chock，也可以复制激活码</li>
-      <li>激活码由 Chock 在本机验签</li>
-      <li>面板加入连续双波形，状态变化更清楚</li>
-      <li>截图标注颜色保持一致，并改善支付返回与外部页面唤起</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.5.4 · 2026-07-27</h2></section>
 
-  <section class="rel"><h2>0.5.3 · 2026-07-23</h2>
-    <p class="feat"><strong>更清楚，也更安静。</strong></p>
-    <ul>
-      <li>唤出面板改用稳定的不透明背景，在不同桌面和浅色窗口上更容易看清</li>
-      <li>菜单栏快捷动作重新收束，可按自己的习惯调整，不再混入不适合直接执行的分类</li>
-      <li>登录启动与系统快捷键处理更克制，减少不必要的弹窗和误触</li>
-      <li>Markdown 公式继续在本机渲染，并补齐单行展示；菜单栏状态与到期提醒的长期运行更稳</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.5.3 · 2026-07-23</h2></section>
 
-  <section class="rel"><h2>0.5.2 · 2026-07-22</h2>
-    <p class="feat"><strong>第一次打开先把入口调顺，日常使用也更清楚。</strong></p>
-    <ul>
-      <li>新手引导可设置唤起方式、截图声音和必要权限，之后也能随时重新打开</li>
-      <li>设置重新分类；菜单栏与侧栏的「反馈与帮助」统一先到官网帮助页</li>
-      <li>计算器支持完整鼠标操作，历史单行显示；回车或等号只复制结果</li>
-      <li>截图译文可以直接选择复制，浅色背景上的关闭按钮也清晰可见</li>
-      <li>修正 Fn 听写与输入法冲突，并继续打磨录屏和系统声音体验</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.5.2 · 2026-07-22</h2></section>
 
-  <section class="rel"><h2>0.5.0 · 2026-07-20</h2>
-    <p class="feat"><strong>录屏和剪贴板工作流更完整。</strong></p>
-    <ul>
-      <li>录屏支持暂停与恢复，可选麦克风，系统声音与旁白可以一起保存</li>
-      <li>剪贴板、截图标注、录屏和面板工具栏补齐键盘操作</li>
-      <li>剪贴板历史支持多选和连续粘贴，外接音频设备切换也更稳</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.5.0 · 2026-07-20</h2></section>
 
-  <section class="rel"><h2>0.4.9 · 2026-07-16</h2>
-    <p class="feat"><strong>计算器成为一张可以直接操作的算式纸。</strong></p>
-    <ul>
-      <li>计算过程可选择、复制或一次复制全部，长结果会自动换行</li>
-      <li>左右 Control 支持分别设置双击直达动作</li>
-      <li>导入键位配置前会先检查动作与风险项</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.9 · 2026-07-16</h2></section>
 
-  <section class="rel"><h2>0.4.8 · 2026-07-15</h2>
-    <p class="feat"><strong>截图选完区域，就能直接标注。</strong></p>
-    <ul>
-      <li>截图工具条加入常用标注、马赛克和最近选区召回</li>
-      <li>新增计算器、剪贴板钉图与本机 Markdown 公式预览</li>
-      <li>完善脚本动作、刘海屏适配与长时间运行表现</li>
-      <li class="warning"><strong>隐私提醒：</strong>本版修正了马赛克位置上下颠倒的问题。如果旧截图曾用马赛克遮挡敏感信息，请重新检查原图</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.8 · 2026-07-15</h2></section>
 
-  <section class="rel"><h2>0.4.7 · 2026-07-15</h2>
-    <p class="feat"><strong>在搜索框里直接计算、换算和转换大写金额。</strong></p>
-    <ul>
-      <li>支持接着剪贴板数字或上一次结果继续计算</li>
-      <li>到期项目使用独立表单，空白页面也会提示下一步</li>
-      <li>数字输入、方向键选择与回车执行不再互相抢占</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.7 · 2026-07-15</h2></section>
 
-  <section class="rel"><h2>0.4.6 · 2026-07-15</h2>
-    <p class="feat"><strong>新安装即可使用常用快捷动作。</strong></p>
-    <ul>
-      <li>到期提醒支持自定义提前量、静音和更多周期</li>
-      <li>Markdown 编辑器补齐打开、另存与最近文件</li>
-      <li>剪贴板历史容量提升，并改善首次使用提示</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.6 · 2026-07-15</h2></section>
 
-  <section class="rel"><h2>0.4.5 · 2026-07-14</h2>
-    <p class="feat"><strong>权限提示、状态反馈与键位标识更可靠。</strong></p>
-    <ul>
-      <li>首次截图会正确请求系统权限，并说明授权后的操作</li>
-      <li>较长提示不再撑宽面板，无法自动粘贴时会给出明确下一步</li>
-      <li>截图声音可以关闭，应用与链接也能放进同一组</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.5 · 2026-07-14</h2></section>
 
-  <section class="rel"><h2>0.4.4 · 2026-07-13</h2>
-    <p class="feat"><strong>右键菜单与临时界面也能稳定截取。</strong></p>
-    <ul>
-      <li>截图快捷键不再抢走其他应用焦点</li>
-      <li>箭头标注在不同长度下保持一致</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.4 · 2026-07-13</h2></section>
 
-  <section class="rel"><h2>0.4.3 · 2026-07-13</h2>
-    <p class="feat"><strong>截图、多屏与工具窗口的衔接更自然。</strong></p>
-    <ul>
-      <li>打开独立窗口时面板会先收起，不再互相遮挡</li>
-      <li>多屏选区、内存管理与取色的稳定性得到改善</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.3 · 2026-07-13</h2></section>
 
-  <section class="rel"><h2>0.4.2 · 2026-07-13</h2>
-    <p class="feat"><strong>到期提醒与剪贴板操作更顺手。</strong></p>
-    <ul>
-      <li>到期项目支持编辑，循环项目会自动续排提醒</li>
-      <li>改善截图和剪贴板快捷键与输入法的配合</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.2 · 2026-07-13</h2></section>
 
-  <section class="rel"><h2>0.4.1 · 2026-07-12</h2>
-    <p class="feat"><strong>首次安装只推荐常用入口，其余键位留给自己。</strong></p>
-    <ul>
-      <li>内置动作按用途整理，截图变体收进统一入口</li>
-      <li>到期追踪支持从通知或文本中提取常用信息</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.1 · 2026-07-12</h2></section>
 
-  <section class="rel"><h2>0.4.0 · 2026-07-12</h2>
-    <p class="feat"><strong>加入应用内更新。</strong>发现新版本时由你确认下载安装；自动检查可以关闭。</p>
-  </section>
+  <section class="rel archive-entry"><h2>0.4.0 · 2026-07-12</h2></section>
 
-  <section class="rel"><h2>0.3.x · 2026-07-11</h2>
-    <p class="feat"><strong>楔子的第一批核心能力成形。</strong></p>
-    <ul>
-      <li>加入离线翻译、窗口排布、系统开关与 Markdown 文件打开</li>
-      <li>完善双击修饰键、菜单栏入口和多屏截图翻译</li>
-    </ul>
-  </section>
+  <section class="rel archive-entry"><h2>0.3.x · 2026-07-11</h2></section>
 
   <a class="back" href="/">← getchock.com</a>
 </div>

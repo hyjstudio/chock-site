@@ -32,9 +32,15 @@ try {
 
   const changelog = await fetch(`${origin}/changelog`);
   assert.equal(changelog.status, 200);
+  const changelogHTML = await changelog.text();
   assert.match(
-    await changelog.text(),
+    changelogHTML,
     new RegExp(`${escapeRegExp(manifest.current.version)} · ${escapeRegExp(manifest.current.releaseDate)}`)
+  );
+  assert.equal((changelogHTML.match(/class="rel archive-entry"/g) ?? []).length, 17);
+  assert.doesNotMatch(
+    changelogHTML,
+    /持续变得更顺手|隐私提醒|马赛克位置上下颠倒|旧截图曾用马赛克|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/
   );
 
   const releaseNotes = await fetch(`${origin}${manifest.current.releaseNotesPath}`);

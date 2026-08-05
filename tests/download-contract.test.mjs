@@ -80,6 +80,7 @@ test("current release metadata is consistent across published surfaces", async (
   assert.ok(currentChangelog, "changelog must include the 0.5.7 section");
   assert.match(currentChangelog, /<p class="feat"><strong>做了些许优化。<\/strong><\/p>/);
   assert.doesNotMatch(currentChangelog, /<ul>|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
+  assert.equal((changelog.match(/class="rel archive-entry"/g) ?? []).length, 17);
 
   const releaseNotesBody = releaseNotes.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   assert.ok(releaseNotesBody, "release notes must have a body");
@@ -148,14 +149,19 @@ test("homepage first-run proof uses the current seven-step onboarding capture", 
   assert.ok((await stat(new URL("../settings-invocation@2x.png", import.meta.url))).isFile());
 });
 
-test("public release notes stay user-facing without hiding material risk", () => {
+test("public release notes stay intentionally concise", () => {
   const publicSurfaces = [changelog, ...allReleaseNotes];
   const internalDetails = [
     /自动化测试/,
     /未单独发布|未曾公开发布|完整并入/,
     /竞态崩溃/,
     /CPU 满载/,
-    /重建麦克风采集/
+    /重建麦克风采集/,
+    /持续变得更顺手/,
+    /隐私提醒/,
+    /马赛克位置上下颠倒/,
+    /旧截图曾用马赛克/,
+    /Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/
   ];
 
   for (const surface of publicSurfaces) {
@@ -164,14 +170,8 @@ test("public release notes stay user-facing without hiding material risk", () =>
     }
   }
 
-  const historicalWarning = allReleaseNotes[noteNames.indexOf("Chock-0.4.8.html")];
-  for (const surface of [changelog, historicalWarning]) {
-    assert.match(surface, /隐私提醒/);
-    assert.match(surface, /旧截图/);
-    assert.match(surface, /敏感信息/);
-  }
-
-  assert.match(releaseNotesPolicy, /数据丢失、错误修改或隐私泄露风险/);
+  assert.match(releaseNotesPolicy, /历史版本只保留版本号和发布日期/);
+  assert.match(releaseNotesPolicy, /公开更新历史不承担长期告警职责/);
   assert.match(releaseNotesPolicy, /主站与大陆站使用同一份静态文件/);
 });
 
