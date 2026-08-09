@@ -52,7 +52,8 @@ test("current release metadata is consistent across published surfaces", async (
     availability: "https://schema.org/InStock"
   });
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
-  assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
+  assert.match(index, new RegExp(`data-release-version="${escapeRegExp(current.version)}"`));
+  assert.match(index, /DMG_URL = downloadButton\.href/);
   assert.match(extractSection("download"), new RegExp(`Chock ${escapeRegExp(current.version)}`));
   assert.match(extractSection("download"), new RegExp(`Build ${current.sparkleVersion}`));
 
@@ -118,11 +119,17 @@ test("homepage sends mainland visitors to the Shanghai site", () => {
 
 test("homepage download action identifies macOS in both button states", () => {
   const download = extractSection("download");
+  const version = escapeRegExp(current.version);
 
-  assert.match(download, /id="dlBtn"[^>]*>下载 macOS 版<\/a>/);
+  assert.match(
+    download,
+    new RegExp(`id="dlBtn"[^>]*data-release-version="${version}"[^>]*>下载 Chock ${version} · macOS 版<\\/a>`)
+  );
   assert.match(download, /<b>目前仅支持 macOS<\/b>/);
-  assert.match(index, /btn\.textContent = "复制 macOS 下载链接"/);
-  assert.doesNotMatch(index, /btn\.textContent = "复制下载链接"/);
+  assert.match(index, /downloadVersion = downloadButton\.dataset\.releaseVersion/);
+  assert.match(index, /`下载 Chock \$\{downloadVersion\} · macOS 版`/);
+  assert.match(index, /`复制 Chock \$\{downloadVersion\} · macOS 下载链接`/);
+  assert.doesNotMatch(index, />下载 macOS 版<\/a>|"复制 macOS 下载链接"|"复制下载链接"/);
 });
 
 test("homepage explains the full trial and permanent license before purchase", () => {

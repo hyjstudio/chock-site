@@ -18,7 +18,7 @@ npm run build:site -- \
 
 构建会：
 
-- 从 `release-manifest.json` 读取当前版本、下载路径和 release note，不硬编码发行版本。
+- 从 `release-manifest.json` 读取当前版本、下载路径和 release note；下载 CTA 的版本、href 与静态 Mac 文案由构建流程一次生成。
 - 为首页生成当前域名的 canonical、`og:url`、OG/Twitter 图片 URL、JSON-LD `url` 与 `downloadUrl`。
 - 为更新历史、隐私政策和当前 release note 生成当前域名 canonical。
 - 复用 `render-regional-appcast.mjs`，为当前域名生成 appcast，并生成对应 robots 与 sitemap。

@@ -114,6 +114,7 @@ export function renderIndex(html, { baseURL, manifest }) {
     `<meta name="twitter:image" content="${normalizedBaseURL}/og-card.png">`,
     "homepage twitter:image"
   );
+  rendered = renderDownloadAction(rendered, manifest.current);
 
   const jsonLdPattern =
     /<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/;
@@ -141,6 +142,21 @@ export function renderIndex(html, { baseURL, manifest }) {
   rendered = rendered.replace(complianceHook, complianceMarkup);
 
   return rendered;
+}
+
+function renderDownloadAction(html, release) {
+  const version = release?.version;
+  const dmgPath = release?.dmg?.path;
+  if (typeof version !== "string" || !version || typeof dmgPath !== "string" || !dmgPath) {
+    throw new Error("release manifest is missing the current download CTA metadata");
+  }
+
+  return replaceExactlyOnce(
+    html,
+    /<a class="btn" id="dlBtn" href="[^"]+" data-release-version="[^"]+">[^<]*<\/a>/,
+    `<a class="btn" id="dlBtn" href="${dmgPath}" data-release-version="${version}">下载 Chock ${version} · macOS 版</a>`,
+    "homepage download CTA"
+  );
 }
 
 export function renderCanonicalPage(html, baseURL, route) {

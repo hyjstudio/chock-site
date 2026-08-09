@@ -54,6 +54,27 @@ test("homepage SEO metadata is rendered deterministically per domain", () => {
   }
 });
 
+test("homepage download CTA is synchronized from the release manifest", () => {
+  const staleVersion = "9.9.9";
+  const stalePath = `/dl/Chock-${staleVersion}.dmg`;
+  const staleIndex = index.replace(
+    /<a class="btn" id="dlBtn" href="[^"]+" data-release-version="[^"]+">[^<]*<\/a>/,
+    `<a class="btn" id="dlBtn" href="${stalePath}" data-release-version="${staleVersion}">下载 Chock ${staleVersion} · macOS 版</a>`
+  );
+
+  assert.notEqual(staleIndex, index, "test fixture must make the source CTA stale");
+  for (const { baseURL } of variants) {
+    const rendered = renderIndex(staleIndex, { baseURL, manifest });
+    const button = rendered.match(/<a class="btn" id="dlBtn"[^>]*>[^<]*<\/a>/)?.[0];
+
+    assert.ok(button, "rendered homepage must include the download CTA");
+    assert.match(button, new RegExp(`href="${escapeRegExp(manifest.current.dmg.path)}"`));
+    assert.match(button, new RegExp(`data-release-version="${escapeRegExp(manifest.current.version)}"`));
+    assert.match(button, new RegExp(`>下载 Chock ${escapeRegExp(manifest.current.version)} · macOS 版<\\/a>`));
+    assert.doesNotMatch(button, new RegExp(escapeRegExp(staleVersion)));
+  }
+});
+
 test("CN filing data is visible only in the CN build", () => {
   const globalIndex = renderIndex(index, {
     baseURL: "https://getchock.com",
