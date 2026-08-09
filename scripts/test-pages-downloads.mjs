@@ -35,7 +35,10 @@ try {
   const home = await fetch(`${origin}/`);
   assert.equal(home.status, 200);
   assert.match(home.headers.get("content-type") ?? "", /^text\/html\b/);
-  assert.match(await home.text(), new RegExp(`下载 Chock ${escapeRegExp(manifest.current.version)}`));
+  const homeHTML = await home.text();
+  assert.match(homeHTML, /下载 macOS 版/);
+  assert.match(homeHTML, /目前仅支持 macOS/);
+  assert.match(homeHTML, new RegExp(`Chock ${escapeRegExp(manifest.current.version)}`));
 
   const changelog = await fetch(`${origin}/changelog`);
   assert.equal(changelog.status, 200);

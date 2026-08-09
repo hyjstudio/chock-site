@@ -53,7 +53,7 @@ test("current release metadata is consistent across published surfaces", async (
   });
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`DMG_URL = new URL\\("${escapeRegExp(current.dmg.path)}"`));
-  assert.match(index, new RegExp(`下载 Chock ${escapeRegExp(current.version)}`));
+  assert.match(extractSection("download"), new RegExp(`Chock ${escapeRegExp(current.version)}`));
   assert.match(extractSection("download"), new RegExp(`Build ${current.sparkleVersion}`));
 
   const firstItem = appcast.match(/<item>([\s\S]*?)<\/item>/)?.[1];
@@ -114,6 +114,15 @@ test("homepage stats keep two centered user-facing cards", () => {
 test("homepage sends mainland visitors to the Shanghai site", () => {
   assert.match(index, /href="https:\/\/getchock\.cn"[^>]*>getchock\.cn<\/a>/);
   assert.doesNotMatch(index, /cn\.getchock\.com/);
+});
+
+test("homepage download action identifies macOS in both button states", () => {
+  const download = extractSection("download");
+
+  assert.match(download, /id="dlBtn"[^>]*>下载 macOS 版<\/a>/);
+  assert.match(download, /<b>目前仅支持 macOS<\/b>/);
+  assert.match(index, /btn\.textContent = "复制 macOS 下载链接"/);
+  assert.doesNotMatch(index, /btn\.textContent = "复制下载链接"/);
 });
 
 test("homepage explains the full trial and permanent license before purchase", () => {
