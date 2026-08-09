@@ -22,7 +22,7 @@ npm run build:site -- \
 - 为首页生成当前域名的 canonical、`og:url`、OG/Twitter 图片 URL、JSON-LD `url` 与 `downloadUrl`。
 - 为更新历史、隐私政策和当前 release note 生成当前域名 canonical。
 - 复用 `render-regional-appcast.mjs`，为当前域名生成 appcast，并生成对应 robots 与 sitemap。
-- 原样保留两个百度验证文件和首页的两个百度验证 meta。
+- 原样保留仓库内全部百度验证文件；首页已有的每个百度验证 meta 都必须能映射到对应验证文件。
 - 只在 `getchock.cn` 首页页脚展示已核验的工信部备案号与公安备案链接。
 - 从 CN 目录排除 Cloudflare 专用的 `CNAME`、`_headers`、`_redirects`；上海 nginx 的下载别名、MIME 与缓存规则仍须按其独立配置验收。
 
