@@ -1,14 +1,19 @@
 import assert from "node:assert/strict";
-import { readFile, readdir, stat } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import {
+  buildSite,
   normalizeBaseURL,
   renderAppcast,
   renderCanonicalPage,
   renderIndex,
   renderRobots,
   renderSitemap,
-  shouldCopyRootEntry
+  shouldCopyRootEntry,
+  validateLegacyAliasContract
 } from "../scripts/build-site.mjs";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
@@ -19,7 +24,8 @@ const [
   appcast,
   robots,
   sitemap,
-  manifest
+  manifest,
+  legacyAliasContractText
 ] = await Promise.all([
   read("index.html"),
   read("changelog.html"),
@@ -27,8 +33,15 @@ const [
   read("appcast.xml"),
   read("robots.txt"),
   read("sitemap.xml"),
-  read("release-manifest.json").then(JSON.parse)
+  read("release-manifest.json").then(JSON.parse),
+  read("legacy-alias-contract.json")
 ]);
+const legacyAliasContract = JSON.parse(legacyAliasContractText);
+const projectRoot = fileURLToPath(new URL("..", import.meta.url));
+const legacyAliasContractBytes = await readFile(
+  new URL("../legacy-alias-contract.json", import.meta.url)
+);
+const redirectsBytes = await readFile(new URL("../_redirects", import.meta.url));
 const currentNote = await read(manifest.current.releaseNotesPath.replace(/^\//, ""));
 
 const variants = [
@@ -173,14 +186,177 @@ test("Baidu verification assets and metadata remain part of both builds", async 
   }
 });
 
-test("CN build excludes Cloudflare-only controls without touching public assets", () => {
+test("host-bound copy policy separates Cloudflare controls from the external alias contract", () => {
   for (const file of ["CNAME", "_headers", "_redirects"]) {
     assert.equal(shouldCopyRootEntry(file, "https://getchock.com"), true);
     assert.equal(shouldCopyRootEntry(file, "https://getchock.cn"), false);
   }
+  assert.equal(shouldCopyRootEntry("legacy-alias-contract.json", "https://getchock.com"), false);
+  assert.equal(shouldCopyRootEntry("legacy-alias-contract.json", "https://getchock.cn"), true);
   for (const file of ["index.html", "robots.txt", "sitemap.xml", "og-card.png"]) {
     assert.equal(shouldCopyRootEntry(file, "https://getchock.com"), true);
     assert.equal(shouldCopyRootEntry(file, "https://getchock.cn"), true);
+  }
+});
+
+test("external legacy alias contract is exact and bound to the current manifest", () => {
+  assert.doesNotThrow(() => validateLegacyAliasContract(legacyAliasContract, manifest.current));
+  assert.deepEqual(legacyAliasContract, {
+    schemaVersion: 1,
+    contractKind: "chock-legacy-download-aliases",
+    hostingMode: "external",
+    releaseVersion: manifest.current.version,
+    aliases: [
+      { source: "/dl", target: manifest.current.dmg.path, status: 302 },
+      { source: "/dl/", target: manifest.current.dmg.path, status: 302 },
+      { source: "/dl/Chock.dmg", target: manifest.current.dmg.path, status: 302 },
+      { source: "/dl/Chock.zip", target: manifest.current.zip.path, status: 302 }
+    ]
+  });
+});
+
+test("external legacy alias contract rejects malformed, stale, and caller-shaped inputs", () => {
+  const fixture = () => structuredClone(legacyAliasContract);
+  const missingTopLevelKey = fixture();
+  delete missingTopLevelKey.contractKind;
+  const missingAliasKey = fixture();
+  delete missingAliasKey.aliases[0].target;
+  const cases = [
+    ["string input", "caller supplied contract text"],
+    ["extra top-level key", Object.assign(fixture(), { contractPath: "/tmp/caller.json" })],
+    ["missing top-level key", missingTopLevelKey],
+    ["wrong schema", Object.assign(fixture(), { schemaVersion: 2 })],
+    ["string schema", Object.assign(fixture(), { schemaVersion: "1" })],
+    ["wrong kind", Object.assign(fixture(), { contractKind: "caller-aliases" })],
+    ["wrong hosting mode", Object.assign(fixture(), { hostingMode: "cloudflare" })],
+    ["stale release", Object.assign(fixture(), { releaseVersion: "0.5.7" })],
+    ["aliases is not an array", Object.assign(fixture(), { aliases: {} })],
+    ["stale target", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias, index) => index === 0
+        ? { ...alias, target: "/dl/Chock-0.5.7.dmg" }
+        : alias)
+    })],
+    ["missing alias", Object.assign(fixture(), { aliases: fixture().aliases.slice(0, 3) })],
+    ["extra alias", Object.assign(fixture(), {
+      aliases: [...fixture().aliases, { source: "/caller", target: manifest.current.dmg.path, status: 302 }]
+    })],
+    ["duplicate alias", Object.assign(fixture(), {
+      aliases: [fixture().aliases[0], fixture().aliases[0], ...fixture().aliases.slice(2)]
+    })],
+    ["unknown source", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias, index) => index === 0
+        ? { ...alias, source: "/caller" }
+        : alias)
+    })],
+    ["wrong DMG target", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias, index) => index === 0
+        ? { ...alias, target: manifest.current.zip.path }
+        : alias)
+    })],
+    ["wrong ZIP target", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias) => alias.source === "/dl/Chock.zip"
+        ? { ...alias, target: manifest.current.dmg.path }
+        : alias)
+    })],
+    ["wrong status", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias, index) => index === 0
+        ? { ...alias, status: 307 }
+        : alias)
+    })],
+    ["string status", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias, index) => index === 0
+        ? { ...alias, status: "302" }
+        : alias)
+    })],
+    ["extra alias key", Object.assign(fixture(), {
+      aliases: fixture().aliases.map((alias, index) => index === 0
+        ? { ...alias, note: "caller text" }
+        : alias)
+    })],
+    ["missing alias key", missingAliasKey]
+  ];
+
+  for (const [label, contract] of cases) {
+    assert.throws(
+      () => validateLegacyAliasContract(contract, manifest.current),
+      undefined,
+      label
+    );
+  }
+
+  const staleManifest = structuredClone(manifest.current);
+  staleManifest.version = "0.5.9";
+  staleManifest.dmg.path = "/dl/Chock-0.5.9.dmg";
+  staleManifest.zip.path = "/dl/Chock-0.5.9.zip";
+  assert.throws(
+    () => validateLegacyAliasContract(legacyAliasContract, staleManifest),
+    /releaseVersion does not match/
+  );
+
+  const wrongExtensionManifest = structuredClone(manifest.current);
+  wrongExtensionManifest.dmg.path = `/dl/Chock-${manifest.current.version}.zip`;
+  assert.throws(
+    () => validateLegacyAliasContract(legacyAliasContract, wrongExtensionManifest),
+    /asset paths do not match/
+  );
+});
+
+test("build fails before creating output when the fixed external contract is stale", async () => {
+  const temporaryRoot = await mkdtemp(path.join(tmpdir(), "chock-site-invalid-alias-contract."));
+  const sourceDir = path.join(temporaryRoot, "source");
+  const outDir = path.join(temporaryRoot, "output");
+  const staleContract = structuredClone(legacyAliasContract);
+  staleContract.releaseVersion = "0.5.7";
+  await mkdir(sourceDir);
+  await writeFile(
+    path.join(sourceDir, "release-manifest.json"),
+    JSON.stringify({ current: manifest.current }),
+    "utf8"
+  );
+  await writeFile(
+    path.join(sourceDir, "legacy-alias-contract.json"),
+    JSON.stringify(staleContract),
+    "utf8"
+  );
+
+  try {
+    await assert.rejects(
+      buildSite({ baseURL: "https://getchock.cn", outDir, sourceDir }),
+      /releaseVersion does not match/
+    );
+    await assert.rejects(stat(outDir), /ENOENT/);
+  } finally {
+    await rm(temporaryRoot, { recursive: true, force: true });
+  }
+});
+
+test("CN build copies the fixed source contract byte-for-byte while Cloudflare keeps redirects", async () => {
+  const temporaryRoot = await mkdtemp(path.join(tmpdir(), "chock-site-alias-contract."));
+  const globalOutput = path.join(temporaryRoot, "getchock.com");
+  const mainlandOutput = path.join(temporaryRoot, "getchock.cn");
+  try {
+    await buildSite({
+      baseURL: "https://getchock.com",
+      outDir: globalOutput,
+      sourceDir: projectRoot
+    });
+    await buildSite({
+      baseURL: "https://getchock.cn",
+      outDir: mainlandOutput,
+      sourceDir: projectRoot,
+      legacyAliasContract: "caller supplied text",
+      contractPath: "/tmp/caller.json"
+    });
+
+    await assert.rejects(readFile(path.join(globalOutput, "legacy-alias-contract.json")), /ENOENT/);
+    assert.deepEqual(await readFile(path.join(globalOutput, "_redirects")), redirectsBytes);
+    await assert.rejects(readFile(path.join(mainlandOutput, "_redirects")), /ENOENT/);
+    assert.deepEqual(
+      await readFile(path.join(mainlandOutput, "legacy-alias-contract.json")),
+      legacyAliasContractBytes
+    );
+  } finally {
+    await rm(temporaryRoot, { recursive: true, force: true });
   }
 });
 

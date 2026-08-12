@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "contractKind": "chock-legacy-download-aliases",
+  "hostingMode": "external",
+  "releaseVersion": "0.5.8",
+  "aliases": [
+    {"source": "/dl", "target": "/dl/Chock-0.5.8.dmg", "status": 302},
+    {"source": "/dl/", "target": "/dl/Chock-0.5.8.dmg", "status": 302},
+    {"source": "/dl/Chock.dmg", "target": "/dl/Chock-0.5.8.dmg", "status": 302},
+    {"source": "/dl/Chock.zip", "target": "/dl/Chock-0.5.8.zip", "status": 302}
+  ]
+}

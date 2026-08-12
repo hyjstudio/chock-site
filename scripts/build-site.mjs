@@ -23,6 +23,7 @@ const DEVELOPMENT_ENTRIES = new Set([
   "tests"
 ]);
 const CLOUDFLARE_ONLY_ENTRIES = new Set(["CNAME", "_headers", "_redirects"]);
+const EXTERNAL_ONLY_ENTRIES = new Set(["legacy-alias-contract.json"]);
 const CHINA_BASE_URL = "https://getchock.cn";
 const CHINA_ICP_RECORD = "闽ICP备2026027906号-1";
 const CHINA_PUBLIC_SECURITY_RECORD = "闽公网安备35018102240191号";
@@ -41,6 +42,13 @@ export async function buildSite({
   const outputRoot = path.resolve(outDir);
   validateOutputPath(sourceRoot, outputRoot);
   await assertMissing(outputRoot);
+
+  const manifest = JSON.parse(await readFile(path.join(sourceRoot, "release-manifest.json"), "utf8"));
+  const legacyAliasContract = JSON.parse(
+    await readFile(path.join(sourceRoot, "legacy-alias-contract.json"), "utf8")
+  );
+  validateLegacyAliasContract(legacyAliasContract, manifest.current);
+
   await mkdir(outputRoot, { recursive: true });
 
   const entries = await readdir(sourceRoot, { withFileTypes: true });
@@ -53,7 +61,6 @@ export async function buildSite({
     );
   }
 
-  const manifest = JSON.parse(await readFile(path.join(sourceRoot, "release-manifest.json"), "utf8"));
   const currentNotePath = manifest.current.releaseNotesPath;
   const currentNoteFile = currentNotePath.replace(/^\//, "");
 
@@ -216,7 +223,96 @@ export function shouldCopyRootEntry(name, baseURL) {
   if (baseURL === CHINA_BASE_URL && CLOUDFLARE_ONLY_ENTRIES.has(name)) {
     return false;
   }
+  if (baseURL !== CHINA_BASE_URL && EXTERNAL_ONLY_ENTRIES.has(name)) {
+    return false;
+  }
   return true;
+}
+
+export function validateLegacyAliasContract(contract, currentRelease) {
+  const expectedTopLevelKeys = [
+    "aliases",
+    "contractKind",
+    "hostingMode",
+    "releaseVersion",
+    "schemaVersion"
+  ];
+  const expectedAliasKeys = ["source", "status", "target"];
+  const releaseVersion = currentRelease?.version;
+  const dmgPath = currentRelease?.dmg?.path;
+  const zipPath = currentRelease?.zip?.path;
+
+  if (!isPlainObject(contract)) {
+    throw new Error("legacy alias contract must be a JSON object");
+  }
+  assertExactKeys(contract, expectedTopLevelKeys, "legacy alias contract");
+  if (contract.schemaVersion !== 1) {
+    throw new Error("legacy alias contract schemaVersion must be 1");
+  }
+  if (contract.contractKind !== "chock-legacy-download-aliases") {
+    throw new Error("legacy alias contract contractKind is invalid");
+  }
+  if (contract.hostingMode !== "external") {
+    throw new Error("legacy alias contract hostingMode must be external");
+  }
+  if (typeof releaseVersion !== "string" || !releaseVersion) {
+    throw new Error("release manifest is missing the current version");
+  }
+  if (dmgPath !== `/dl/Chock-${releaseVersion}.dmg`
+      || zipPath !== `/dl/Chock-${releaseVersion}.zip`) {
+    throw new Error("release manifest current asset paths do not match its version and extensions");
+  }
+  if (contract.releaseVersion !== releaseVersion) {
+    throw new Error("legacy alias contract releaseVersion does not match the release manifest");
+  }
+  if (!Array.isArray(contract.aliases) || contract.aliases.length !== 4) {
+    throw new Error("legacy alias contract must contain exactly four aliases");
+  }
+
+  const expectedAliases = new Map([
+    ["/dl", dmgPath],
+    ["/dl/", dmgPath],
+    ["/dl/Chock.dmg", dmgPath],
+    ["/dl/Chock.zip", zipPath]
+  ]);
+  const seenSources = new Set();
+  for (const alias of contract.aliases) {
+    if (!isPlainObject(alias)) {
+      throw new Error("legacy alias entries must be JSON objects");
+    }
+    assertExactKeys(alias, expectedAliasKeys, "legacy alias entry");
+    if (!expectedAliases.has(alias.source)) {
+      throw new Error(`legacy alias contract contains an unknown source: ${alias.source}`);
+    }
+    if (seenSources.has(alias.source)) {
+      throw new Error(`legacy alias contract contains a duplicate source: ${alias.source}`);
+    }
+    seenSources.add(alias.source);
+    if (alias.target !== expectedAliases.get(alias.source)) {
+      throw new Error(`legacy alias target does not match the current release: ${alias.source}`);
+    }
+    if (alias.status !== 302) {
+      throw new Error(`legacy alias status must be 302: ${alias.source}`);
+    }
+  }
+  if (seenSources.size !== expectedAliases.size) {
+    throw new Error("legacy alias contract is missing a required source");
+  }
+}
+
+function isPlainObject(value) {
+  return value !== null
+    && typeof value === "object"
+    && !Array.isArray(value)
+    && Object.getPrototypeOf(value) === Object.prototype;
+}
+
+function assertExactKeys(value, expectedKeys, label) {
+  const actualKeys = Object.keys(value).sort();
+  if (actualKeys.length !== expectedKeys.length
+      || actualKeys.some((key, index) => key !== expectedKeys[index])) {
+    throw new Error(`${label} has unexpected schema keys`);
+  }
 }
 
 async function transformTextFile(outputRoot, relativePath, transform) {
