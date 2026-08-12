@@ -8,13 +8,14 @@ const manifest = JSON.parse(await readFile(new URL("../release-manifest.json", i
 const port = await getOpenPort();
 const origin = `http://127.0.0.1:${port}`;
 const historicalVersions = [
-  "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.0",
+  "0.5.7", "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.0",
   "0.4.9", "0.4.8", "0.4.7", "0.4.6", "0.4.5", "0.4.4",
   "0.4.3", "0.4.2", "0.4.1", "0.4.0", "0.3.x"
 ];
 const forbiddenPublicDetails =
   /持续变得更顺手|隐私提醒|马赛克位置上下颠倒|旧截图曾用马赛克|敏感信息|服务端的异步确认|上海生产服务|本机验签|发行签名|内存管理|长期运行|全面升级|更稳定更流畅|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/;
-const wrangler = new URL("../node_modules/.bin/wrangler", import.meta.url).pathname;
+const wrangler = process.env.WRANGLER_BIN
+  || new URL("../node_modules/.bin/wrangler", import.meta.url).pathname;
 const child = spawn(wrangler, [
   "pages", "dev", ".",
   "--compatibility-date", "2026-07-15",
@@ -64,7 +65,9 @@ try {
   assert.equal(new Set(historySections.map((match) => extractSummary(match[2]))).size, historicalVersions.length);
   for (const [, heading, body] of historySections) {
     assert.ok(extractSummary(body), `${heading} must include a summary`);
-    assert.ok(extractListItems(body).length >= 1, `${heading} must include a visible change`);
+    if (!heading.startsWith("0.5.7 ·")) {
+      assert.ok(extractListItems(body).length >= 1, `${heading} must include a visible change`);
+    }
   }
   assert.doesNotMatch(changelogHTML, forbiddenPublicDetails);
 
@@ -75,7 +78,7 @@ try {
   assert.ok(releaseNotesBody, "release notes must have a body");
   assert.equal(
     releaseNotesBody.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
-    "楔子 0.5.7 2026-08-04 做了些许优化。"
+    "楔子 0.5.8 2026-08-12 做了些许优化。"
   );
   assert.doesNotMatch(releaseNotesHTML, /Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
 
@@ -130,7 +133,9 @@ try {
     "/dl/Chock-0.5.5.dmg",
     "/dl/Chock-0.5.5.zip",
     "/dl/Chock-0.5.6.dmg",
-    "/dl/Chock-0.5.6.zip"
+    "/dl/Chock-0.5.6.zip",
+    "/dl/Chock-0.5.7.dmg",
+    "/dl/Chock-0.5.7.zip"
   ]) {
     await assertAsset(path, path.endsWith(".dmg") ? "application/x-apple-diskimage" : "application/zip");
   }
@@ -138,7 +143,7 @@ try {
   for (const path of [
     "/dl/does-not-exist.dmg",
     "/dl/Chock-0.5.1.dmg",
-    "/dl/Chock-0.5.8.dmg",
+    "/dl/Chock-0.5.9.dmg",
     "/dl/Chock-0.3.9.zip",
     "/definitely-missing"
   ]) {

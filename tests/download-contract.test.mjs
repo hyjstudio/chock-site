@@ -28,14 +28,14 @@ const releaseNotesPolicy = await read("docs/public-release-notes-policy.md");
 
 test("current release metadata is consistent across published surfaces", async () => {
   assert.equal(current.status, "published");
-  assert.equal(current.version, "0.5.7");
-  assert.equal(current.releaseDate, "2026-08-04");
-  assert.equal(current.sparkleVersion, 457);
-  assert.equal(current.dmg.size, 4858432);
-  assert.equal(current.dmg.sha256, "e5b67b22c51c749f8db35e198a5057021d6a86724076a99886492e6b2c5964a7");
-  assert.equal(current.zip.size, 4435313);
-  assert.equal(current.zip.sha256, "396c5b7ae567e5e1d6d95d1dbdfdb147355241b2d1b9ad9b19d24cf2c4e27510");
-  assert.equal(current.zip.sparkleEdSignature, "CSt4IOSQTd3D0xQROQQ/iXRZ2jWODI7gP/HynY8yohaGcZVhzPzeB7fxOKZ/0tEx/6BH+hgmHSLfWhYAJs59AA==");
+  assert.equal(current.version, "0.5.8");
+  assert.equal(current.releaseDate, "2026-08-12");
+  assert.equal(current.sparkleVersion, 472);
+  assert.equal(current.dmg.size, 4863159);
+  assert.equal(current.dmg.sha256, "bc5fed90eaa8639a41370f7b5372cfb53370a036515078875ffc78180b906703");
+  assert.equal(current.zip.size, 4438744);
+  assert.equal(current.zip.sha256, "0e4ab25f75cf86ea60ddb57906894f186fbc2c84de098d6727c95f3af123e609");
+  assert.equal(current.zip.sparkleEdSignature, "cgW/anq7GRGaGi4ACafx3oZskhgH1hkabQKjoeijFYKAT5yQWXVnWv/pZA7KMPRQ/seIjJ/wjMUFeGDwfk84Dg==");
 
   const jsonLdMatch = index.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
   assert.ok(jsonLdMatch, "index.html must include JSON-LD metadata");
@@ -54,8 +54,10 @@ test("current release metadata is consistent across published surfaces", async (
   assert.match(index, new RegExp(`id="dlBtn" href="${escapeRegExp(current.dmg.path)}"`));
   assert.match(index, new RegExp(`data-release-version="${escapeRegExp(current.version)}"`));
   assert.match(index, /DMG_URL = downloadButton\.href/);
-  assert.match(extractSection("download"), new RegExp(`Chock ${escapeRegExp(current.version)}`));
-  assert.match(extractSection("download"), new RegExp(`Build ${current.sparkleVersion}`));
+  const downloadSection = extractSection("download");
+  assert.match(downloadSection, new RegExp(`Chock ${escapeRegExp(current.version)}`));
+  assert.match(downloadSection, new RegExp(`Build ${current.sparkleVersion}`));
+  assert.doesNotMatch(downloadSection, /Chock 0\.5\.7|Chock-0\.5\.7\.dmg|Build 457/);
 
   const firstItem = appcast.match(/<item>([\s\S]*?)<\/item>/)?.[1];
   assert.ok(firstItem, "appcast.xml must contain a current item");
@@ -78,8 +80,8 @@ test("current release metadata is consistent across published surfaces", async (
   assert.equal(await sha256(dmgURL), current.dmg.sha256);
   assert.equal(await sha256(zipURL), current.zip.sha256);
 
-  const currentChangelog = changelog.match(/<section class="rel is-current"><h2>0\.5\.7[\s\S]*?<\/section>/)?.[0];
-  assert.ok(currentChangelog, "changelog must include the 0.5.7 section");
+  const currentChangelog = changelog.match(new RegExp(`<section class="rel is-current"><h2>${escapeRegExp(current.version)}[\\s\\S]*?<\\/section>`))?.[0];
+  assert.ok(currentChangelog, `changelog must include the ${current.version} section`);
   assert.match(currentChangelog, /<p class="feat"><strong>做了些许优化。<\/strong><\/p>/);
   assert.doesNotMatch(currentChangelog, /<ul>|Codex 额度刷新更稳|最近一次有效额度|从 8 秒放宽到 15 秒/);
 
@@ -87,7 +89,7 @@ test("current release metadata is consistent across published surfaces", async (
   assert.ok(releaseNotesBody, "release notes must have a body");
   assert.equal(
     releaseNotesBody.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
-    "楔子 0.5.7 2026-08-04 做了些许优化。"
+    "楔子 0.5.8 2026-08-12 做了些许优化。"
   );
 });
 
@@ -167,7 +169,7 @@ test("homepage first-run proof uses the current seven-step onboarding capture", 
 
 test("historical release notes preserve concise version-specific facts", () => {
   const expectedHistoricalVersions = [
-    "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.0",
+    "0.5.7", "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.0",
     "0.4.9", "0.4.8", "0.4.7", "0.4.6", "0.4.5", "0.4.4",
     "0.4.3", "0.4.2", "0.4.1", "0.4.0", "0.3.x"
   ];
@@ -186,11 +188,19 @@ test("historical release notes preserve concise version-specific facts", () => {
     const summary = extractSummary(body);
     const items = extractListItems(body);
     assert.ok(summary, `${heading} must include a factual summary`);
-    assert.ok(items.length >= 1, `${heading} must include at least one user-facing change`);
-    assert.ok(stripMarkup(body).length >= 24, `${heading} must not be version-and-date only`);
+    const isIntentionallyConcise057 = heading.startsWith("0.5.7 ·");
+    if (!isIntentionallyConcise057) {
+      assert.ok(items.length >= 1, `${heading} must include at least one user-facing change`);
+      assert.ok(stripMarkup(body).length >= 24, `${heading} must not be version-and-date only`);
+    }
     summaries.push(summary);
   }
   assert.equal(new Set(summaries).size, expectedHistoricalVersions.length);
+
+  const concise057 = sections.find((match) => match[1].startsWith("0.5.7 ·"));
+  assert.ok(concise057, "0.5.7 must remain in public history");
+  assert.equal(extractSummary(concise057[2]), "做了些许优化。");
+  assert.deepEqual(extractListItems(concise057[2]), []);
 
   for (let index = 0; index < noteNames.length; index += 1) {
     const version = noteNames[index].match(/^Chock-(\d+\.\d+\.\d+)\.html$/)?.[1];
@@ -233,7 +243,8 @@ test("public release notes stay factual without internal or sensitive detail", (
     }
   }
 
-  assert.match(releaseNotesPolicy, /历史版本保留一句事实摘要和 1–4 条用户能感知的变化/);
+  assert.match(releaseNotesPolicy, /历史版本通常保留一句事实摘要和 1–4 条用户能感知的变化/);
+  assert.match(releaseNotesPolicy, /明确要求保持简洁的版本原样保留一句说明/);
   assert.match(releaseNotesPolicy, /不能只剩版本号和日期/);
   assert.match(releaseNotesPolicy, /不同版本保留各自的功能事实/);
   assert.match(releaseNotesPolicy, /主站与大陆站使用同一份静态文件/);
@@ -280,7 +291,7 @@ test("legacy aliases redirect only to the current immutable assets", () => {
 test("only known release assets receive binary response headers", async () => {
   assert.doesNotMatch(headers, /^\/dl\/\*/m, "wildcard download headers would mislabel 404 responses");
 
-  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0", "0.5.2", "0.5.3", "0.5.4", "0.5.5", "0.5.6", "0.5.7"].flatMap((version) => [
+  const releaseFiles = (await Promise.all(["0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.4.4", "0.4.5", "0.4.6", "0.4.7", "0.4.8", "0.4.9", "0.5.0", "0.5.2", "0.5.3", "0.5.4", "0.5.5", "0.5.6", "0.5.7", "0.5.8"].flatMap((version) => [
     stat(new URL(`../dl/Chock-${version}.dmg`, import.meta.url)).then(() => `/dl/Chock-${version}.dmg`),
     stat(new URL(`../dl/Chock-${version}.zip`, import.meta.url)).then(() => `/dl/Chock-${version}.zip`)
   ])));
@@ -294,8 +305,8 @@ test("only known release assets receive binary response headers", async () => {
   assert.match(notFound, /明确返回 404/);
 });
 
-test("0.5.8 remains an empty unpublished draft", () => {
-  assert.equal(next.version, "0.5.8");
+test("0.5.9 remains an empty unpublished draft", () => {
+  assert.equal(next.version, "0.5.9");
   assert.equal(next.status, "draft");
 
   for (const value of [
@@ -315,7 +326,7 @@ test("0.5.8 remains an empty unpublished draft", () => {
   }
 
   for (const surface of [index, appcast, redirects, headers, changelog]) {
-    assert.doesNotMatch(surface, /0\.5\.8/);
+    assert.doesNotMatch(surface, /0\.5\.9/);
   }
 });
 
